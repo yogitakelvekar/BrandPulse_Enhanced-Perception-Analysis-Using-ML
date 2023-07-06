@@ -16,7 +16,9 @@ namespace BrandPulse.SocialMediaData.API
             builder.Services.Configure<ApplicationSettings>(builder.Configuration.GetSection("AppSettings"));
 
             builder.Services.AddSingleton<YouTubeService>();
-            builder.Services.AddTransient<YouTubeHttpService>();
+            builder.Services.AddTransient<YouTubeHttpService>(); 
+            builder.Services.AddTransient<RedditHttpService>();
+
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

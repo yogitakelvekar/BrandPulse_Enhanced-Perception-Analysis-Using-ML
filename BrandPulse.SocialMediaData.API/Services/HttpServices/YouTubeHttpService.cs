@@ -25,7 +25,7 @@ namespace BrandPulse.SocialMediaData.API.Services.HttpServices
             });
         }
 
-        public async Task<IEnumerable<YouTubeVideoData>> SearchAndRetrieveVideoDataAsync(string searchTerm, int maxResults = 50)
+        public async Task<IEnumerable<YouTubeVideoData>> SearchAndRetrieveVideoDataAsync(string searchTerm, int maxResults = 5)
         {
             var searchItems = await SearchVideosAsync(searchTerm, maxResults);
 
