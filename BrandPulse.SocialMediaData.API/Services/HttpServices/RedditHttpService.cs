@@ -4,6 +4,7 @@ using Microsoft.Extensions.Options;
 using Reddit;
 using Reddit.Controllers;
 using Reddit.Inputs.Search;
+using Reddit.Models;
 using Reddit.Things;
 
 namespace BrandPulse.SocialMediaData.API.Services.HttpServices
@@ -19,24 +20,35 @@ namespace BrandPulse.SocialMediaData.API.Services.HttpServices
             _redditClient = new RedditClient(appId: _appSettings.RedditSettings.AppId, refreshToken: _appSettings.RedditSettings.RefreshToken, accessToken: _appSettings.RedditSettings.AccessToken);
         }
 
-        public IEnumerable<Models.Response.PostData>? SearchPosts(string searchTerm, int maxResults = 25)
-        {         
+        public  IEnumerable<RedditPost>? SearchPosts(string searchTerm, int maxResults = 25)
+        {
             // Get the search results
-            var posts = _redditClient.Subreddit("all").Search(new SearchGetSearchInput(q: searchTerm,limit: maxResults));
+            var posts = _redditClient.Subreddit("all").Search(new SearchGetSearchInput(q: searchTerm,limit: maxResults, sort: "relevance"));
 
-            var postData = posts.Select(p => new Models.Response.PostData
-            {
+            var redditPosts = posts.Select(p => new RedditPost {
+                Id = p.Id,
                 Title = p.Title,
+                Fullname = p.Fullname,
+                Subreddit = p.Subreddit,
                 Author = p.Author,
-                Url = p.Permalink,
-                Comments = p.Comments.GetComments().Select(c => new Models.Response.CommentData
+                DownVotes = p.DownVotes,
+                UpVotes = p.UpVotes,
+                UpvoteRatio = p.UpvoteRatio,
+                Score = p.Score,
+                Created = p.Created,
+                Comments = p.Comments.GetComments(sort: "best", limit: 5, depth: 1).ToList()?.Select(c => new RedditComment
                 {
+                    Id = c.Id,
+                    Body = c.Body,
                     Author = c.Author,
-                    Body = c.Body
-                }).ToList()
+                    DownVotes = c.DownVotes,
+                    UpVotes = c.UpVotes,
+                    Score = c.Score,
+                    //NumReplies = c.NumReplies,
+                    Created = c.Created
+                }) ?? Enumerable.Empty<RedditComment>()
             });
-
-            return postData;
+            return redditPosts;
         }
     }
 }

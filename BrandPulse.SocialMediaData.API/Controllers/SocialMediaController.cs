@@ -20,10 +20,16 @@ namespace BrandPulse.SocialMediaData.API.Controllers
             this.redditHttpService = redditHttpService;
         }
 
-        [HttpGet("search/{term}")]
-        public async Task<ActionResult<PostData>> Search(string term)
+        [HttpGet("youtube/search/{term}")]
+        public async Task<ActionResult<YouTubeVideoData>> YouTubeSearch(string term)
         {
-            // var data = await youTubeHttpService.SearchAndRetrieveVideoDataAsync(term);
+            var data = await youTubeHttpService.SearchAndRetrieveVideoDataAsync(term);
+            return Ok(data);
+        }
+
+        [HttpGet("reddit/search/{term}")]
+        public async Task<ActionResult<RedditPost>> RedditSearch(string term)
+        {
             var data = redditHttpService.SearchPosts(term);
             return Ok(data);
         }

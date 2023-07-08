@@ -2,17 +2,26 @@
 
 namespace BrandPulse.SocialMediaData.API.Models.Response
 {
-    public class PostData
+    public class RedditPost
     {
+        public string Id { get; set; }
         public string Title { get; set; }
+        public string Fullname { get; set; }
+        public string Subreddit { get; set; }
         public string Author { get; set; }
-        public string Url { get; set; }
-        public List<CommentData> Comments { get; set; }
+        public int DownVotes { get; set; }
+        public int UpVotes { get; set; }
+        public double UpvoteRatio { get; set; }
+        public int Score { get; set; }
+        public IEnumerable<RedditComment> Comments { get; set; }
+        public DateTime Created { get; set; }
+
     }
 
-    public class CommentData
+    public class RedditComment : RedditPost
     {
-        public string Author { get; set; }
         public string Body { get; set; }
+
+        public int? NumReplies { get; set; }
     }
 }
