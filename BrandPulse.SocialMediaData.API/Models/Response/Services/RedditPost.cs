@@ -1,6 +1,6 @@
 ﻿using Reddit.Controllers;
 
-namespace BrandPulse.SocialMediaData.API.Models.Response
+namespace BrandPulse.SocialMediaData.API.Models.Response.Services
 {
     public class RedditPost
     {

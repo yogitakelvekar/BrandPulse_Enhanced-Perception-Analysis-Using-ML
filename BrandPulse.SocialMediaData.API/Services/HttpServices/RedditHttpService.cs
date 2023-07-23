@@ -1,4 +1,4 @@
-﻿using BrandPulse.SocialMediaData.API.Models.Response;
+﻿using BrandPulse.SocialMediaData.API.Models.Response.Services;
 using BrandPulse.SocialMediaData.API.Settings;
 using Microsoft.Extensions.Options;
 using Reddit;

@@ -1,4 +1,4 @@
-﻿using BrandPulse.SocialMediaData.API.Models.Services;
+﻿using BrandPulse.SocialMediaData.API.Models.Response.Services;
 using BrandPulse.SocialMediaData.API.Settings;
 using Google.Apis.Services;
 using Google.Apis.YouTube.v3;

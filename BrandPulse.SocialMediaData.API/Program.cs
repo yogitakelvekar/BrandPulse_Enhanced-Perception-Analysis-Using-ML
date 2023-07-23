@@ -13,12 +13,24 @@ namespace BrandPulse.SocialMediaData.API
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            builder.Services.Configure<ApplicationSettings>(builder.Configuration.GetSection("AppSettings"));
+            var settingsSection = builder.Configuration.GetSection("AppSettings");
+            var settings = settingsSection.Get<ApplicationSettings>();
 
+            builder.Services.Configure<ApplicationSettings>(settingsSection);
             builder.Services.AddSingleton<YouTubeService>();
             builder.Services.AddTransient<YouTubeHttpService>(); 
             builder.Services.AddTransient<RedditHttpService>();
+            builder.Services.AddHttpClient<TwitterHttpService>(client =>
+            {
+                client.BaseAddress = new Uri(settings.TwitterSettings.TwitterBaseURL);
+                client.DefaultRequestHeaders.Add("X-RapidAPI-Host", settings.TwitterSettings.XRapidAPIHost);
+                client.DefaultRequestHeaders.Add("X-RapidAPI-Key", settings.TwitterSettings.XRapidAPIKey);
 
+                // Add this for debugging
+                Console.WriteLine($"HttpClient BaseAddress: {client.BaseAddress}");
+                Console.WriteLine($"HttpClient X-RapidAPI-Host: {client.DefaultRequestHeaders.GetValues("X-RapidAPI-Host").FirstOrDefault()}");
+                Console.WriteLine($"HttpClient X-RapidAPI-Key: {client.DefaultRequestHeaders.GetValues("X-RapidAPI-Key").FirstOrDefault()}");
+            });
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
