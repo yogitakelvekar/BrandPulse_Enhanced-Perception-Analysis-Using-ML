@@ -7,5 +7,9 @@
         public RedditSettings RedditSettings { get; set; }
 
         public TwitterSettings TwitterSettings { get; set; }
+
+        public int MaxResults { get; set; }
+
+        public int MaxComments { get; set; }
     }
 }

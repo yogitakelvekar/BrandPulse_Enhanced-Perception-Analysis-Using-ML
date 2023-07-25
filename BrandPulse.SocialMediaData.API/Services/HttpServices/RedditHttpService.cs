@@ -6,6 +6,9 @@ using Reddit.Controllers;
 using Reddit.Inputs.Search;
 using Reddit.Models;
 using Reddit.Things;
+using System;
+using System.Linq;
+using Post = Reddit.Controllers.Post;
 
 namespace BrandPulse.SocialMediaData.API.Services.HttpServices
 {
@@ -13,30 +16,73 @@ namespace BrandPulse.SocialMediaData.API.Services.HttpServices
     {
         private readonly RedditClient _redditClient;
         private readonly ApplicationSettings _appSettings;
+
         public RedditHttpService(IOptions<ApplicationSettings> appSettings)
         {
             _appSettings = appSettings.Value;
-
-            _redditClient = new RedditClient(appId: _appSettings.RedditSettings.AppId, refreshToken: _appSettings.RedditSettings.RefreshToken, accessToken: _appSettings.RedditSettings.AccessToken);
+            _redditClient = new RedditClient(
+                appId: _appSettings.RedditSettings.AppId,
+                refreshToken: _appSettings.RedditSettings.RefreshToken,
+                accessToken: _appSettings.RedditSettings.AccessToken);
         }
 
-        public  IEnumerable<RedditPost>? SearchPosts(string searchTerm, int maxResults = 25)
+        public async Task<IEnumerable<RedditPost>?> SearchPosts(string searchTerm)
         {
-            // Get the search results
-            var posts = _redditClient.Subreddit("all").Search(new SearchGetSearchInput(q: searchTerm,limit: maxResults, sort: "relevance"));
+            try
+            {
+                // Get the search results
+                var posts = _redditClient.Subreddit("all").Search(
+                    new SearchGetSearchInput(q: searchTerm, limit: _appSettings.MaxResults, sort: "relevance"));
 
-            var redditPosts = posts.Select(p => new RedditPost {
-                Id = p.Id,
-                Title = p.Title,
-                Fullname = p.Fullname,
-                Subreddit = p.Subreddit,
-                Author = p.Author,
-                DownVotes = p.DownVotes,
-                UpVotes = p.UpVotes,
-                UpvoteRatio = p.UpvoteRatio,
-                Score = p.Score,
-                Created = p.Created,
-                Comments = p.Comments.GetComments(sort: "best", limit: 5, depth: 1).ToList()?.Select(c => new RedditComment
+                var redditPosts = posts.Select(ToRedditPost);
+
+                return await Task.WhenAll(redditPosts);
+            }
+            catch (AggregateException ex)
+            {
+                foreach (var innerEx in ex.InnerExceptions)
+                {
+                    // log innerEx.ToString() or handle accordingly
+                }
+
+                return null; // Or however you wish to handle this case
+            }
+            catch (Exception ex)
+            {
+                // Log exception
+                // log ex.ToString() or handle accordingly
+                return null; // Or however you wish to handle this case
+            }
+        }
+
+        private async Task<RedditPost> ToRedditPost(Post post)
+        {
+            var redditPost = new RedditPost
+            {
+                Id = post.Id,
+                Title = post.Title,
+                Fullname = post.Fullname,
+                Subreddit = post.Subreddit,
+                Author = post.Author,
+                DownVotes = post.DownVotes,
+                UpVotes = post.UpVotes,
+                UpvoteRatio = post.UpvoteRatio,
+                Score = post.Score,
+                Created = post.Created,
+                Comments = new List<RedditComment>()
+            };
+
+            await AddCommentsToRedditPost(post, redditPost);
+
+            return redditPost;
+        }
+
+        private Task AddCommentsToRedditPost(Post post, RedditPost redditPost)
+        {
+            return Task.Run(() =>
+            {
+                var comments = post.Comments.GetComments(sort: "best", limit: _appSettings.MaxComments, depth: 1);
+                redditPost.Comments = comments.Select(c => new RedditComment
                 {
                     Id = c.Id,
                     Body = c.Body,
@@ -46,9 +92,8 @@ namespace BrandPulse.SocialMediaData.API.Services.HttpServices
                     Score = c.Score,
                     //NumReplies = c.NumReplies,
                     Created = c.Created
-                }) ?? Enumerable.Empty<RedditComment>()
+                }).ToList();
             });
-            return redditPosts;
         }
     }
 }

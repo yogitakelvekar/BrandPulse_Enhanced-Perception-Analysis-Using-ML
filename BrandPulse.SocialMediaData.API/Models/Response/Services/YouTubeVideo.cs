@@ -2,10 +2,11 @@
 
 namespace BrandPulse.SocialMediaData.API.Models.Response.Services
 {
-    public class YouTubeVideoData
+    public class YouTubeVideo
     {
-        public SearchResult? SearchItem { get; set; }
-        public Video? VideoDetails { get; set; }
+        public string? VideoId { get; set; }
+        public Video? Video { get; set; }
+        public Channel? Channel { get; set; }
         public List<CommentThread>? Comments { get; set; }
     }
 }

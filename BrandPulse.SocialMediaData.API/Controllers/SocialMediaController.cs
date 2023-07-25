@@ -1,8 +1,6 @@
 ﻿using BrandPulse.SocialMediaData.API.Models.Response.Services;
 using BrandPulse.SocialMediaData.API.Services.HttpServices;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Reddit.Controllers;
 
 namespace BrandPulse.SocialMediaData.API.Controllers
 {
@@ -22,7 +20,7 @@ namespace BrandPulse.SocialMediaData.API.Controllers
         }
 
         [HttpGet("youtube/search/{term}")]
-        public async Task<ActionResult<YouTubeVideoData>> YouTubeSearch(string term)
+        public async Task<ActionResult<YouTubeVideo>> YouTubeSearch(string term)
         {
             var data = await youTubeHttpService.SearchAndRetrieveVideoDataAsync(term);
             return Ok(data);
@@ -31,15 +29,35 @@ namespace BrandPulse.SocialMediaData.API.Controllers
         [HttpGet("reddit/search/{term}")]
         public async Task<ActionResult<RedditPost>> RedditSearch(string term)
         {
-            var data = redditHttpService.SearchPosts(term);
+            var data = await redditHttpService.SearchPosts(term);
             return Ok(data);
         }
 
         [HttpGet("twitter/search/{term}")]
-        public async Task<ActionResult<TweetResponse>> TweetSearch(string term)
+        public async Task<IActionResult> TweetSearch(string term)
         {
-            var data = await twitterHttpService.SearchTweetsAsync(term);
+            var data = await twitterHttpService.SearchTweetsAsyncObject(term);
             return Ok(data);
+        }
+
+        [HttpGet("aggregate/search/{term}")]
+        public async Task<ActionResult<SocialMediaAggregateResponse>> AggregateSearch(string term)
+        {
+            var twitterTask = twitterHttpService.SearchTweetsAsyncObject(term);
+            var youtubeTask = youTubeHttpService.SearchAndRetrieveVideoDataAsync(term);
+            var redditTask = redditHttpService.SearchPosts(term);
+
+            await Task.WhenAll(twitterTask, youtubeTask, redditTask);
+
+            var aggregateData = new SocialMediaAggregateResponse
+            {
+                SearchTerm = term,
+                Tweets = await twitterTask,
+                YouTubeVideos = await youtubeTask,
+                RedditPosts = await redditTask
+            };
+
+            return Ok(aggregateData);
         }
     }
 }
