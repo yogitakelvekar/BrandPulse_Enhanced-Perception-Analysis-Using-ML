@@ -25,7 +25,14 @@ namespace BrandPulse.SocialMediaData.API.Services.HttpServices
 
             var content = await response.Content.ReadAsStringAsync();
 
-            var result = JsonSerializer.Deserialize<TweetResponse>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true,
+                IgnoreNullValues = true,
+                IgnoreReadOnlyProperties = true
+            };
+
+            var result = JsonSerializer.Deserialize<TweetResponse>(content, options);
             var finalResponse = result?.statuses.ToList() ?? new List<Tweet>();
             return finalResponse;
         }

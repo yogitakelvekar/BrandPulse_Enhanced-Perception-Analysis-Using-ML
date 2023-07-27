@@ -36,14 +36,14 @@ namespace BrandPulse.SocialMediaData.API.Controllers
         [HttpGet("twitter/search/{term}")]
         public async Task<IActionResult> TweetSearch(string term)
         {
-            var data = await twitterHttpService.SearchTweetsAsyncObject(term);
+            var data = await twitterHttpService.SearchTweetsAsync(term);
             return Ok(data);
         }
 
         [HttpGet("aggregate/search/{term}")]
         public async Task<ActionResult<SocialMediaAggregateResponse>> AggregateSearch(string term)
         {
-            var twitterTask = twitterHttpService.SearchTweetsAsyncObject(term);
+            var twitterTask = twitterHttpService.SearchTweetsAsync(term);
             var youtubeTask = youTubeHttpService.SearchAndRetrieveVideoDataAsync(term);
             var redditTask = redditHttpService.SearchPosts(term);
 

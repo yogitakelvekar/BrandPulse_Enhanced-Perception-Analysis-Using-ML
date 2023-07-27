@@ -8,6 +8,8 @@
 
         public TwitterSettings TwitterSettings { get; set; }
 
+        public MongoDBSettings MongoDBSettings { get; set; }
+
         public int MaxResults { get; set; }
 
         public int MaxComments { get; set; }
