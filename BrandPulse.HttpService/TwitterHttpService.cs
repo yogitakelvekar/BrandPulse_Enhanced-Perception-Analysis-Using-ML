@@ -1,10 +1,9 @@
-﻿using BrandPulse.SocialMediaData.API.Models.Response.Services;
-using BrandPulse.SocialMediaData.API.Models.Response.Services.BrandPulse.SocialMediaData.API.Models.Response.Services;
-using BrandPulse.SocialMediaData.API.Settings;
+﻿using BrandPulse.Domain.SocialMedia;
+using BrandPulse.HttpService.Settings;
 using Microsoft.Extensions.Options;
 using System.Text.Json;
 
-namespace BrandPulse.SocialMediaData.API.Services.HttpServices
+namespace BrandPulse.HttpService
 {
     public class TwitterHttpService
     {

@@ -15,4 +15,10 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\BrandPulse.Common\BrandPulse.Domain.csproj" />
+    <ProjectReference Include="..\BrandPulse.Data.Persistence\BrandPulse.Persistence.csproj" />
+    <ProjectReference Include="..\BrandPulse.HttpService\BrandPulse.HttpService.csproj" />
+  </ItemGroup>
+
 </Project>

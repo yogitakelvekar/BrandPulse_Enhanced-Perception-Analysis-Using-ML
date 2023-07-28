@@ -1,9 +1,8 @@
-﻿using BrandPulse.SocialMediaData.API.Data.Repositories;
-using BrandPulse.SocialMediaData.API.Models.Entities;
-using BrandPulse.SocialMediaData.API.Models.Response.Services;
-using BrandPulse.SocialMediaData.API.Services.HttpServices;
+﻿using BrandPulse.Domain.Collections;
+using BrandPulse.HttpService;
+using BrandPulse.Persistence.Repositories;
 
-namespace BrandPulse.SocialMediaData.API.Services.FeatureServices
+namespace BrandPulse.API.Services.FeatureServices
 {
     public class SocialMediaAggregateService
     {
@@ -12,7 +11,7 @@ namespace BrandPulse.SocialMediaData.API.Services.FeatureServices
         private readonly TwitterHttpService twitterHttpService;
         private readonly SocialMediaAggregateRepository aggregateRepository;
 
-        public SocialMediaAggregateService(YouTubeHttpService youTubeHttpService, RedditHttpService redditHttpService, TwitterHttpService twitterHttpService, SocialMediaAggregateRepository aggregateRepository) 
+        public SocialMediaAggregateService(YouTubeHttpService youTubeHttpService, RedditHttpService redditHttpService, TwitterHttpService twitterHttpService, SocialMediaAggregateRepository aggregateRepository)
         {
             this.youTubeHttpService = youTubeHttpService;
             this.redditHttpService = redditHttpService;

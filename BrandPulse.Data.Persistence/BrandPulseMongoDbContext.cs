@@ -1,12 +1,12 @@
 ﻿using MongoDB.Driver;
 
-namespace BrandPulse.SocialMediaData.API.Data
+namespace BrandPulse.SocialMediaData.TransformWorker.Data
 {
-    public class MongoDbContext
+    public class BrandPulseMongoDbContext
     {
         public IMongoDatabase Database { get; }
 
-        public MongoDbContext(string connectionString, string databaseName, string collectionName)
+        public BrandPulseMongoDbContext(string connectionString, string databaseName, string collectionName)
         {
             var client = new MongoClient(connectionString);
             Database = client.GetDatabase(databaseName);

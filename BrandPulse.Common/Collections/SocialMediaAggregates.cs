@@ -1,9 +1,8 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
+﻿using BrandPulse.Domain.SocialMedia;
 using MongoDB.Bson;
-using BrandPulse.SocialMediaData.API.Models.Response.Services.BrandPulse.SocialMediaData.API.Models.Response.Services;
-using BrandPulse.SocialMediaData.API.Models.Response.Services;
+using MongoDB.Bson.Serialization.Attributes;
 
-namespace BrandPulse.SocialMediaData.API.Models.Entities
+namespace BrandPulse.Domain.Collections
 {
     public class SocialMediaAggregates
     {

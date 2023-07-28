@@ -1,12 +1,12 @@
-﻿using BrandPulse.SocialMediaData.API.Models.Response.Services;
-using BrandPulse.SocialMediaData.API.Settings;
+﻿using BrandPulse.Domain.SocialMedia;
+using BrandPulse.HttpService.Settings;
 using Google.Apis.Services;
 using Google.Apis.YouTube.v3;
 using Google.Apis.YouTube.v3.Data;
 using Microsoft.Extensions.Options;
 using System.Net;
 
-namespace BrandPulse.SocialMediaData.API.Services.HttpServices
+namespace BrandPulse.HttpService
 {
     public class YouTubeHttpService
     {

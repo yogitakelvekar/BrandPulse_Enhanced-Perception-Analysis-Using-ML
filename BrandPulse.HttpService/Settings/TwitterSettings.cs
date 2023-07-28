@@ -1,4 +1,4 @@
-﻿namespace BrandPulse.SocialMediaData.API.Settings
+﻿namespace BrandPulse.HttpService.Settings
 {
     public class TwitterSettings
     {

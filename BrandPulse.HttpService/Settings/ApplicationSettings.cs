@@ -1,4 +1,5 @@
-﻿namespace BrandPulse.SocialMediaData.API.Settings
+﻿
+namespace BrandPulse.HttpService.Settings
 {
     public class ApplicationSettings
     {
@@ -7,8 +8,6 @@
         public RedditSettings RedditSettings { get; set; }
 
         public TwitterSettings TwitterSettings { get; set; }
-
-        public MongoDBSettings MongoDBSettings { get; set; }
 
         public int MaxResults { get; set; }
 

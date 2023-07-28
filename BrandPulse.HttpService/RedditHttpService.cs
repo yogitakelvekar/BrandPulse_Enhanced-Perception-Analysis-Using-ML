@@ -1,16 +1,11 @@
-﻿using BrandPulse.SocialMediaData.API.Models.Response.Services;
-using BrandPulse.SocialMediaData.API.Settings;
+﻿using BrandPulse.Domain.SocialMedia;
+using BrandPulse.HttpService.Settings;
 using Microsoft.Extensions.Options;
 using Reddit;
-using Reddit.Controllers;
 using Reddit.Inputs.Search;
-using Reddit.Models;
-using Reddit.Things;
-using System;
-using System.Linq;
 using Post = Reddit.Controllers.Post;
 
-namespace BrandPulse.SocialMediaData.API.Services.HttpServices
+namespace BrandPulse.HttpService
 {
     public class RedditHttpService
     {

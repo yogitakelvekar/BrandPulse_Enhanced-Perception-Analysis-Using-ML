@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text.Json;
-using BrandPulse.SocialMediaData.API.Models.Response.Services;
-using BrandPulse.SocialMediaData.API.Models.Response.Services.BrandPulse.SocialMediaData.API.Models.Response.Services;
+﻿using BrandPulse.Domain.SocialMedia;
 
-namespace BrandPulse.SocialMediaData.API.Models.Response.Services
+namespace BrandPulse.API.Models.Response.Services
 {
     public class SocialMediaAggregateResponse
     {

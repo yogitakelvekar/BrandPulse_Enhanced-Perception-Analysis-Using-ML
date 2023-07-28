@@ -1,8 +1,9 @@
-﻿using BrandPulse.SocialMediaData.API.Models.Response.Services;
-using BrandPulse.SocialMediaData.API.Services.HttpServices;
+﻿using BrandPulse.API.Models.Response.Services;
+using BrandPulse.Domain.SocialMedia;
+using BrandPulse.HttpService;
 using Microsoft.AspNetCore.Mvc;
 
-namespace BrandPulse.SocialMediaData.API.Controllers
+namespace BrandPulse.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

@@ -1,4 +1,4 @@
-﻿namespace BrandPulse.SocialMediaData.API.Settings
+﻿namespace BrandPulse.Persistence.Settings
 {
     public class MongoDBSettings
     {
@@ -6,5 +6,5 @@
         public string Database { get; set; }
         public string Collection { get; set; }
     }
-        
+
 }
