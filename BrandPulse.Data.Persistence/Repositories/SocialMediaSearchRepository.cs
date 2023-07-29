@@ -1,10 +1,11 @@
-﻿using BrandPulse.Domain.Collections;
+﻿using BrandPulse.Application.Contracts.Infrastructure.Persistence;
+using BrandPulse.Domain.Collections;
 using BrandPulse.SocialMediaData.TransformWorker.Data;
 using MongoDB.Driver;
 
 namespace BrandPulse.Persistence.Repositories
 {
-    public class SocialMediaAggregateRepository
+    public class SocialMediaAggregateRepository : ISocialMediaAggregateRepository
     {
         private readonly IMongoCollection<SocialMediaAggregates> _collection;
 

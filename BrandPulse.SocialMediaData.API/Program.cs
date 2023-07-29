@@ -1,5 +1,5 @@
-using BrandPulse.API.Services.FeatureServices;
-using BrandPulse.HttpService;
+using BrandPulse.Application;
+using BrandPulse.HttpServices;
 using BrandPulse.Persistence;
 
 namespace BrandPulse.API
@@ -12,7 +12,7 @@ namespace BrandPulse.API
 
             builder.Services.AddHttpServices(builder.Configuration);
             builder.Services.AddPersistenceServices(builder.Configuration);
-            builder.Services.AddScoped<SocialMediaAggregateService>();
+            builder.Services.AddApplicationServices(builder.Configuration);
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

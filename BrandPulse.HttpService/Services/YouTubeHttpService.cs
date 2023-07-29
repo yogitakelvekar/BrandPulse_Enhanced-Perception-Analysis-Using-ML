@@ -1,27 +1,23 @@
-﻿using BrandPulse.Domain.SocialMedia;
-using BrandPulse.HttpService.Settings;
-using Google.Apis.Services;
+﻿using BrandPulse.Application.Contracts.Infrastructure.HttpServices;
+using BrandPulse.Domain.SocialMedia;
+using BrandPulse.HttpServices.Settings;
 using Google.Apis.YouTube.v3;
 using Google.Apis.YouTube.v3.Data;
 using Microsoft.Extensions.Options;
 using System.Net;
 
-namespace BrandPulse.HttpService
+namespace BrandPulse.HttpServices.Services
 {
-    public class YouTubeHttpService
+
+    public class YouTubeHttpService : IYouTubeHttpService
     {
         private readonly YouTubeService _youtubeService;
-        private readonly ApplicationSettings _appSettings;
+        private readonly HttpServicesSettings _appSettings;
 
-        public YouTubeHttpService(IOptions<ApplicationSettings> appSettings)
+        public YouTubeHttpService(IOptions<HttpServicesSettings> appSettings, YouTubeService youtubeService)
         {
             _appSettings = appSettings.Value;
-
-            _youtubeService = new YouTubeService(new BaseClientService.Initializer()
-            {
-                ApiKey = _appSettings.YouTubeSettings.ApiKey,
-                ApplicationName = _appSettings.YouTubeSettings.ApplicationName
-            });
+            _youtubeService = youtubeService;
         }
 
         public async Task<IEnumerable<YouTubeVideo>> SearchAndRetrieveVideoDataAsync(string searchTerm)
@@ -61,7 +57,8 @@ namespace BrandPulse.HttpService
                 var videoDataList = await Task.WhenAll(videoDataTasks);
                 return videoDataList.Where(video => video != null);
             }
-            catch {
+            catch
+            {
                 return null;
             }
         }

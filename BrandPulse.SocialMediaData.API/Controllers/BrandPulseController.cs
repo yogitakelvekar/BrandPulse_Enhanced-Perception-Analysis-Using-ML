@@ -1,5 +1,5 @@
 ﻿using BrandPulse.API.Models.Response.Services;
-using BrandPulse.API.Services.FeatureServices;
+using BrandPulse.Application.Contracts.Features.ETL.Extract;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BrandPulse.API.Controllers
@@ -8,9 +8,9 @@ namespace BrandPulse.API.Controllers
     [ApiController]
     public class BrandPulseController : ControllerBase
     {
-        private readonly SocialMediaAggregateService aggregateService;
+        private readonly ISocialMediaAggregate aggregateService;
 
-        public BrandPulseController(SocialMediaAggregateService aggregateService)
+        public BrandPulseController(ISocialMediaAggregate aggregateService)
         {
             this.aggregateService = aggregateService;
         }

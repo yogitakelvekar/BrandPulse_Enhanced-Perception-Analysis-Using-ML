@@ -1,4 +1,4 @@
-namespace BrandPulse.SocialMediaData.TransformWorker.Workers
+namespace BrandPulse.Transform.Worker.Workers
 {
     public class SentimentDataTransformerWorker : BackgroundService
     {

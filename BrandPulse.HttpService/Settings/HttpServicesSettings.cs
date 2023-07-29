@@ -1,7 +1,7 @@
 ﻿
-namespace BrandPulse.HttpService.Settings
+namespace BrandPulse.HttpServices.Settings
 {
-    public class ApplicationSettings
+    public class HttpServicesSettings
     {
         public YouTubeSettings YouTubeSettings { get; set; }
 

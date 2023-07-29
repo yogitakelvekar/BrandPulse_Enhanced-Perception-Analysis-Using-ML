@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Contracts\Features\ETL\Load\" />
+    <Folder Include="Contracts\Features\ETL\Transform\" />
+    <Folder Include="Features\DataScience\" />
+    <Folder Include="Features\ETL\Load\" />
+    <Folder Include="Features\ETL\Transform\" />
+    <Folder Include="Features\Reports\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BrandPulse.Common\BrandPulse.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

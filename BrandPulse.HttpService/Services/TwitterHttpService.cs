@@ -1,16 +1,17 @@
-﻿using BrandPulse.Domain.SocialMedia;
-using BrandPulse.HttpService.Settings;
+﻿using BrandPulse.Application.Contracts.Infrastructure.HttpServices;
+using BrandPulse.Domain.SocialMedia;
+using BrandPulse.HttpServices.Settings;
 using Microsoft.Extensions.Options;
 using System.Text.Json;
 
-namespace BrandPulse.HttpService
+namespace BrandPulse.HttpServices.Services
 {
-    public class TwitterHttpService
+    public class TwitterHttpService : ITwitterHttpService
     {
         private readonly HttpClient _httpClient;
-        private readonly ApplicationSettings _appSettings;
+        private readonly HttpServicesSettings _appSettings;
 
-        public TwitterHttpService(HttpClient httpClient, IOptions<ApplicationSettings> appSettings)
+        public TwitterHttpService(HttpClient httpClient, IOptions<HttpServicesSettings> appSettings)
         {
             _httpClient = httpClient;
             _appSettings = appSettings.Value;

@@ -1,17 +1,18 @@
-﻿using BrandPulse.Domain.Collections;
-using BrandPulse.HttpService;
-using BrandPulse.Persistence.Repositories;
+﻿using BrandPulse.Application.Contracts.Features.ETL.Extract;
+using BrandPulse.Application.Contracts.Infrastructure.HttpServices;
+using BrandPulse.Application.Contracts.Infrastructure.Persistence;
+using BrandPulse.Domain.Collections;
 
-namespace BrandPulse.API.Services.FeatureServices
+namespace BrandPulse.Application.Features.ETL.Extract
 {
-    public class SocialMediaAggregateService
+    public class SocialMediaAggregate : ISocialMediaAggregate
     {
-        private readonly YouTubeHttpService youTubeHttpService;
-        private readonly RedditHttpService redditHttpService;
-        private readonly TwitterHttpService twitterHttpService;
-        private readonly SocialMediaAggregateRepository aggregateRepository;
+        private readonly IYouTubeHttpService youTubeHttpService;
+        private readonly IRedditHttpService redditHttpService;
+        private readonly ITwitterHttpService twitterHttpService;
+        private readonly ISocialMediaAggregateRepository aggregateRepository;
 
-        public SocialMediaAggregateService(YouTubeHttpService youTubeHttpService, RedditHttpService redditHttpService, TwitterHttpService twitterHttpService, SocialMediaAggregateRepository aggregateRepository)
+        public SocialMediaAggregate(IYouTubeHttpService youTubeHttpService, IRedditHttpService redditHttpService, ITwitterHttpService twitterHttpService, ISocialMediaAggregateRepository aggregateRepository)
         {
             this.youTubeHttpService = youTubeHttpService;
             this.redditHttpService = redditHttpService;

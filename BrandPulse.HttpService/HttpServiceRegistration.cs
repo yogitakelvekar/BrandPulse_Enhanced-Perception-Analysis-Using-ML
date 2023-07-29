@@ -1,27 +1,30 @@
-﻿using BrandPulse.HttpService.Settings;
+﻿using BrandPulse.Application.Contracts.Infrastructure.HttpServices;
+using BrandPulse.HttpServices.Services;
+using BrandPulse.HttpServices.Settings;
+using Google.Apis.Services;
 using Google.Apis.YouTube.v3;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace BrandPulse.HttpService
+namespace BrandPulse.HttpServices
 {
     public static class HttpServiceRegistration
     {
         public static IServiceCollection AddHttpServices(this IServiceCollection services, IConfiguration configuration)
         {
-            var settingsSection = configuration.GetSection("AppSettings");
-            var settings = settingsSection.Get<ApplicationSettings>();
+            var settingsSection = configuration.GetSection("HttpServicesSettings");
+            var settings = settingsSection.Get<HttpServicesSettings>();
 
-            services.Configure<ApplicationSettings>(settingsSection);
-            services.AddSingleton<YouTubeService>();
-            services.AddScoped<YouTubeHttpService>();
-            services.AddScoped<RedditHttpService>();
-            services.AddHttpClient<TwitterHttpService>(client =>
+            services.Configure<HttpServicesSettings>(settingsSection);
+            services.AddScoped<YouTubeService>(serviceProvider =>
+            new YouTubeService(new BaseClientService.Initializer
+            {
+                ApplicationName = settings.YouTubeSettings.ApplicationName,
+                ApiKey = settings.YouTubeSettings.ApiKey
+            }));
+            services.AddScoped<IYouTubeHttpService,YouTubeHttpService>();
+            services.AddScoped<IRedditHttpService, RedditHttpService>();
+            services.AddHttpClient<ITwitterHttpService, TwitterHttpService>(client =>
             {
                 client.BaseAddress = new Uri(settings.TwitterSettings.TwitterBaseURL);
                 client.DefaultRequestHeaders.Add("X-RapidAPI-Host", settings.TwitterSettings.XRapidAPIHost);

@@ -1,6 +1,6 @@
 ﻿using BrandPulse.API.Models.Response.Services;
+using BrandPulse.Application.Contracts.Infrastructure.HttpServices;
 using BrandPulse.Domain.SocialMedia;
-using BrandPulse.HttpService;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BrandPulse.API.Controllers
@@ -9,11 +9,11 @@ namespace BrandPulse.API.Controllers
     [ApiController]
     public class SocialMediaController : ControllerBase
     {
-        private readonly YouTubeHttpService youTubeHttpService;
-        private readonly RedditHttpService redditHttpService;
-        private readonly TwitterHttpService twitterHttpService;
+        private readonly IYouTubeHttpService youTubeHttpService;
+        private readonly IRedditHttpService redditHttpService;
+        private readonly ITwitterHttpService twitterHttpService;
 
-        public SocialMediaController(YouTubeHttpService youTubeHttpService, RedditHttpService redditHttpService, TwitterHttpService twitterHttpService)
+        public SocialMediaController(IYouTubeHttpService youTubeHttpService, IRedditHttpService redditHttpService, ITwitterHttpService twitterHttpService)
         {
             this.youTubeHttpService = youTubeHttpService;
             this.redditHttpService = redditHttpService;

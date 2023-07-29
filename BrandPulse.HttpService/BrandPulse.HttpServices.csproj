@@ -7,15 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Google.Apis.YouTube.v3" Version="1.61.0.3113" />
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="7.0.4" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="7.0.0" />
-    <PackageReference Include="Reddit" Version="1.5.2" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\BrandPulse.Application\BrandPulse.Application.csproj" />
     <ProjectReference Include="..\BrandPulse.Common\BrandPulse.Domain.csproj" />
   </ItemGroup>
 

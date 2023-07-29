@@ -1,4 +1,4 @@
-﻿namespace BrandPulse.HttpService.Settings
+﻿namespace BrandPulse.HttpServices.Settings
 {
     public class YouTubeSettings
     {

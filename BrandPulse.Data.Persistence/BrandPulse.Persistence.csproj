@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\BrandPulse.Application\BrandPulse.Application.csproj" />
     <ProjectReference Include="..\BrandPulse.Common\BrandPulse.Domain.csproj" />
   </ItemGroup>
 

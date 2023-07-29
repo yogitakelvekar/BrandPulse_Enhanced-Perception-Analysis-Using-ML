@@ -1,18 +1,19 @@
-﻿using BrandPulse.Domain.SocialMedia;
-using BrandPulse.HttpService.Settings;
+﻿using BrandPulse.Application.Contracts.Infrastructure.HttpServices;
+using BrandPulse.Domain.SocialMedia;
+using BrandPulse.HttpServices.Settings;
 using Microsoft.Extensions.Options;
 using Reddit;
 using Reddit.Inputs.Search;
 using Post = Reddit.Controllers.Post;
 
-namespace BrandPulse.HttpService
+namespace BrandPulse.HttpServices.Services
 {
-    public class RedditHttpService
+    public class RedditHttpService : IRedditHttpService
     {
         private readonly RedditClient _redditClient;
-        private readonly ApplicationSettings _appSettings;
+        private readonly HttpServicesSettings _appSettings;
 
-        public RedditHttpService(IOptions<ApplicationSettings> appSettings)
+        public RedditHttpService(IOptions<HttpServicesSettings> appSettings)
         {
             _appSettings = appSettings.Value;
             _redditClient = new RedditClient(

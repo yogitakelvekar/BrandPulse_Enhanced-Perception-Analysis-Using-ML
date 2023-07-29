@@ -1,10 +1,7 @@
 using BrandPulse.Persistence;
-using BrandPulse.SocialMediaData.TransformWorker.Data;
-using BrandPulse.SocialMediaData.TransformWorker.Settings;
-using BrandPulse.SocialMediaData.TransformWorker.Workers;
-using Microsoft.EntityFrameworkCore;
+using BrandPulse.Transform.Worker.Workers;
 
-namespace BrandPulse.SocialMediaData.TransformWorker
+namespace BrandPulse.Transform.Worker
 {
     public class Program
     {
