@@ -1,18 +1,18 @@
-﻿using BrandPulse.Application.Contracts.Features.ETL.Extract;
+﻿using BrandPulse.Application.Contracts.Features.DataSearch;
 using BrandPulse.Application.Contracts.Infrastructure.HttpServices;
 using BrandPulse.Application.Contracts.Infrastructure.Persistence;
 using BrandPulse.Domain.Collections;
 
-namespace BrandPulse.Application.Features.ETL.Extract
+namespace BrandPulse.Application.Features.DataSearch
 {
-    public class SocialMediaAggregate : ISocialMediaAggregate
+    public class SocialMediaSearch : ISocialMediaSearch
     {
         private readonly IYouTubeHttpService youTubeHttpService;
         private readonly IRedditHttpService redditHttpService;
         private readonly ITwitterHttpService twitterHttpService;
         private readonly ISocialMediaAggregateRepository aggregateRepository;
 
-        public SocialMediaAggregate(IYouTubeHttpService youTubeHttpService, IRedditHttpService redditHttpService, ITwitterHttpService twitterHttpService, ISocialMediaAggregateRepository aggregateRepository)
+        public SocialMediaSearch(IYouTubeHttpService youTubeHttpService, IRedditHttpService redditHttpService, ITwitterHttpService twitterHttpService, ISocialMediaAggregateRepository aggregateRepository)
         {
             this.youTubeHttpService = youTubeHttpService;
             this.redditHttpService = redditHttpService;
@@ -20,7 +20,7 @@ namespace BrandPulse.Application.Features.ETL.Extract
             this.aggregateRepository = aggregateRepository;
         }
 
-        public async Task<SocialMediaAggregates> SearchAndStore(string searchTerm)
+        public async Task<SocialMediaAggregates> SearchAllAndStore(string searchTerm)
         {
             var twitterTask = twitterHttpService.SearchTweetsAsync(searchTerm);
             var youtubeTask = youTubeHttpService.SearchAndRetrieveVideoDataAsync(searchTerm);

@@ -1,5 +1,5 @@
 ﻿using BrandPulse.API.Models.Response.Services;
-using BrandPulse.Application.Contracts.Features.ETL.Extract;
+using BrandPulse.Application.Contracts.Features.DataSearch;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BrandPulse.API.Controllers
@@ -8,17 +8,17 @@ namespace BrandPulse.API.Controllers
     [ApiController]
     public class BrandPulseController : ControllerBase
     {
-        private readonly ISocialMediaAggregate aggregateService;
+        private readonly ISocialMediaSearch socialMediaSearch;
 
-        public BrandPulseController(ISocialMediaAggregate aggregateService)
+        public BrandPulseController(ISocialMediaSearch socialMediaSearch)
         {
-            this.aggregateService = aggregateService;
+            this.socialMediaSearch = socialMediaSearch;
         }
 
-        [HttpGet("aggregate/{term}")]
-        public async Task<ActionResult<SocialMediaAggregateResponse>> Aggregate(string term)
+        [HttpGet("search/{term}")]
+        public async Task<ActionResult<SocialMediaSearchResponse>> Search(string term)
         {
-            var result = await aggregateService.SearchAndStore(term);
+            var result = await socialMediaSearch.SearchAllAndStore(term);
             return Ok(result);
         }
     }

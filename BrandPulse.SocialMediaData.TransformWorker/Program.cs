@@ -11,7 +11,7 @@ namespace BrandPulse.Transform.Worker
                 .ConfigureServices((hostContext, services) =>
                 {
                     services.AddPersistenceServices(hostContext.Configuration);
-                    services.AddHostedService<SentimentDataTransformerWorker>();
+                    services.AddHostedService<ETLWorker>();
                 })
                 .Build();
 

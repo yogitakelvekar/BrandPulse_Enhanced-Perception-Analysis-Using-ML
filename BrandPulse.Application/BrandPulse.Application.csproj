@@ -8,11 +8,10 @@
 
   <ItemGroup>
     <Folder Include="Contracts\Features\ETL\Load\" />
-    <Folder Include="Contracts\Features\ETL\Transform\" />
     <Folder Include="Features\DataScience\" />
     <Folder Include="Features\ETL\Load\" />
-    <Folder Include="Features\ETL\Transform\" />
     <Folder Include="Features\Reports\" />
+    <Folder Include="Models\ETL\Load\" />
   </ItemGroup>
 
   <ItemGroup>

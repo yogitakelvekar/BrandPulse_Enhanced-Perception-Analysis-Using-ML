@@ -1,10 +1,10 @@
 namespace BrandPulse.Transform.Worker.Workers
 {
-    public class SentimentDataTransformerWorker : BackgroundService
+    public class ETLWorker : BackgroundService
     {
-        private readonly ILogger<SentimentDataTransformerWorker> _logger;
+        private readonly ILogger<ETLWorker> _logger;
 
-        public SentimentDataTransformerWorker(ILogger<SentimentDataTransformerWorker> logger)
+        public ETLWorker(ILogger<ETLWorker> logger)
         {
             _logger = logger;
         }

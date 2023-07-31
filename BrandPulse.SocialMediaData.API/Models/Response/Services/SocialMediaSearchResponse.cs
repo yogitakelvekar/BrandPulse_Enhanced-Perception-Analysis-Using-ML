@@ -2,7 +2,7 @@
 
 namespace BrandPulse.API.Models.Response.Services
 {
-    public class SocialMediaAggregateResponse
+    public class SocialMediaSearchResponse
     {
         public Guid SearchId { get; private set; }
         public DateTime SearchTimestamp { get; private set; }
@@ -11,9 +11,8 @@ namespace BrandPulse.API.Models.Response.Services
         public IEnumerable<YouTubeVideo>? YouTubeVideos { get; set; }
         public IEnumerable<RedditPost>? RedditPosts { get; set; }
 
-        public SocialMediaAggregateResponse()
+        public SocialMediaSearchResponse()
         {
-            // Assign a new GUID and the current timestamp whenever a new instance is created
             SearchId = Guid.NewGuid();
             SearchTimestamp = DateTime.UtcNow;
         }

@@ -5,7 +5,7 @@ VisualStudioVersion = 17.5.33424.131
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BrandPulse.API", "BrandPulse.SocialMediaData.API\BrandPulse.API.csproj", "{4D431ACA-7044-47C3-9C36-601210BC014A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BrandPulse.Transform.Worker", "BrandPulse.SocialMediaData.TransformWorker\BrandPulse.Transform.Worker.csproj", "{0B10A9DD-7DA2-4FBE-9CA8-F0402BAF26EF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BrandPulse.ETL.Worker", "BrandPulse.SocialMediaData.TransformWorker\BrandPulse.ETL.Worker.csproj", "{0B10A9DD-7DA2-4FBE-9CA8-F0402BAF26EF}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BrandPulse.Domain", "BrandPulse.Common\BrandPulse.Domain.csproj", "{24463B3E-CCE8-40D0-BDE8-CD5221148CCB}"
 EndProject
@@ -25,7 +25,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BrandPulse.Persistence", "B
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BrandPulse.HttpServices", "BrandPulse.HttpService\BrandPulse.HttpServices.csproj", "{98BB4964-AA65-45C9-BA7F-464D1D3AF139}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrandPulse.Application", "BrandPulse.Application\BrandPulse.Application.csproj", "{808B629E-9C75-4469-967F-E74B1B5AEC79}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BrandPulse.Application", "BrandPulse.Application\BrandPulse.Application.csproj", "{808B629E-9C75-4469-967F-E74B1B5AEC79}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -42,7 +42,7 @@ namespace BrandPulse.API.Controllers
         }
 
         [HttpGet("aggregate/search/{term}")]
-        public async Task<ActionResult<SocialMediaAggregateResponse>> AggregateSearch(string term)
+        public async Task<ActionResult<SocialMediaSearchResponse>> AggregateSearch(string term)
         {
             var twitterTask = twitterHttpService.SearchTweetsAsync(term);
             var youtubeTask = youTubeHttpService.SearchAndRetrieveVideoDataAsync(term);
@@ -50,7 +50,7 @@ namespace BrandPulse.API.Controllers
 
             await Task.WhenAll(twitterTask, youtubeTask, redditTask);
 
-            var aggregateData = new SocialMediaAggregateResponse
+            var aggregateData = new SocialMediaSearchResponse
             {
                 SearchTerm = term,
                 Tweets = await twitterTask,

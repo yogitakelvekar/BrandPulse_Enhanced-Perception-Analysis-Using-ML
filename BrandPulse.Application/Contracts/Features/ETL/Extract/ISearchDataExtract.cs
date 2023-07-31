@@ -2,8 +2,8 @@
 
 namespace BrandPulse.Application.Contracts.Features.ETL.Extract
 {
-    public interface ISocialMediaAggregate
+    public interface ISearchDataExtract
     {
-        Task<SocialMediaAggregates> SearchAndStore(string searchTerm);
+        Task<SocialMediaAggregates> ExtractAsync(string searchId);
     }
 }

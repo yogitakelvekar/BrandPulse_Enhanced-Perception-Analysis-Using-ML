@@ -1,0 +1,38 @@
+﻿using BrandPulse.Application.Contracts.Features.ETL.Transform.Strategies;
+using BrandPulse.Application.Contracts.Features.ETL.Transform.Strategies.Methods;
+using BrandPulse.Application.Models.ETL.Transform;
+using BrandPulse.Domain.SocialMedia;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace BrandPulse.Application.Features.ETL.Transform.Strategies.Reddit
+{
+    public class YoutubeTransformStrategy : ITransformStrategy
+    {
+        public IEnumerable<YouTubeVideo> Data { get; set; }
+        private readonly ISentimentDataTransform<YouTubeVideo> sentimentData;
+        private readonly IWordCloudDataTransform<YouTubeVideo> wordCloudData;
+
+        public YoutubeTransformStrategy(ISentimentDataTransform<YouTubeVideo> sentimentData, IWordCloudDataTransform<YouTubeVideo> wordCloudData)
+        {
+            this.sentimentData = sentimentData;
+            this.wordCloudData = wordCloudData;
+        }
+
+        public async Task<TransformResult> TransformAsync()
+        {
+            var sentimentDataTask = sentimentData.TransformAsync(Data); 
+            var wordCloudDataTask = wordCloudData.TransformAsync(Data);
+
+            await Task.WhenAll(sentimentDataTask, wordCloudDataTask);
+
+            var results = new TransformResult();
+            results.AddSentimentTransformResult(sentimentDataTask.Result);
+            results.AddWordCloudTransformResult(wordCloudDataTask.Result);
+            return results;
+        }
+    }
+}
