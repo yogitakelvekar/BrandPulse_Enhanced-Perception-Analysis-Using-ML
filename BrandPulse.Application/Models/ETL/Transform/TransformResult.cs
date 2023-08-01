@@ -9,5 +9,8 @@ namespace BrandPulse.Application.Models.ETL.Transform
     public class TransformResult
     {
         public string SearchTermId { get; set; }
+        public string PostId { get; set; }
+        public int PlatformId { get; set; }
+        public DateTime PostDate { get; set; }
     }
 }

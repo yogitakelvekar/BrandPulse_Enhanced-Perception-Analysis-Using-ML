@@ -48,11 +48,14 @@ namespace BrandPulse.Application
             // Register SentimentDataTransform and WordCloudDataTransform for each relevant type.
             services.AddTransient<ISentimentDataTransform<Tweet>, TweetSentimentDataTransform>();
             services.AddTransient<IWordCloudDataTransform<Tweet>, TweetWordCloudDataTransform>();
+            services.AddTransient<IInfluencerDataTransform<Tweet>, TweetInfluencerDataTransform>();
 
             services.AddTransient<ISentimentDataTransform<RedditPost>, RedditSentimentDataTransform>();
-         
+            services.AddTransient<IInfluencerDataTransform<RedditPost>, RedditInfluencerDataTransform>();
+
             services.AddTransient<ISentimentDataTransform<YouTubeVideo>, YoutubeSentimentDataTransform>();
             services.AddTransient<IWordCloudDataTransform<YouTubeVideo>, YoutubeWordCloudDataTransform>();
+            services.AddTransient<IInfluencerDataTransform<YouTubeVideo>, YoutubeInfluencerDataTransform>();
 
             return services;
         }

@@ -15,23 +15,28 @@ namespace BrandPulse.Application.Features.ETL.Transform.Strategies.Reddit
         public IEnumerable<YouTubeVideo> Data { get; set; }
         private readonly ISentimentDataTransform<YouTubeVideo> sentimentData;
         private readonly IWordCloudDataTransform<YouTubeVideo> wordCloudData;
+        private readonly IInfluencerDataTransform<YouTubeVideo> influencerData;
 
-        public YoutubeTransformStrategy(ISentimentDataTransform<YouTubeVideo> sentimentData, IWordCloudDataTransform<YouTubeVideo> wordCloudData)
+        public YoutubeTransformStrategy(ISentimentDataTransform<YouTubeVideo> sentimentData, 
+            IWordCloudDataTransform<YouTubeVideo> wordCloudData, IInfluencerDataTransform<YouTubeVideo> influencerData)
         {
             this.sentimentData = sentimentData;
             this.wordCloudData = wordCloudData;
+            this.influencerData = influencerData;
         }
 
         public async Task<FinalTransformResult> TransformAsync()
         {
             var sentimentDataTask = sentimentData.TransformAsync(Data); 
             var wordCloudDataTask = wordCloudData.TransformAsync(Data);
+            var influencerDataTask = influencerData.TransformAsync(Data);
 
-            await Task.WhenAll(sentimentDataTask, wordCloudDataTask);
+            await Task.WhenAll(sentimentDataTask, wordCloudDataTask, influencerDataTask);
 
             var results = new FinalTransformResult();
             results.AddSentimentTransformResult(sentimentDataTask.Result);
             results.AddWordCloudTransformResult(wordCloudDataTask.Result);
+            results.AddInfluencerTransformResult(influencerDataTask.Result);
             return results;
         }
     }

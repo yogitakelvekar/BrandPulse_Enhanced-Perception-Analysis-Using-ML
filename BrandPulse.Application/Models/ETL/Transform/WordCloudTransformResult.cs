@@ -8,9 +8,6 @@ namespace BrandPulse.Application.Models.ETL.Transform
 {
     public class WordCloudTransformResult : TransformResult
     {
-        public string PostId { get; set; }
-        public int PlatformId { get; set; }     
-        public List<string> Hashtags { get; set; }
-        public DateTime PostDate { get; set; }
+        public List<string> Hashtags { get; set; } = new List<string>();
     }
 }

@@ -15,19 +15,19 @@ namespace BrandPulse.Application.Features.ETL.Transform.Strategies.Youtube.Metho
     {
         public async Task<IEnumerable<SentimentTransformResult>> TransformAsync(IEnumerable<YouTubeVideo> data)
         {
-            // Map RedditPost data
+            
             IEnumerable<SentimentTransformResult> postResults = TransformVideoDetails(data);
-
-            // Map RedditComment data
             IEnumerable<SentimentTransformResult> commentResults = TransformVideoComments(data);
-
-            return postResults.Concat(commentResults);
+            IEnumerable<SentimentTransformResult> commentRepliesResults = TransformVideoCommentsReplies(data);
+            var result = postResults.Concat(commentResults).Concat(commentRepliesResults);
+            return result;
         }
 
         private static IEnumerable<SentimentTransformResult> TransformVideoDetails(IEnumerable<YouTubeVideo> data)
         {
             var postResults = data
-                .OfType<Video>()
+                .Where(video => video.Video != null) // Ensure that the Video property is not null
+                .Select(video => video.Video) // Select the Video property
                 .Select(post => new SentimentTransformResult
                 {
                     PostId = post.Id,
@@ -43,8 +43,25 @@ namespace BrandPulse.Application.Features.ETL.Transform.Strategies.Youtube.Metho
         private static IEnumerable<SentimentTransformResult> TransformVideoComments(IEnumerable<YouTubeVideo> data)
         {
             var commentResults = data
-                .OfType<CommentThread>()
-                .SelectMany(root => root.Replies.Comments)
+               .SelectMany(video => video.Comments ?? Enumerable.Empty<CommentThread>())
+               .Where(thread => thread.Snippet?.TopLevelComment?.Snippet != null) // Make sure the TopLevelComment exists
+               .Select(thread => thread.Snippet.TopLevelComment.Snippet)
+               .Select(snippet => new SentimentTransformResult
+               {
+                   PostId = snippet.VideoId,
+                   PlatformId = 3, // Change to your specific platform Id
+                   PostContent = snippet.TextDisplay,
+                   PostLikes = (int)(snippet.LikeCount ?? 0),
+                   PostDate = DateTime.Parse(snippet.PublishedAtRaw, null, DateTimeStyles.AdjustToUniversal)
+               });
+            return commentResults;
+        }
+
+        private static IEnumerable<SentimentTransformResult> TransformVideoCommentsReplies(IEnumerable<YouTubeVideo> data)
+        {
+            var commentResults = data
+                .SelectMany(video => video.Comments ?? Enumerable.Empty<CommentThread>()) // Handles null Comments
+                .SelectMany(thread => thread.Replies?.Comments ?? Enumerable.Empty<Comment>()) // Handles null Replies
                 .Select(comment => new SentimentTransformResult
                 {
                     PostId = comment.Id,
@@ -52,7 +69,7 @@ namespace BrandPulse.Application.Features.ETL.Transform.Strategies.Youtube.Metho
                     PostContent = comment.Snippet.TextDisplay,
                     PostLikes = (int)(comment.Snippet?.LikeCount ?? 0),
                     PostDate = DateTime.Parse(comment.Snippet.PublishedAtRaw, null, DateTimeStyles.AdjustToUniversal)
-        });
+                });
             return commentResults;
         }
     }

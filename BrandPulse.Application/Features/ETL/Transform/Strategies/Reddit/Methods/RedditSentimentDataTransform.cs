@@ -35,7 +35,7 @@ namespace BrandPulse.Application.Features.ETL.Transform.Strategies.Reddit.Method
         private static IEnumerable<SentimentTransformResult> TransformComments(IEnumerable<RedditPost> data)
         {
             var commentResults = data
-                .OfType<RedditComment>()
+                .SelectMany(post => post.Comments ?? Enumerable.Empty<RedditComment>()) // Flatten the Comments collection
                 .Select(comment => new SentimentTransformResult
                 {
                     PostId = comment.Id,

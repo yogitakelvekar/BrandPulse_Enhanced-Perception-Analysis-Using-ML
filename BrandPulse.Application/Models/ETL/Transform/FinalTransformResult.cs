@@ -8,15 +8,11 @@ namespace BrandPulse.Application.Models.ETL.Transform
 {
     public class FinalTransformResult
     {
-        public List<SentimentTransformResult> SentimentTransformResult { get; private set; }
+        public List<SentimentTransformResult> SentimentTransformResult { get; private set; } = new List<SentimentTransformResult>();
 
-        public List<WordCloudTransformResult> WordCloudTransformResult { get; private set; }
+        public List<WordCloudTransformResult> WordCloudTransformResult { get; private set; } = new List<WordCloudTransformResult>();
 
-        public FinalTransformResult() 
-        {
-            SentimentTransformResult = new List<SentimentTransformResult>();
-            WordCloudTransformResult = new List<WordCloudTransformResult>();
-        }
+        public List<InfluencerTransformResult> InfluencerTransformResult { get; private set; } = new List<InfluencerTransformResult>();
 
         public void AddSentimentTransformResult(IEnumerable<SentimentTransformResult> results)
         {
@@ -26,6 +22,11 @@ namespace BrandPulse.Application.Models.ETL.Transform
         public void AddWordCloudTransformResult(IEnumerable<WordCloudTransformResult> results)
         {
             WordCloudTransformResult.AddRange(results);
+        }
+
+        public void AddInfluencerTransformResult(IEnumerable<InfluencerTransformResult> results)
+        {
+            InfluencerTransformResult.AddRange(results);
         }
 
         public void AddSearchTerm(string searchTermId)

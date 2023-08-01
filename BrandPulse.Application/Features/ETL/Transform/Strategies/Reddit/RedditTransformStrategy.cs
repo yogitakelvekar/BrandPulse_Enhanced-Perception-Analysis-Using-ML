@@ -12,20 +12,24 @@ namespace BrandPulse.Application.Features.ETL.Transform.Strategies.Reddit
 {
     public class RedditTransformStrategy : ITransformStrategy
     {
-        public IEnumerable<RedditPost> Data { get; set; }
+        public IEnumerable<RedditPost>? Data { get; set; }
         private readonly ISentimentDataTransform<RedditPost> sentimentData;
+        private readonly IInfluencerDataTransform<RedditPost> influencerData;
 
-        public RedditTransformStrategy(ISentimentDataTransform<RedditPost> sentimentData)
+        public RedditTransformStrategy(ISentimentDataTransform<RedditPost> sentimentData, IInfluencerDataTransform<RedditPost> influencerData)
         {
-            this.sentimentData = sentimentData;         
+            this.sentimentData = sentimentData;
+            this.influencerData = influencerData;
         }
 
         public async Task<FinalTransformResult> TransformAsync()
         {
-            var data = await sentimentData.TransformAsync(Data);
+            var sentimentDataResult = await sentimentData.TransformAsync(Data);
+            var influencerDataResult = await influencerData.TransformAsync(Data);
 
             var results = new FinalTransformResult();
-            results.AddSentimentTransformResult(data);
+            results.AddSentimentTransformResult(sentimentDataResult);
+            results.AddInfluencerTransformResult(influencerDataResult);
             return results;
         }
     }
