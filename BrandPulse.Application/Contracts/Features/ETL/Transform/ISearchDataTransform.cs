@@ -5,6 +5,6 @@ namespace BrandPulse.Application.Contracts.Features.ETL.Transform
 {
     public interface ISearchDataTransform
     {
-        Task<TransformResult> TransformAsync(SocialMediaAggregates data);
+        Task<FinalTransformResult> TransformAsync(SocialMediaAggregates data);
     }
 }

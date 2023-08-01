@@ -16,7 +16,7 @@ namespace BrandPulse.Persistence
             services.AddSingleton(sp => new BrandPulseMongoDbContext(mongoDBSetting.ConnectionString, mongoDBSetting.Database, mongoDBSetting.Collection));
             services.AddDbContext<BrandPulseSqlDbContext>(options =>
              options.UseSqlServer(configuration.GetConnectionString("BrandPulseSQL")));
-            services.AddScoped<ISocialMediaAggregateRepository, SocialMediaAggregateRepository>();
+            services.AddTransient<ISocialMediaAggregateRepository, SocialMediaAggregateRepository>();
             return services;
         }
     }

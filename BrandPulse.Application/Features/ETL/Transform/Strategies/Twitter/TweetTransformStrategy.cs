@@ -22,14 +22,14 @@ namespace BrandPulse.Application.Features.ETL.Transform.Strategies.Reddit
             this.wordCloudData = wordCloudData;
         }
 
-        public async Task<TransformResult> TransformAsync()
+        public async Task<FinalTransformResult> TransformAsync()
         {
             var sentimentDataTask = sentimentData.TransformAsync(Data);
             var wordCloudDataTask = wordCloudData.TransformAsync(Data);
 
             await Task.WhenAll(sentimentDataTask, wordCloudDataTask);
 
-            var results = new TransformResult();
+            var results = new FinalTransformResult();
             results.AddSentimentTransformResult(sentimentDataTask.Result);
             results.AddWordCloudTransformResult(wordCloudDataTask.Result);
             return results;

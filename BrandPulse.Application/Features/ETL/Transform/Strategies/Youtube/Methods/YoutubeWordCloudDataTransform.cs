@@ -5,6 +5,7 @@ using Google.Apis.YouTube.v3.Data;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,15 +17,15 @@ namespace BrandPulse.Application.Features.ETL.Transform.Strategies.Youtube.Metho
         public Task<IEnumerable<WordCloudTransformResult>> TransformAsync(IEnumerable<YouTubeVideo> data)
         {
             var postResults = data
-               .OfType<Video>()
-               .Where(video => !video.Snippet.Tags.IsNullOrEmpty())
-               .Select(post => new WordCloudTransformResult
-               {
-                   PostId = post.Id,
-                   PlatformId = 3, // Change to your specific platform Id
-                   Hashtags = post.Snippet.Tags.ToList(),
-                   PostDate = DateTime.Parse(post.Snippet.PublishedAtRaw)
-               });
+             .Select(v => v.Video)
+             .Where(video => video.Snippet.Tags != null && video.Snippet.Tags.Any())
+             .Select(post => new WordCloudTransformResult
+             {
+                 PostId = post.Id,
+                 PlatformId = 3, // Change to your specific platform Id
+                 Hashtags = post.Snippet.Tags.ToList(),
+                 PostDate = DateTime.Parse(post.Snippet.PublishedAtRaw, null, DateTimeStyles.RoundtripKind)
+             });
             return Task.FromResult(postResults.AsEnumerable());
         }
     }

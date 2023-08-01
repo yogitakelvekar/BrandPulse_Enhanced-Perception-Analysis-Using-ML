@@ -20,11 +20,11 @@ namespace BrandPulse.Application.Features.ETL.Transform.Strategies.Reddit
             this.sentimentData = sentimentData;         
         }
 
-        public async Task<TransformResult> TransformAsync()
+        public async Task<FinalTransformResult> TransformAsync()
         {
             var data = await sentimentData.TransformAsync(Data);
 
-            var results = new TransformResult();
+            var results = new FinalTransformResult();
             results.AddSentimentTransformResult(data);
             return results;
         }

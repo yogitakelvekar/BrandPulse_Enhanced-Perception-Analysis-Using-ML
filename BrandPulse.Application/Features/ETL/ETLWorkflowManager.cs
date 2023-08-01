@@ -1,4 +1,5 @@
-﻿using BrandPulse.Application.Contracts.Features.ETL.Extract;
+﻿using BrandPulse.Application.Contracts.Features.ETL;
+using BrandPulse.Application.Contracts.Features.ETL.Extract;
 using BrandPulse.Application.Contracts.Features.ETL.Transform;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BrandPulse.Application.Features.ETL
 {
-    public class ETLWorkflowManager
+    public class ETLWorkflowManager : IETLWorkflowManager
     {
         private readonly ISearchDataExtract dataExtract;
         private readonly ISearchDataTransform dataTransform;

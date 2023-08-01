@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace BrandPulse.Application.Models.ETL.Transform
 {
-    public class SentimentTransformResult
+    public class SentimentTransformResult : TransformResult
     {
-        public string SearchTermId { get; set; }
         public string PostId { get; set; }
         public int PlatformId { get; set; }
         public string PostContent { get; set; }

@@ -4,6 +4,7 @@ using BrandPulse.Domain.SocialMedia;
 using Google.Apis.YouTube.v3.Data;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -50,8 +51,8 @@ namespace BrandPulse.Application.Features.ETL.Transform.Strategies.Youtube.Metho
                     PlatformId = 3, // Change to your specific platform Id
                     PostContent = comment.Snippet.TextDisplay,
                     PostLikes = (int)(comment.Snippet?.LikeCount ?? 0),
-                    PostDate = DateTime.Parse(comment.Snippet.PublishedAtRaw)
-                });
+                    PostDate = DateTime.Parse(comment.Snippet.PublishedAtRaw, null, DateTimeStyles.AdjustToUniversal)
+        });
             return commentResults;
         }
     }

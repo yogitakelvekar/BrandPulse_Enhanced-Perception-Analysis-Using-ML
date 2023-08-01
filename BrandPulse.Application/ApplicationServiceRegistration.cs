@@ -16,6 +16,10 @@ using System.Threading.Tasks;
 using BrandPulse.Application.Features.ETL.Transform.Strategies.Twitter.Methods;
 using BrandPulse.Application.Features.ETL.Transform.Strategies.Reddit.Methods;
 using BrandPulse.Application.Features.ETL.Transform.Strategies.Youtube.Methods;
+using BrandPulse.Application.Contracts.Features.ETL;
+using BrandPulse.Application.Features.ETL;
+using BrandPulse.Application.Contracts.Features.ETL.Extract;
+using BrandPulse.Application.Features.ETL.Extract;
 
 namespace BrandPulse.Application
 {
@@ -25,30 +29,30 @@ namespace BrandPulse.Application
         {
             services.AddExtractServices(configuration);
             services.AddTransformServices(configuration);
-            services.AddScoped<ISearchDataTransform, SearchDataTransform>();
+            services.AddTransient<IETLWorkflowManager, ETLWorkflowManager>();
             return services;
         }
 
         private static IServiceCollection AddExtractServices(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddScoped<ISocialMediaSearch, SocialMediaSearch>();
+            services.AddTransient<ISearchDataExtract, SocialMediaDataExtract>();
             return services;
         }
 
         private static IServiceCollection AddTransformServices(this IServiceCollection services, IConfiguration configuration)
         {
             // Add Transform services.
-            services.AddScoped<ITransformStrategyFactory, TransformStrategyFactory>();
-            services.AddScoped<ISearchDataTransform, SearchDataTransform>();
+            services.AddTransient<ITransformStrategyFactory, TransformStrategyFactory>();
+            services.AddTransient<ISearchDataTransform, SearchDataTransform>();        
 
             // Register SentimentDataTransform and WordCloudDataTransform for each relevant type.
-            services.AddScoped<ISentimentDataTransform<Tweet>, TweetSentimentDataTransform>();
-            services.AddScoped<IWordCloudDataTransform<Tweet>, TweetWordCloudDataTransform>();
+            services.AddTransient<ISentimentDataTransform<Tweet>, TweetSentimentDataTransform>();
+            services.AddTransient<IWordCloudDataTransform<Tweet>, TweetWordCloudDataTransform>();
 
-            services.AddScoped<ISentimentDataTransform<RedditPost>, RedditSentimentDataTransform>();
+            services.AddTransient<ISentimentDataTransform<RedditPost>, RedditSentimentDataTransform>();
          
-            services.AddScoped<ISentimentDataTransform<YouTubeVideo>, YoutubeSentimentDataTransform>();
-            services.AddScoped<IWordCloudDataTransform<YouTubeVideo>, YoutubeWordCloudDataTransform>();
+            services.AddTransient<ISentimentDataTransform<YouTubeVideo>, YoutubeSentimentDataTransform>();
+            services.AddTransient<IWordCloudDataTransform<YouTubeVideo>, YoutubeWordCloudDataTransform>();
 
             return services;
         }

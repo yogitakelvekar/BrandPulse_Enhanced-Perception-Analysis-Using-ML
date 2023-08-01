@@ -19,9 +19,9 @@ namespace BrandPulse.Application.Features.ETL.Transform
             this.transformStrategyFactory = transformStrategyFactory;
         }
 
-        public async Task<TransformResult> TransformAsync(SocialMediaAggregates data)
+        public async Task<FinalTransformResult> TransformAsync(SocialMediaAggregates data)
         {
-            TransformResult transformResult = new TransformResult();
+            FinalTransformResult transformResult = new FinalTransformResult();
             var transformStrategies = transformStrategyFactory.GetStrategies(data);
             foreach (var strategy in transformStrategies)
             {
@@ -29,6 +29,7 @@ namespace BrandPulse.Application.Features.ETL.Transform
                 transformResult.AddSentimentTransformResult(result.SentimentTransformResult);
                 transformResult.AddWordCloudTransformResult(result.WordCloudTransformResult);
             }
+            transformResult.AddSearchTerm(data.Id);
             return transformResult;
         }
     }

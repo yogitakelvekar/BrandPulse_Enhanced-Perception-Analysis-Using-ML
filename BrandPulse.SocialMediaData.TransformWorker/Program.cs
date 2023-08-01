@@ -1,3 +1,5 @@
+using BrandPulse.Application;
+using BrandPulse.HttpServices;
 using BrandPulse.Persistence;
 using BrandPulse.Transform.Worker.Workers;
 
@@ -10,6 +12,8 @@ namespace BrandPulse.Transform.Worker
             IHost host = Host.CreateDefaultBuilder(args)
                 .ConfigureServices((hostContext, services) =>
                 {
+                    services.AddApplicationServices(hostContext.Configuration);
+                    services.AddHttpServices(hostContext.Configuration);
                     services.AddPersistenceServices(hostContext.Configuration);
                     services.AddHostedService<ETLWorker>();
                 })
