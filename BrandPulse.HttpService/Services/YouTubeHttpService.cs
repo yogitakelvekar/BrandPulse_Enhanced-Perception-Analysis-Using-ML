@@ -1,5 +1,5 @@
 ﻿using BrandPulse.Application.Contracts.Infrastructure.HttpServices;
-using BrandPulse.Domain.SocialMedia;
+using BrandPulse.Domain.SocialMedia.Youtube;
 using BrandPulse.HttpServices.Settings;
 using Google.Apis.YouTube.v3;
 using Google.Apis.YouTube.v3.Data;

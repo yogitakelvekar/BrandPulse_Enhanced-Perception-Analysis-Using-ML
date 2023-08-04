@@ -1,4 +1,4 @@
-﻿namespace BrandPulse.Domain.SocialMedia
+﻿namespace BrandPulse.Domain.SocialMedia.Reddit
 {
     public class RedditPost
     {

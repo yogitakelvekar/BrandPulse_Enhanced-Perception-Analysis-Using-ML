@@ -1,6 +1,7 @@
 ﻿using BrandPulse.API.Models.Response.Services;
 using BrandPulse.Application.Contracts.Infrastructure.HttpServices;
-using BrandPulse.Domain.SocialMedia;
+using BrandPulse.Domain.SocialMedia.Reddit;
+using BrandPulse.Domain.SocialMedia.Youtube;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BrandPulse.API.Controllers

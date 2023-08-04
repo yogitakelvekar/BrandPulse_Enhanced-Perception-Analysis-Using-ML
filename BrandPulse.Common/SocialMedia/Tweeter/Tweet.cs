@@ -1,4 +1,4 @@
-﻿namespace BrandPulse.Domain.SocialMedia
+﻿namespace BrandPulse.Domain.SocialMedia.Tweeter
 {
     public class TweetResponse
     {
@@ -19,7 +19,7 @@
         public string source { get; set; }
         public long? in_reply_to_status_id { get; set; }
         public long? in_reply_to_user_id { get; set; }
-        public User user { get; set; }
+        public TwitterUser user { get; set; }
         public int retweet_count { get; set; }
         public int favorite_count { get; set; }
         public bool favorited { get; set; }
@@ -70,17 +70,17 @@
         public List<int> indices { get; set; }
     }
 
-    public class User
-    {
-        public string id_str { get; set; }
-        public string name { get; set; }
-        public string screen_name { get; set; }
-        public int followers_count { get; set; }
-        public int friends_count { get; set; }
-        public int listed_count { get; set; }
-        public int favourites_count { get; set; }
-        public int statuses_count { get; set; }
-    }
+    //public class TwitterUser
+    //{
+    //    public string id_str { get; set; }
+    //    public string name { get; set; }
+    //    public string screen_name { get; set; }
+    //    public int followers_count { get; set; }
+    //    public int friends_count { get; set; }
+    //    public int listed_count { get; set; }
+    //    public int favourites_count { get; set; }
+    //    public int statuses_count { get; set; }
+    //}
 
     public class Metadata
     {

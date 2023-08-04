@@ -2,7 +2,9 @@
 using BrandPulse.Application.Contracts.Features.ETL.Transform.Strategies.Methods;
 using BrandPulse.Application.Features.ETL.Transform.Strategies.Reddit;
 using BrandPulse.Domain.Collections;
-using BrandPulse.Domain.SocialMedia;
+using BrandPulse.Domain.SocialMedia.Reddit;
+using BrandPulse.Domain.SocialMedia.Tweeter;
+using BrandPulse.Domain.SocialMedia.Youtube;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;

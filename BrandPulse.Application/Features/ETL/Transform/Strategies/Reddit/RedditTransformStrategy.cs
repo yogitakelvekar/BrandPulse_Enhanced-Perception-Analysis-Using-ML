@@ -1,7 +1,7 @@
 ﻿using BrandPulse.Application.Contracts.Features.ETL.Transform.Strategies;
 using BrandPulse.Application.Contracts.Features.ETL.Transform.Strategies.Methods;
 using BrandPulse.Application.Models.ETL.Transform;
-using BrandPulse.Domain.SocialMedia;
+using BrandPulse.Domain.SocialMedia.Reddit;
 using System;
 using System.Collections.Generic;
 using System.Linq;

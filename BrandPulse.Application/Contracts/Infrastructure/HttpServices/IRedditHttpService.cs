@@ -1,4 +1,4 @@
-﻿using BrandPulse.Domain.SocialMedia;
+﻿using BrandPulse.Domain.SocialMedia.Reddit;
 
 namespace BrandPulse.Application.Contracts.Infrastructure.HttpServices
 {

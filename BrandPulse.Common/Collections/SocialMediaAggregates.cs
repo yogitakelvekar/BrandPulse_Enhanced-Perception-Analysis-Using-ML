@@ -1,4 +1,6 @@
-﻿using BrandPulse.Domain.SocialMedia;
+﻿using BrandPulse.Domain.SocialMedia.Reddit;
+using BrandPulse.Domain.SocialMedia.Tweeter;
+using BrandPulse.Domain.SocialMedia.Youtube;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 

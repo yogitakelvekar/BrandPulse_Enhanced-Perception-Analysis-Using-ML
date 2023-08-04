@@ -1,5 +1,5 @@
 ﻿using BrandPulse.Application.Contracts.Infrastructure.HttpServices;
-using BrandPulse.Domain.SocialMedia;
+using BrandPulse.Domain.SocialMedia.Tweeter;
 using BrandPulse.HttpServices.Settings;
 using Microsoft.Extensions.Options;
 using System.Text.Json;
@@ -37,15 +37,26 @@ namespace BrandPulse.HttpServices.Services
             return finalResponse;
         }
 
-        public async Task<JsonDocument> SearchTweetsAsyncObject(string query)
+        public async Task<TwitterUser> GetUserDetails(string userId)
         {
-            var response = await _httpClient.GetAsync($"v1.1/SearchTweets/?q={query}&count={_appSettings.MaxResults}");
+            var response = await _httpClient.GetAsync($"v1.1/Users/?ids={userId}");
 
             response.EnsureSuccessStatusCode();
 
             var content = await response.Content.ReadAsStringAsync();
 
-            return JsonDocument.Parse(content);
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true,
+                IgnoreNullValues = true,
+                IgnoreReadOnlyProperties = true
+            };
+
+            var result = JsonSerializer.Deserialize<IEnumerable<TwitterUser>>(content, options);
+            var finalResponse = result?.FirstOrDefault() ?? new TwitterUser();
+            return finalResponse;
         }
+
+
     }
 }

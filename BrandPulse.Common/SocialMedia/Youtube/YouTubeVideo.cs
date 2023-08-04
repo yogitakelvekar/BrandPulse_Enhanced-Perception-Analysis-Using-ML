@@ -1,6 +1,6 @@
 ﻿using Google.Apis.YouTube.v3.Data;
 
-namespace BrandPulse.Domain.SocialMedia
+namespace BrandPulse.Domain.SocialMedia.Youtube
 {
     public class YouTubeVideo
     {

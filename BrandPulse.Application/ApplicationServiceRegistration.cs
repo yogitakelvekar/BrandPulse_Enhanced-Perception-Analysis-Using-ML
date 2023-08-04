@@ -5,7 +5,6 @@ using BrandPulse.Application.Contracts.Features.ETL.Transform;
 using BrandPulse.Application.Features.DataSearch;
 using BrandPulse.Application.Features.ETL.Transform.Strategies;
 using BrandPulse.Application.Features.ETL.Transform;
-using BrandPulse.Domain.SocialMedia;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -20,6 +19,9 @@ using BrandPulse.Application.Contracts.Features.ETL;
 using BrandPulse.Application.Features.ETL;
 using BrandPulse.Application.Contracts.Features.ETL.Extract;
 using BrandPulse.Application.Features.ETL.Extract;
+using BrandPulse.Domain.SocialMedia.Tweeter;
+using BrandPulse.Domain.SocialMedia.Reddit;
+using BrandPulse.Domain.SocialMedia.Youtube;
 
 namespace BrandPulse.Application
 {

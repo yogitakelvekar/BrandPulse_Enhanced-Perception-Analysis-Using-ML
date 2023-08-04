@@ -1,6 +1,6 @@
 ﻿using BrandPulse.Application.Contracts.Features.ETL.Transform.Strategies.Methods;
 using BrandPulse.Application.Models.ETL.Transform;
-using BrandPulse.Domain.SocialMedia;
+using BrandPulse.Domain.SocialMedia.Youtube;
 using Google.Apis.YouTube.v3.Data;
 using Microsoft.IdentityModel.Tokens;
 using System;

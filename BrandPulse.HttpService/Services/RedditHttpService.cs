@@ -1,5 +1,5 @@
 ﻿using BrandPulse.Application.Contracts.Infrastructure.HttpServices;
-using BrandPulse.Domain.SocialMedia;
+using BrandPulse.Domain.SocialMedia.Reddit;
 using BrandPulse.HttpServices.Settings;
 using Microsoft.Extensions.Options;
 using Reddit;
