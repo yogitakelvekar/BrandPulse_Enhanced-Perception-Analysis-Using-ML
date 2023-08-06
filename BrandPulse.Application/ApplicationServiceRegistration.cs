@@ -29,6 +29,19 @@ namespace BrandPulse.Application
     {
         public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration configuration)
         {
+            services.AddDataSearchFeatureServices(configuration);
+            services.AddETLFeatureServices(configuration);
+            return services;
+        }
+
+        private static IServiceCollection AddDataSearchFeatureServices(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddTransient<ISocialMediaSearch, SocialMediaSearch>();
+            return services;
+        }
+
+        private static IServiceCollection AddETLFeatureServices(this IServiceCollection services, IConfiguration configuration)
+        {
             services.AddExtractServices(configuration);
             services.AddTransformServices(configuration);
             services.AddTransient<IETLWorkflowManager, ETLWorkflowManager>();

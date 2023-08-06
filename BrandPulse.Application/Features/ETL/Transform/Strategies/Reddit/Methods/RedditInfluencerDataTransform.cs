@@ -18,11 +18,10 @@ namespace BrandPulse.Application.Features.ETL.Transform.Strategies.Reddit.Method
                 .Select(post => new InfluencerTransformResult
                 {
                     AuthorName = post.Author,
-                    //Avatar = post.
-                    //PotentialReach = post.
+                    Avatar = post?.User?.Avatar ?? string.Empty,
+                    PotentialReach = post?.User?.PostKarma ?? 0,
                     Engagement = post.UpVotes + post.DownVotes + post.Comments.Count(),
-                    //Profile
-                    //Country = post.Author.
+                    Profile = post?.User?.ProfileUrl ?? string.Empty,                 
                     PostId = post.Id,
                     PlatformId = 1, // Change to your specific platform Id
                     PostDate = post.Created

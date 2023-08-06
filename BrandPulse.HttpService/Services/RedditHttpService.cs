@@ -65,6 +65,7 @@ namespace BrandPulse.HttpServices.Services
                 UpvoteRatio = post.UpvoteRatio,
                 Score = post.Score,
                 Created = post.Created,
+                User = GetUserData(post),
                 Comments = new List<RedditComment>()
             };
 
@@ -90,6 +91,36 @@ namespace BrandPulse.HttpServices.Services
                     Created = c.Created
                 }).ToList();
             });
+        }
+
+        public RedditUser? GetUserData(Post post)
+        {
+            RedditUser? user = null;
+            try
+            {
+                // Get the search results
+                var redditUserDetail = _redditClient.SearchUsers(
+                    new SearchGetSearchInput(q: post.Listing.Author, limit: _appSettings.MaxResults, sort: "relevance"));
+                var userData = redditUserDetail?.FirstOrDefault() ?? null;
+                if (userData != null)
+                {
+                    user = new RedditUser();
+                    user.UserId = userData.Id;
+                    user.UserName = userData.Name;
+                    user.PostKarma = userData.LinkKarma;
+                    user.CommentKarma = userData.CommentKarma;
+                    user.Avatar = userData.IconImg;
+                    user.ProfileUrl = $"https://www.reddit.com/user/{userData.Name}";
+                }
+                
+            }
+            catch(Exception ex)
+            {
+                // Log exception
+                // log ex.ToString() or handle accordingly
+                //return null; // Or however you wish to handle this case
+            }
+            return user;
         }
     }
 }
