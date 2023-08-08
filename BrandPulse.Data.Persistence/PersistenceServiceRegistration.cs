@@ -17,6 +17,9 @@ namespace BrandPulse.Persistence
             services.AddDbContext<BrandPulseSqlDbContext>(options =>
              options.UseSqlServer(configuration.GetConnectionString("BrandPulseSQL")));
             services.AddTransient<ISocialMediaAggregateRepository, SocialMediaAggregateRepository>();
+            services.AddTransient<IPostInfluencerDataRepository, PostInfluencerDataRepository>();
+            services.AddTransient<IPostSentimentDataRepository, PostSentimentDataRepository>();
+            services.AddTransient<IPostWordCloudDataRepository, PostWordCloudDataRepository>();
             return services;
         }
     }

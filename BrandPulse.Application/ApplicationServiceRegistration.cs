@@ -22,6 +22,11 @@ using BrandPulse.Application.Features.ETL.Extract;
 using BrandPulse.Domain.SocialMedia.Tweeter;
 using BrandPulse.Domain.SocialMedia.Reddit;
 using BrandPulse.Domain.SocialMedia.Youtube;
+using BrandPulse.Application.Contracts.Features.ETL.Load;
+using BrandPulse.Application.Features.ETL.Load;
+using BrandPulse.Application.Models.ETL.Transform;
+using BrandPulse.Domain.Entities;
+using BrandPulse.Application.Features.ETL.Load.Strategies.Methods;
 
 namespace BrandPulse.Application
 {
@@ -72,6 +77,15 @@ namespace BrandPulse.Application
             services.AddTransient<IWordCloudDataTransform<YouTubeVideo>, YoutubeWordCloudDataTransform>();
             services.AddTransient<IInfluencerDataTransform<YouTubeVideo>, YoutubeInfluencerDataTransform>();
 
+            return services;
+        }
+
+        private static IServiceCollection AddLoadServices(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddTransient<ISearchDataLoad, SearchDataLoad>();
+            services.AddTransient<ILoadStrategy<SentimentTransformResult, PostSentimentData>, PostSentimentDataLoadStrategy>();
+            services.AddTransient<ILoadStrategy<WordCloudTransformResult, PostWordCloudData>, PostWordCloudDataLoadStrategy>();
+            services.AddTransient<ILoadStrategy<InfluencerTransformResult, PostInfluencerData>, PostInfluencerDataLoadStrategy>();
             return services;
         }
     }
