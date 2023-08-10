@@ -15,7 +15,7 @@ namespace BrandPulse.Domain.Entities
         public int PlatformId { get; set; }
         public DateTime PostDate { get; set; }
         public string AuthorName { get; set; } = string.Empty;
-        public string Avatar { get; set; } = string.Empty;
+        public string? Avatar { get; set; } = string.Empty;
         public int PotentialReach { get; set; }
         public int Engagement { get; set; }
         public string? Profile { get; set; }

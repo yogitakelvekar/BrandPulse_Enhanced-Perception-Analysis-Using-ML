@@ -16,14 +16,14 @@ namespace BrandPulse.HttpServices
             var settings = settingsSection.Get<HttpServicesSettings>();
 
             services.Configure<HttpServicesSettings>(settingsSection);
-            services.AddTransient<YouTubeService>(serviceProvider =>
+            services.AddScoped<YouTubeService>(serviceProvider =>
             new YouTubeService(new BaseClientService.Initializer
             {
                 ApplicationName = settings.YouTubeSettings.ApplicationName,
                 ApiKey = settings.YouTubeSettings.ApiKey
             }));
-            services.AddTransient<IYouTubeHttpService,YouTubeHttpService>();
-            services.AddTransient<IRedditHttpService, RedditHttpService>();
+            services.AddScoped<IYouTubeHttpService,YouTubeHttpService>();
+            services.AddScoped<IRedditHttpService, RedditHttpService>();
             services.AddHttpClient<ITwitterHttpService, TwitterHttpService>(client =>
             {
                 client.BaseAddress = new Uri(settings.TwitterSettings.TwitterBaseURL);

@@ -41,7 +41,7 @@ namespace BrandPulse.Application
 
         private static IServiceCollection AddDataSearchFeatureServices(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddTransient<ISocialMediaSearch, SocialMediaSearch>();
+            services.AddScoped<ISocialMediaSearch, SocialMediaSearch>();
             return services;
         }
 
@@ -49,43 +49,44 @@ namespace BrandPulse.Application
         {
             services.AddExtractServices(configuration);
             services.AddTransformServices(configuration);
-            services.AddTransient<IETLWorkflowManager, ETLWorkflowManager>();
+            services.AddLoadServices(configuration);
+            services.AddScoped<IETLWorkflowManager, ETLWorkflowManager>();
             return services;
         }
 
         private static IServiceCollection AddExtractServices(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddTransient<ISearchDataExtract, SocialMediaDataExtract>();
+            services.AddScoped<ISearchDataExtract, SocialMediaDataExtract>();
             return services;
         }
 
         private static IServiceCollection AddTransformServices(this IServiceCollection services, IConfiguration configuration)
         {
             // Add Transform services.
-            services.AddTransient<ITransformStrategyFactory, TransformStrategyFactory>();
-            services.AddTransient<ISearchDataTransform, SearchDataTransform>();        
+            services.AddScoped<ITransformStrategyFactory, TransformStrategyFactory>();
+            services.AddScoped<ISearchDataTransform, SearchDataTransform>();        
 
             // Register SentimentDataTransform and WordCloudDataTransform for each relevant type.
-            services.AddTransient<ISentimentDataTransform<Tweet>, TweetSentimentDataTransform>();
-            services.AddTransient<IWordCloudDataTransform<Tweet>, TweetWordCloudDataTransform>();
-            services.AddTransient<IInfluencerDataTransform<Tweet>, TweetInfluencerDataTransform>();
+            services.AddScoped<ISentimentDataTransform<Tweet>, TweetSentimentDataTransform>();
+            services.AddScoped<IWordCloudDataTransform<Tweet>, TweetWordCloudDataTransform>();
+            services.AddScoped<IInfluencerDataTransform<Tweet>, TweetInfluencerDataTransform>();
 
-            services.AddTransient<ISentimentDataTransform<RedditPost>, RedditSentimentDataTransform>();
-            services.AddTransient<IInfluencerDataTransform<RedditPost>, RedditInfluencerDataTransform>();
+            services.AddScoped<ISentimentDataTransform<RedditPost>, RedditSentimentDataTransform>();
+            services.AddScoped<IInfluencerDataTransform<RedditPost>, RedditInfluencerDataTransform>();
 
-            services.AddTransient<ISentimentDataTransform<YouTubeVideo>, YoutubeSentimentDataTransform>();
-            services.AddTransient<IWordCloudDataTransform<YouTubeVideo>, YoutubeWordCloudDataTransform>();
-            services.AddTransient<IInfluencerDataTransform<YouTubeVideo>, YoutubeInfluencerDataTransform>();
+            services.AddScoped<ISentimentDataTransform<YouTubeVideo>, YoutubeSentimentDataTransform>();
+            services.AddScoped<IWordCloudDataTransform<YouTubeVideo>, YoutubeWordCloudDataTransform>();
+            services.AddScoped<IInfluencerDataTransform<YouTubeVideo>, YoutubeInfluencerDataTransform>();
 
             return services;
         }
 
         private static IServiceCollection AddLoadServices(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddTransient<ISearchDataLoad, SearchDataLoad>();
-            services.AddTransient<ILoadStrategy<SentimentTransformResult, PostSentimentData>, PostSentimentDataLoadStrategy>();
-            services.AddTransient<ILoadStrategy<WordCloudTransformResult, PostWordCloudData>, PostWordCloudDataLoadStrategy>();
-            services.AddTransient<ILoadStrategy<InfluencerTransformResult, PostInfluencerData>, PostInfluencerDataLoadStrategy>();
+            services.AddScoped<ISearchDataLoad, SearchDataLoad>();
+            services.AddScoped<ILoadStrategy<SentimentTransformResult, PostSentimentData>, PostSentimentDataLoadStrategy>();
+            services.AddScoped<ILoadStrategy<WordCloudTransformResult, PostWordCloudData>, PostWordCloudDataLoadStrategy>();
+            services.AddScoped<ILoadStrategy<InfluencerTransformResult, PostInfluencerData>, PostInfluencerDataLoadStrategy>();
             return services;
         }
     }

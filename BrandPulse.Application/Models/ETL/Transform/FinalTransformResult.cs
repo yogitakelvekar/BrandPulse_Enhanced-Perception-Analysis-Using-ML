@@ -33,6 +33,7 @@ namespace BrandPulse.Application.Models.ETL.Transform
         {
             WordCloudTransformResult.ForEach(result => result.SearchTermId = searchTermId);
             SentimentTransformResult.ForEach(result => result.SearchTermId = searchTermId);
+            InfluencerTransformResult.ForEach(result => result.SearchTermId = searchTermId);
         }
     }
 }

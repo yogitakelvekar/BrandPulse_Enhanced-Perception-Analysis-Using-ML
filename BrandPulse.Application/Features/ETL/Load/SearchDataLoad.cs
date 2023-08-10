@@ -31,10 +31,9 @@ namespace BrandPulse.Application.Features.ETL.Load
             bool result;
             try
             {
-                var wordCloudTask = wordCloud.LoadAsync(transformResult.WordCloudTransformResult);
-                var sentimentTask = sentiment.LoadAsync(transformResult.SentimentTransformResult);
-                var influencerTask = influencer.LoadAsync(transformResult.InfluencerTransformResult);
-                await Task.WhenAll(wordCloudTask, sentimentTask, influencerTask);
+                var wordCloudTask = await wordCloud.LoadAsync(transformResult.WordCloudTransformResult);
+                var sentimentTask = await sentiment.LoadAsync(transformResult.SentimentTransformResult);
+                var influencerTask = await influencer.LoadAsync(transformResult.InfluencerTransformResult);
                 result = true;
             }
             catch (Exception ex)

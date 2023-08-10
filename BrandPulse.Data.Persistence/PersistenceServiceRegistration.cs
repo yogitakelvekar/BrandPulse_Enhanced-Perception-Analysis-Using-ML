@@ -13,13 +13,14 @@ namespace BrandPulse.Persistence
         public static IServiceCollection AddPersistenceServices(this IServiceCollection services, IConfiguration configuration)
         {
             var mongoDBSetting = configuration.GetRequiredSection("MongoDBSettings").Get<MongoDBSettings>();
-            services.AddSingleton(sp => new BrandPulseMongoDbContext(mongoDBSetting.ConnectionString, mongoDBSetting.Database, mongoDBSetting.Collection));
+            services.AddScoped(sp => new BrandPulseMongoDbContext(mongoDBSetting.ConnectionString, mongoDBSetting.Database, mongoDBSetting.Collection));
             services.AddDbContext<BrandPulseSqlDbContext>(options =>
              options.UseSqlServer(configuration.GetConnectionString("BrandPulseSQL")));
-            services.AddTransient<ISocialMediaAggregateRepository, SocialMediaAggregateRepository>();
-            services.AddTransient<IPostInfluencerDataRepository, PostInfluencerDataRepository>();
-            services.AddTransient<IPostSentimentDataRepository, PostSentimentDataRepository>();
-            services.AddTransient<IPostWordCloudDataRepository, PostWordCloudDataRepository>();
+            services.AddScoped(typeof(IAsyncRepository<>), typeof(BaseSqlRepository<>));
+            services.AddScoped<ISocialMediaAggregateRepository, SocialMediaAggregateRepository>();
+            services.AddScoped<IPostInfluencerDataRepository, PostInfluencerDataRepository>();
+            services.AddScoped<IPostSentimentDataRepository, PostSentimentDataRepository>();
+            services.AddScoped<IPostWordCloudDataRepository, PostWordCloudDataRepository>();
             return services;
         }
     }

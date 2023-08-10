@@ -12,10 +12,6 @@ namespace BrandPulse.SocialMediaData.TransformWorker.Data
 {
     public class BrandPulseSqlDbContext : DbContext
     {
-        public BrandPulseSqlDbContext(DbContextOptions options) : base(options)
-        {
-        }
-
         public BrandPulseSqlDbContext(DbContextOptions<BrandPulseSqlDbContext> options)
        : base(options)
         {

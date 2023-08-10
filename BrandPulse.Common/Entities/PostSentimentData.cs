@@ -11,10 +11,10 @@ namespace BrandPulse.Domain.Entities
     {
         public Guid Id { get; set; }
         public string SearchTermId { get; set; }
-        public string PostId { get; set; }
+        public string? PostId { get; set; }
         public int PlatformId { get; set; }
         public DateTime PostDate { get; set; }
-        public string PostContent { get; set; }
+        public string? PostContent { get; set; }
         public int PostLikes { get; set; }
         public int PostDislikes { get; set; }
         public float? SentimentScore { get; set; }
