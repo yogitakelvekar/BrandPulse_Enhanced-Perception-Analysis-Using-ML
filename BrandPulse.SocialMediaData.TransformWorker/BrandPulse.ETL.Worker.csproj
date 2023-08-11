@@ -25,5 +25,10 @@
     <ProjectReference Include="..\BrandPulse.Common\BrandPulse.Domain.csproj" />
     <ProjectReference Include="..\BrandPulse.Data.Persistence\BrandPulse.Persistence.csproj" />
     <ProjectReference Include="..\BrandPulse.HttpService\BrandPulse.HttpServices.csproj" />
+    <ProjectReference Include="..\BrandPulse.ServiceBus\BrandPulse.MessagingBus.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Properties\" />
   </ItemGroup>
 </Project>

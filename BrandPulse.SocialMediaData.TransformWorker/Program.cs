@@ -1,6 +1,7 @@
 using BrandPulse.Application;
 using BrandPulse.HttpServices;
 using BrandPulse.Persistence;
+using BrandPulse.MessagingBus;
 using BrandPulse.Transform.Worker.Workers;
 
 namespace BrandPulse.Transform.Worker
@@ -15,6 +16,7 @@ namespace BrandPulse.Transform.Worker
                     services.AddApplicationServices(hostContext.Configuration);
                     services.AddHttpServices(hostContext.Configuration);
                     services.AddPersistenceServices(hostContext.Configuration);
+                    services.AddAzureServiceBus(hostContext.Configuration);
                     services.AddHostedService<ETLWorker>();
                 })
                 .Build();

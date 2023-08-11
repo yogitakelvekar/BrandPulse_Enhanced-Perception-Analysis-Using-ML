@@ -27,6 +27,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BrandPulse.HttpServices", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BrandPulse.Application", "BrandPulse.Application\BrandPulse.Application.csproj", "{808B629E-9C75-4469-967F-E74B1B5AEC79}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BrandPulse.MessagingBus", "BrandPulse.ServiceBus\BrandPulse.MessagingBus.csproj", "{B0CD9329-A7AC-42DC-9DB3-56A78113C85F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,6 +59,10 @@ Global
 		{808B629E-9C75-4469-967F-E74B1B5AEC79}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{808B629E-9C75-4469-967F-E74B1B5AEC79}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{808B629E-9C75-4469-967F-E74B1B5AEC79}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B0CD9329-A7AC-42DC-9DB3-56A78113C85F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0CD9329-A7AC-42DC-9DB3-56A78113C85F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0CD9329-A7AC-42DC-9DB3-56A78113C85F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0CD9329-A7AC-42DC-9DB3-56A78113C85F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -73,6 +79,7 @@ Global
 		{43C62B4D-F812-4B7C-85EC-A8CB52C1014C} = {6BE9ED7B-0B83-4047-8DC5-C30D4235980A}
 		{98BB4964-AA65-45C9-BA7F-464D1D3AF139} = {6BE9ED7B-0B83-4047-8DC5-C30D4235980A}
 		{808B629E-9C75-4469-967F-E74B1B5AEC79} = {7FE7FD7B-8C59-415F-B7FC-9F8AFB82AE83}
+		{B0CD9329-A7AC-42DC-9DB3-56A78113C85F} = {6BE9ED7B-0B83-4047-8DC5-C30D4235980A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {778375A3-9B8B-44D4-AE10-B5BA3F875C45}

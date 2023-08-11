@@ -12,7 +12,8 @@ namespace BrandPulse.Application.Features.DataSearch
         private readonly ITwitterHttpService twitterHttpService;
         private readonly ISocialMediaAggregateRepository aggregateRepository;
 
-        public SocialMediaSearch(IYouTubeHttpService youTubeHttpService, IRedditHttpService redditHttpService, ITwitterHttpService twitterHttpService, ISocialMediaAggregateRepository aggregateRepository)
+        public SocialMediaSearch(IYouTubeHttpService youTubeHttpService, IRedditHttpService redditHttpService, ITwitterHttpService twitterHttpService,
+            ISocialMediaAggregateRepository aggregateRepository)
         {
             this.youTubeHttpService = youTubeHttpService;
             this.redditHttpService = redditHttpService;
@@ -37,7 +38,6 @@ namespace BrandPulse.Application.Features.DataSearch
             };
 
             await aggregateRepository.StoreDataAsync(aggregateData);
-
             return aggregateData;
         }
     }

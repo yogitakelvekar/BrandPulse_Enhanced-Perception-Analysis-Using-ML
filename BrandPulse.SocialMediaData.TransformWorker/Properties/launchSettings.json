@@ -1,8 +1,7 @@
-﻿{
+{
   "profiles": {
-    "BrandPulse.SocialMediaData.TransformWorker": {
+    "BrandPulse.ETL.Worker": {
       "commandName": "Project",
-      "dotnetRunMessages": true,
       "environmentVariables": {
         "DOTNET_ENVIRONMENT": "Development"
       }
