@@ -31,17 +31,20 @@ namespace BrandPulse.Application.Features.ETL.Load
             bool result;
             try
             {
-                var wordCloudTask = await wordCloud.LoadAsync(transformResult.WordCloudTransformResult);
-                var sentimentTask = await sentiment.LoadAsync(transformResult.SentimentTransformResult);
-                var influencerTask = await influencer.LoadAsync(transformResult.InfluencerTransformResult);
+                var wordCloudTask = wordCloud.LoadAsync(transformResult.WordCloudTransformResult);
+                var sentimentTask = sentiment.LoadAsync(transformResult.SentimentTransformResult);
+                var influencerTask = influencer.LoadAsync(transformResult.InfluencerTransformResult);
+
+                Task.WaitAll(wordCloudTask, sentimentTask, influencerTask);
+
                 result = true;
             }
             catch (Exception ex)
             {
+                // You might want to log the exception here for debugging purposes.
                 result = false;
             }
             return result;
-
         }
     }
 }

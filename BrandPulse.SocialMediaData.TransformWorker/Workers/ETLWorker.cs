@@ -25,19 +25,26 @@ namespace BrandPulse.Transform.Worker.Workers
 
             _messageBus.ReceivedMessage(async (etlMessage) =>
             {
-                using (var scope = scopeFactory.CreateScope())
-                {
-                    var localETLWorkflowManager = scope.ServiceProvider.GetRequiredService<IETLWorkflowManager>();
-                    _logger.LogInformation("Received message at: {time}", DateTimeOffset.Now);
-                    var result = await localETLWorkflowManager.Run(etlMessage.SearchTermId); // Assuming your ETLMessage has a SearchTermId
-                    Console.WriteLine($"ETL Operation result - {result}");
-                }
+                await RunETLOperation(etlMessage);
             });
+
+            await RunETLOperation(new ETLMessage { SearchTermId = "64c5733e392e3b23d859c9cb" });
 
             // Keeps the service running
             while (!stoppingToken.IsCancellationRequested)
             {
                 await Task.Delay(TimeSpan.FromMinutes(5), stoppingToken);
+            }
+        }
+
+        private async Task RunETLOperation(ETLMessage etlMessage)
+        {
+            using (var scope = scopeFactory.CreateScope())
+            {
+                var localETLWorkflowManager = scope.ServiceProvider.GetRequiredService<IETLWorkflowManager>();
+                _logger.LogInformation("Received message at: {time}", DateTimeOffset.Now);
+                var result = await localETLWorkflowManager.Run(etlMessage.SearchTermId); // Assuming your ETLMessage has a SearchTermId
+                Console.WriteLine($"ETL Operation result - {result}");
             }
         }
     }

@@ -13,9 +13,15 @@ namespace BrandPulse.Persistence
         public static IServiceCollection AddPersistenceServices(this IServiceCollection services, IConfiguration configuration)
         {
             var mongoDBSetting = configuration.GetRequiredSection("MongoDBSettings").Get<MongoDBSettings>();
+
             services.AddScoped(sp => new BrandPulseMongoDbContext(mongoDBSetting.ConnectionString, mongoDBSetting.Database, mongoDBSetting.Collection));
+
             services.AddDbContext<BrandPulseSqlDbContext>(options =>
-             options.UseSqlServer(configuration.GetConnectionString("BrandPulseSQL")));
+                options.UseSqlServer(configuration.GetConnectionString("BrandPulseSQL")), ServiceLifetime.Transient);
+
+            //services.AddDbContextPool<BrandPulseSqlDbContext>(options =>
+            //    options.UseSqlServer(configuration.GetConnectionString("BrandPulseSQL")));
+
             services.AddScoped(typeof(IAsyncRepository<>), typeof(BaseSqlRepository<>));
             services.AddScoped<ISocialMediaAggregateRepository, SocialMediaAggregateRepository>();
             services.AddScoped<IPostInfluencerDataRepository, PostInfluencerDataRepository>();
