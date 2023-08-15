@@ -26,6 +26,7 @@ namespace BrandPulse.MessagingBus
             // Register Service Bus Client for sending messages
             services.AddSingleton(provider => new ServiceBusClient(settings.ConnectionString));
             services.AddSingleton<IQueueMessagingBus<ETLMessage>, AzServiceBusETLQueue>();
+            services.AddSingleton<IQueueMessagingBus<MLMessage>, AzServiceBusMLQueue>();
 
             return services;
         }

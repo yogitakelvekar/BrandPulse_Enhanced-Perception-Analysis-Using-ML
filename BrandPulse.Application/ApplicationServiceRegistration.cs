@@ -1,10 +1,14 @@
-﻿using BrandPulse.Application.Contracts.Features.DataSearch;
+﻿using BrandPulse.Application.Contracts.Features.DataScience;
+using BrandPulse.Application.Contracts.Features.DataScience.MLWorkflows;
+using BrandPulse.Application.Contracts.Features.DataSearch;
 using BrandPulse.Application.Contracts.Features.ETL;
 using BrandPulse.Application.Contracts.Features.ETL.Extract;
 using BrandPulse.Application.Contracts.Features.ETL.Load;
 using BrandPulse.Application.Contracts.Features.ETL.Transform;
 using BrandPulse.Application.Contracts.Features.ETL.Transform.Strategies;
 using BrandPulse.Application.Contracts.Features.ETL.Transform.Strategies.Methods;
+using BrandPulse.Application.Features.DataScience;
+using BrandPulse.Application.Features.DataScience.SentimentAnalysis;
 using BrandPulse.Application.Features.DataSearch;
 using BrandPulse.Application.Features.ETL;
 using BrandPulse.Application.Features.ETL.Extract;
@@ -31,6 +35,7 @@ namespace BrandPulse.Application
         {
             services.AddDataSearchFeatureServices(configuration);
             services.AddETLFeatureServices(configuration);
+            services.AddDataScienceServices(configuration);
             return services;
         }
 
@@ -82,6 +87,13 @@ namespace BrandPulse.Application
             services.AddScoped<ILoadStrategy<SentimentTransformResult, PostSentimentData>, PostSentimentDataLoadStrategy>();
             services.AddScoped<ILoadStrategy<WordCloudTransformResult, PostWordCloudData>, PostWordCloudDataLoadStrategy>();
             services.AddScoped<ILoadStrategy<InfluencerTransformResult, PostInfluencerData>, PostInfluencerDataLoadStrategy>();
+            return services;
+        }
+
+        private static IServiceCollection AddDataScienceServices(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddScoped<IMLWorkflowManger, MLWorkflowManger>();
+            services.AddScoped<ISentimentAnalysisWorkflow, SentimentAnalysisWorkflow>();
             return services;
         }
     }

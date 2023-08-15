@@ -1,10 +1,8 @@
 using BrandPulse.Application;
-using BrandPulse.HttpServices;
 using BrandPulse.Persistence;
 using BrandPulse.MessagingBus;
-using BrandPulse.Transform.Worker.Workers;
 
-namespace BrandPulse.Transform.Worker
+namespace BrandPulse.ML.Worker
 {
     public class Program
     {
@@ -14,10 +12,9 @@ namespace BrandPulse.Transform.Worker
                 .ConfigureServices((hostContext, services) =>
                 {
                     services.AddApplicationServices(hostContext.Configuration);
-                    services.AddHttpServices(hostContext.Configuration);
                     services.AddPersistenceServices(hostContext.Configuration);
-                    services.AddAzureServiceBus(hostContext.Configuration);
-                    services.AddHostedService<ETLWorker>();
+                    services.AddAzureServiceBus(hostContext.Configuration);               
+                    services.AddHostedService<MLWorker>();
                 })
                 .Build();
 

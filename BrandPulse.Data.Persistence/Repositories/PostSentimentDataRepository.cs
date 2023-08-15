@@ -3,6 +3,7 @@ using BrandPulse.Domain.Entities;
 using BrandPulse.SocialMediaData.TransformWorker.Data;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,6 +14,12 @@ namespace BrandPulse.Persistence.Repositories
     {
         public PostSentimentDataRepository(BrandPulseSqlDbContext dbContext) : base(dbContext)
         {
+        }
+
+        public async Task<List<PostSentimentData>> GetPostContentBySearchId(string searchId)
+        {
+            var data = await _dbContext.PostSentimentData.Where(psd => psd.SearchTermId == searchId).ToListAsync();
+            return data;
         }
     }
 }

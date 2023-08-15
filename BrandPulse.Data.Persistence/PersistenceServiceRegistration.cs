@@ -27,6 +27,7 @@ namespace BrandPulse.Persistence
             services.AddScoped<IPostInfluencerDataRepository, PostInfluencerDataRepository>();
             services.AddScoped<IPostSentimentDataRepository, PostSentimentDataRepository>();
             services.AddScoped<IPostWordCloudDataRepository, PostWordCloudDataRepository>();
+            services.AddScoped<IPostSentimentAnalysisRepository, PostSentimentAnalysisRepository>();
             return services;
         }
     }

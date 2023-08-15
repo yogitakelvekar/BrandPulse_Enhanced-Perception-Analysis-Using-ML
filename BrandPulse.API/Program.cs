@@ -1,6 +1,7 @@
 using BrandPulse.Application;
 using BrandPulse.HttpServices;
 using BrandPulse.MessagingBus;
+using BrandPulse.ML;
 using BrandPulse.Persistence;
 
 namespace BrandPulse.API
@@ -11,11 +12,12 @@ namespace BrandPulse.API
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            builder.Services.AddMLServices(builder.Configuration);
             builder.Services.AddHttpServices(builder.Configuration);
             builder.Services.AddPersistenceServices(builder.Configuration);
-            builder.Services.AddApplicationServices(builder.Configuration);
             builder.Services.AddAzureServiceBus(builder.Configuration);
-
+            builder.Services.AddApplicationServices(builder.Configuration);
+           
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();

@@ -4,6 +4,7 @@ using BrandPulse.SocialMediaData.TransformWorker.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BrandPulse.Persistence.Migrations
 {
     [DbContext(typeof(BrandPulseSqlDbContext))]
-    partial class BrandPulseSqlDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230815010934_Update2SentimentAnalysisTable")]
+    partial class Update2SentimentAnalysisTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -87,8 +90,9 @@ namespace BrandPulse.Persistence.Migrations
                     b.Property<DateTime?>("LastModifiedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("SentimentDataId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("SentimentDataId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

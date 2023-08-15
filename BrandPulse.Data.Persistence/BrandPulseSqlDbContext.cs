@@ -20,6 +20,7 @@ namespace BrandPulse.SocialMediaData.TransformWorker.Data
         public DbSet<PostSentimentData> PostSentimentData { get; set; }
         public DbSet<PostWordCloudData> PostWordCloudData { get; set; }
         public DbSet<PostInfluencerData> PostInfluencerData { get; set; }
+        public DbSet<PostSentimentAnalysis> PostSentimentAnalysis { get; set; }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {

@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace BrandPulse.Application.Contracts.Infrastructure.Persistence
 {
-    public interface IPostSentimentDataRepository : IAsyncRepository<PostSentimentData>
+    public interface IPostSentimentAnalysisRepository : IAsyncRepository<PostSentimentAnalysis>
     {
-        Task<List<PostSentimentData>> GetPostContentBySearchId(string searchId);
+
     }
 }

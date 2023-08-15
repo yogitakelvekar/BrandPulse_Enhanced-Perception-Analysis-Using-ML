@@ -1,0 +1,319 @@
+﻿{
+  "TrainingTime": 1800,
+  "Scenario": "Classification",
+  "DataSource": {
+    "Type": "TabularFile",
+    "Version": 1,
+    "FilePath": "C:\\Users\\KA40149722\\Documents\\Twitter Sentimental Analysis Dataset\\training.1600000.processed.noemoticon.csv",
+    "Delimiter": ",",
+    "DecimalMarker": ".",
+    "HasHeader": true,
+    "ColumnProperties": [
+      {
+        "ColumnName": "0",
+        "ColumnPurpose": "Label",
+        "ColumnDataFormat": "Single",
+        "IsCategorical": true,
+        "Type": "Column",
+        "Version": 2
+      },
+      {
+        "ColumnName": "1467810369",
+        "ColumnPurpose": "Feature",
+        "ColumnDataFormat": "Single",
+        "IsCategorical": false,
+        "Type": "Column",
+        "Version": 2
+      },
+      {
+        "ColumnName": "Mon Apr 06 22:19:45 PDT 2009",
+        "ColumnPurpose": "Feature",
+        "ColumnDataFormat": "String",
+        "IsCategorical": false,
+        "Type": "Column",
+        "Version": 2
+      },
+      {
+        "ColumnName": "NO_QUERY",
+        "ColumnPurpose": "Feature",
+        "ColumnDataFormat": "String",
+        "IsCategorical": true,
+        "Type": "Column",
+        "Version": 2
+      },
+      {
+        "ColumnName": "_TheSpecialOne_",
+        "ColumnPurpose": "Feature",
+        "ColumnDataFormat": "String",
+        "IsCategorical": false,
+        "Type": "Column",
+        "Version": 2
+      },
+      {
+        "ColumnName": "@switchfoot http://twitpic.com/2y1zl - Awww, that's a bummer.  You shoulda got David Carr of Third Day to do it. ;D",
+        "ColumnPurpose": "Feature",
+        "ColumnDataFormat": "String",
+        "IsCategorical": false,
+        "Type": "Column",
+        "Version": 2
+      }
+    ]
+  },
+  "Environment": {
+    "Type": "LocalCPU",
+    "Version": 1
+  },
+  "RunHistory": {
+    "Version": 1,
+    "Type": "Result",
+    "Trials": [
+      {
+        "Version": 0,
+        "Type": "Trial",
+        "TrainerName": "SdcaMaximumEntropyMulti",
+        "Score": 0.49842395341143869,
+        "RuntimeInSeconds": 10.359000205993652
+      },
+      {
+        "Version": 0,
+        "Type": "Trial",
+        "TrainerName": "SdcaLogisticRegressionOva",
+        "Score": 0.49842395341143869,
+        "RuntimeInSeconds": 12.770999908447266
+      },
+      {
+        "Version": 0,
+        "Type": "Trial",
+        "TrainerName": "FastTreeOva",
+        "Score": 0.69191878210609759,
+        "RuntimeInSeconds": 12.055999755859375
+      },
+      {
+        "Version": 0,
+        "Type": "Trial",
+        "TrainerName": "LightGbmMulti",
+        "Score": 0.72247848150251859,
+        "RuntimeInSeconds": 11.484000205993652
+      },
+      {
+        "Version": 0,
+        "Type": "Trial",
+        "TrainerName": "FastForestOva",
+        "Score": 0.73344526905143836,
+        "RuntimeInSeconds": 19.2549991607666
+      },
+      {
+        "Version": 0,
+        "Type": "Trial",
+        "TrainerName": "LbfgsMaximumEntropyMulti",
+        "Score": 0.78430320015479582,
+        "RuntimeInSeconds": 22.889999389648438
+      },
+      {
+        "Version": 0,
+        "Type": "Trial",
+        "TrainerName": "SdcaMaximumEntropyMulti",
+        "Score": 0.49842395341143869,
+        "RuntimeInSeconds": 142.56100463867188
+      },
+      {
+        "Version": 0,
+        "Type": "Trial",
+        "TrainerName": "SdcaLogisticRegressionOva",
+        "Score": 0.49842395341143869,
+        "RuntimeInSeconds": 15.87600040435791
+      },
+      {
+        "Version": 0,
+        "Type": "Trial",
+        "TrainerName": "LbfgsLogisticRegressionOva",
+        "Score": 0.78640043442709928,
+        "RuntimeInSeconds": 23.680999755859375
+      },
+      {
+        "Version": 0,
+        "Type": "Trial",
+        "TrainerName": "LightGbmMulti",
+        "Score": 0.72199162354644808,
+        "RuntimeInSeconds": 12.616000175476074
+      },
+      {
+        "Version": 0,
+        "Type": "Trial",
+        "TrainerName": "FastTreeOva",
+        "Score": 0.71280374006778557,
+        "RuntimeInSeconds": 182.07600402832031
+      },
+      {
+        "Version": 0,
+        "Type": "Trial",
+        "TrainerName": "FastForestOva",
+        "Score": 0.733900918164171,
+        "RuntimeInSeconds": 106.27799987792969
+      },
+      {
+        "Version": 0,
+        "Type": "Trial",
+        "TrainerName": "LbfgsMaximumEntropyMulti",
+        "Score": 0.76726317169233071,
+        "RuntimeInSeconds": 18.50200080871582
+      },
+      {
+        "Version": 0,
+        "Type": "Trial",
+        "TrainerName": "SdcaMaximumEntropyMulti",
+        "Score": 0.64658481627353925,
+        "RuntimeInSeconds": 10.503000259399414
+      },
+      {
+        "Version": 0,
+        "Type": "Trial",
+        "TrainerName": "SdcaLogisticRegressionOva",
+        "Score": 0.49842395341143869,
+        "RuntimeInSeconds": 58.520000457763672
+      },
+      {
+        "Version": 0,
+        "Type": "Trial",
+        "TrainerName": "LbfgsMaximumEntropyMulti",
+        "Score": 0.82028699652333481,
+        "RuntimeInSeconds": 78.46600341796875
+      },
+      {
+        "Version": 0,
+        "Type": "Trial",
+        "TrainerName": "FastTreeOva",
+        "Score": 0.69352915842233054,
+        "RuntimeInSeconds": 121.55000305175781
+      },
+      {
+        "Version": 0,
+        "Type": "Trial",
+        "TrainerName": "FastForestOva",
+        "Score": 0.74210260219335755,
+        "RuntimeInSeconds": 14.1899995803833
+      },
+      {
+        "Version": 0,
+        "Type": "Trial",
+        "TrainerName": "LbfgsLogisticRegressionOva",
+        "Score": 0.81769666252629347,
+        "RuntimeInSeconds": 96.586997985839844
+      },
+      {
+        "Version": 0,
+        "Type": "Trial",
+        "TrainerName": "LightGbmMulti",
+        "Score": 0.72548701400028714,
+        "RuntimeInSeconds": 41.353000640869141
+      },
+      {
+        "Version": 0,
+        "Type": "Trial",
+        "TrainerName": "SdcaMaximumEntropyMulti",
+        "Score": 0.66881799626742233,
+        "RuntimeInSeconds": 7.8029999732971191
+      },
+      {
+        "Version": 0,
+        "Type": "Trial",
+        "TrainerName": "LbfgsMaximumEntropyMulti",
+        "Score": 0.8278457783797617,
+        "RuntimeInSeconds": 208.41900634765625
+      },
+      {
+        "Version": 0,
+        "Type": "Trial",
+        "TrainerName": "FastTreeOva",
+        "Score": 0.7818189762251031,
+        "RuntimeInSeconds": 329.66299438476563
+      },
+      {
+        "Version": 0,
+        "Type": "Trial",
+        "TrainerName": "SdcaLogisticRegressionOva",
+        "Score": 0.49842395341143869,
+        "RuntimeInSeconds": 16.246000289916992
+      }
+    ],
+    "Pipeline": {
+      "parameter": {
+        "0": {
+          "OutputColumnNames": [
+            "NO_QUERY"
+          ],
+          "InputColumnNames": [
+            "NO_QUERY"
+          ]
+        },
+        "1": {
+          "OutputColumnNames": [
+            "1467810369"
+          ],
+          "InputColumnNames": [
+            "1467810369"
+          ]
+        },
+        "2": {
+          "InputColumnName": "Mon Apr 06 22:19:45 PDT 2009",
+          "OutputColumnName": "Mon Apr 06 22:19:45 PDT 2009"
+        },
+        "3": {
+          "InputColumnName": "_TheSpecialOne_",
+          "OutputColumnName": "_TheSpecialOne_"
+        },
+        "4": {
+          "InputColumnName": "@switchfoot http://twitpic.com/2y1zl - Awww, that's a bummer.  You shoulda got David Carr of Third Day to do it. ;D",
+          "OutputColumnName": "@switchfoot http://twitpic.com/2y1zl - Awww, that's a bummer.  You shoulda got David Carr of Third Day to do it. ;D"
+        },
+        "5": {
+          "InputColumnNames": [
+            "NO_QUERY",
+            "1467810369",
+            "Mon Apr 06 22:19:45 PDT 2009",
+            "_TheSpecialOne_",
+            "@switchfoot http://twitpic.com/2y1zl - Awww, that's a bummer.  You shoulda got David Carr of Third Day to do it. ;D"
+          ],
+          "OutputColumnName": "Features"
+        },
+        "6": {
+          "OutputColumnName": "0",
+          "InputColumnName": "0"
+        },
+        "7": {
+          "OutputColumnNames": [
+            "Features"
+          ],
+          "InputColumnNames": [
+            "Features"
+          ]
+        },
+        "8": {
+          "L1Regularization": 0.03125,
+          "L2Regularization": 0.07201746,
+          "LabelColumnName": "0",
+          "FeatureColumnName": "Features"
+        },
+        "9": {
+          "OutputColumnName": "PredictedLabel",
+          "InputColumnName": "PredictedLabel"
+        }
+      },
+      "estimators": [
+        "OneHotEncoding",
+        "ReplaceMissingValues",
+        "FeaturizeText",
+        "FeaturizeText",
+        "FeaturizeText",
+        "Concatenate",
+        "MapValueToKey",
+        "NormalizeMinMax",
+        "LbfgsMaximumEntropyMulti",
+        "MapKeyToValue"
+      ]
+    },
+    "MetricName": "MicroAccuracy"
+  },
+  "Type": "TrainingConfig",
+  "Version": 2
+}
