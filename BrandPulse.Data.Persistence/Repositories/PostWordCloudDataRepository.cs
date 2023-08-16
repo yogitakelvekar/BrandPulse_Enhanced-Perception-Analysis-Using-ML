@@ -1,6 +1,7 @@
 ﻿using BrandPulse.Application.Contracts.Infrastructure.Persistence;
 using BrandPulse.Domain.Entities;
 using BrandPulse.SocialMediaData.TransformWorker.Data;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,12 @@ namespace BrandPulse.Persistence.Repositories
     {
         public PostWordCloudDataRepository(BrandPulseSqlDbContext dbContext) : base(dbContext)
         {
+        }
+
+        public async Task<List<PostWordCloudData>> GetBySearchId(string searchId)
+        {
+            var data = await _dbContext.PostWordCloudData.Where(psd => psd.SearchTermId == searchId).ToListAsync();
+            return data;
         }
     }
 }

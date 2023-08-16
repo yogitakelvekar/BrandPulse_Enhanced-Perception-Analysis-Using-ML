@@ -34,7 +34,6 @@ namespace BrandPulse.Application.Features.ETL.Load.Strategies.Methods
                     SearchTermId = transformResult.SearchTermId,
                     PostLikes = transformResult.PostLikes,
                     PostDislikes = transformResult.PostDislikes,
-                    SentimentScore = null
                 };
                 insertedData.Add(entity);
             }

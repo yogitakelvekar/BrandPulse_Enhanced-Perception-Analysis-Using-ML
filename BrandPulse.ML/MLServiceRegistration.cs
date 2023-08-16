@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using BrandPulse.ML.MLModels.SentimentAnalysis;
 using static BrandPulse_ML.SentimentAnalysisModel;
 using Microsoft.Extensions.ML;
+using BrandPulse.Application.Features.DataScience.WordcloudAnalysis;
 
 namespace BrandPulse.ML
 {
@@ -30,6 +31,8 @@ namespace BrandPulse.ML
             services.AddScoped<ISentimentAnalysisWorkflow, SentimentAnalysisWorkflow>();
             services.AddScoped<ISentimentAnalysisMLAdapter,  SentimentAnalysisMLAdapter>();
             services.AddScoped<ISentimentDataProcessor, SentimentDataProcessor>();
+            services.AddScoped<IWordcloudAnalysisWorkflow, WordcloudAnalysisWorkflow>();
+            services.AddScoped<IWordCloudDataProcessor, WordCloudDataProcessor>();
             return services;
         }
             

@@ -17,6 +17,5 @@ namespace BrandPulse.Domain.Entities
         public string? PostContent { get; set; }
         public int PostLikes { get; set; }
         public int PostDislikes { get; set; }
-        public float? SentimentScore { get; set; }
     }
 }

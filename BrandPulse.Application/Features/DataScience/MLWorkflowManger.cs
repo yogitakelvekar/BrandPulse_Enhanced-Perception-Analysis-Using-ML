@@ -11,10 +11,12 @@ namespace BrandPulse.Application.Features.DataScience
     public class MLWorkflowManger : IMLWorkflowManger
     {
         private readonly ISentimentAnalysisWorkflow sentimentAnalysisWorkflow;
+        private readonly IWordcloudAnalysisWorkflow wordcloudAnalysisWorkflow;
 
-        public MLWorkflowManger(ISentimentAnalysisWorkflow sentimentAnalysisWorkflow)
+        public MLWorkflowManger(ISentimentAnalysisWorkflow sentimentAnalysisWorkflow, IWordcloudAnalysisWorkflow wordcloudAnalysisWorkflow)
         {
             this.sentimentAnalysisWorkflow = sentimentAnalysisWorkflow;
+            this.wordcloudAnalysisWorkflow = wordcloudAnalysisWorkflow;
         }
 
         public async Task<bool> Run(string searchTermId)
@@ -23,6 +25,7 @@ namespace BrandPulse.Application.Features.DataScience
             try
             {
                 await sentimentAnalysisWorkflow.Run(searchTermId);
+                await wordcloudAnalysisWorkflow.Run(searchTermId);
                 result = true;
             }
             catch (Exception ex)
