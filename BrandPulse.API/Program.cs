@@ -12,7 +12,6 @@ namespace BrandPulse.API
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            builder.Services.AddMLServices(builder.Configuration);
             builder.Services.AddHttpServices(builder.Configuration);
             builder.Services.AddPersistenceServices(builder.Configuration);
             builder.Services.AddAzureServiceBus(builder.Configuration);

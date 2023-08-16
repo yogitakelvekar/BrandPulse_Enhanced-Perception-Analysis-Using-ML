@@ -26,7 +26,7 @@ namespace BrandPulse.Transform.Worker
 
             etlMessageBus.ReceivedMessage(RunETLOperation);
 
-            //await RunETLOperation(new ETLMessage { SearchTermId = "64c5733e392e3b23d859c9cb" });
+            //await RunETLOperation(new ETLMessage { SearchTermId = "64dbc3842d2c8b27144f2998" });
 
             // Keeps the service running
             while (!stoppingToken.IsCancellationRequested)

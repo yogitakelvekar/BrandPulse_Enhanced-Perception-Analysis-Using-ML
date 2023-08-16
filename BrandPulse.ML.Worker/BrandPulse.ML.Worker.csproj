@@ -14,6 +14,7 @@
   <ItemGroup>
     <ProjectReference Include="..\BrandPulse.Application\BrandPulse.Application.csproj" />
     <ProjectReference Include="..\BrandPulse.Data.Persistence\BrandPulse.Persistence.csproj" />
+    <ProjectReference Include="..\BrandPulse.HttpService\BrandPulse.HttpServices.csproj" />
     <ProjectReference Include="..\BrandPulse.ML\BrandPulse.ML.csproj" />
     <ProjectReference Include="..\BrandPulse.ServiceBus\BrandPulse.MessagingBus.csproj" />
   </ItemGroup>

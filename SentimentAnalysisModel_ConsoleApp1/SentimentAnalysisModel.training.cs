@@ -8,7 +8,7 @@ using Microsoft.ML.Data;
 using Microsoft.ML.Trainers;
 using Microsoft.ML;
 
-namespace BrandPulse_ML
+namespace SentimentAnalysisModel_ConsoleApp1
 {
     public partial class SentimentAnalysisModel
     {

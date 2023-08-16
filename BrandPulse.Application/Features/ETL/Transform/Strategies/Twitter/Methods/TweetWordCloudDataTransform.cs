@@ -1,7 +1,6 @@
 ﻿using BrandPulse.Application.Contracts.Features.ETL.Transform.Strategies.Methods;
 using BrandPulse.Application.Models.ETL.Transform;
 using BrandPulse.Domain.SocialMedia.Tweeter;
-using Microsoft.IdentityModel.Tokens;
 using Reddit.Things;
 using System;
 using System.Collections.Generic;
@@ -17,7 +16,7 @@ namespace BrandPulse.Application.Features.ETL.Transform.Strategies.Twitter.Metho
     {
         public Task<IEnumerable<WordCloudTransformResult>> TransformAsync(IEnumerable<Tweet> data)
         {
-            var result = data.Where(tweet => !tweet.entities.hashtags.IsNullOrEmpty())
+            var result = data.Where(tweet => tweet.entities.hashtags.Any())
                 .Select(tweet => new WordCloudTransformResult
                 {
                     PostId = tweet.id_str,

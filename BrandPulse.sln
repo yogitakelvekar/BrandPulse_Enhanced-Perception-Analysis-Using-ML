@@ -27,7 +27,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BrandPulse.MessagingBus", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BrandPulse.ML", "BrandPulse.ML\BrandPulse.ML.csproj", "{F5E5A950-08B8-4739-8A1D-17ABF23285CA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrandPulse.ML.Worker", "BrandPulse.ML.Worker\BrandPulse.ML.Worker.csproj", "{F2B10536-9E8E-4DE9-BDB8-BE9630449F39}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BrandPulse.ML.Worker", "BrandPulse.ML.Worker\BrandPulse.ML.Worker.csproj", "{F2B10536-9E8E-4DE9-BDB8-BE9630449F39}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BrandPulse.API", "BrandPulse.API\BrandPulse.API.csproj", "{E47B1663-DC5E-4B92-8600-6019EA37904B}"
 EndProject

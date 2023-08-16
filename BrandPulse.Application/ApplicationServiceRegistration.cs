@@ -35,7 +35,6 @@ namespace BrandPulse.Application
         {
             services.AddDataSearchFeatureServices(configuration);
             services.AddETLFeatureServices(configuration);
-            services.AddDataScienceServices(configuration);
             return services;
         }
 
@@ -87,13 +86,6 @@ namespace BrandPulse.Application
             services.AddScoped<ILoadStrategy<SentimentTransformResult, PostSentimentData>, PostSentimentDataLoadStrategy>();
             services.AddScoped<ILoadStrategy<WordCloudTransformResult, PostWordCloudData>, PostWordCloudDataLoadStrategy>();
             services.AddScoped<ILoadStrategy<InfluencerTransformResult, PostInfluencerData>, PostInfluencerDataLoadStrategy>();
-            return services;
-        }
-
-        private static IServiceCollection AddDataScienceServices(this IServiceCollection services, IConfiguration configuration)
-        {
-            services.AddScoped<IMLWorkflowManger, MLWorkflowManger>();
-            services.AddScoped<ISentimentAnalysisWorkflow, SentimentAnalysisWorkflow>();
             return services;
         }
     }

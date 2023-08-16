@@ -12,5 +12,6 @@ namespace BrandPulse.Domain.Entities
         public Guid Id { get; set; }
         public Guid SentimentDataId { get; set; }
         public string? CleanedPostContent { get; set;}
+        public string? Sentiment { get; set; }
     }
 }
