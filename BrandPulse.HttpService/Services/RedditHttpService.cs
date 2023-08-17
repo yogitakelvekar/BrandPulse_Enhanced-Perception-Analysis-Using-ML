@@ -28,7 +28,7 @@ namespace BrandPulse.HttpServices.Services
             {
                 // Get the search results
                 var posts = _redditClient.Subreddit("all").Search(
-                    new SearchGetSearchInput(q: searchTerm, limit: _appSettings.MaxResults, sort: "relevance"));
+                    new SearchGetSearchInput(q: searchTerm, limit: _appSettings.MaxResults, sort: "relevance", t: "month"));
 
                 var redditPosts = posts.Select(ToRedditPost);
 

@@ -19,7 +19,7 @@ namespace BrandPulse.HttpServices.Services
 
         public async Task<IEnumerable<Tweet>> SearchTweetsAsync(string query)
         {
-            var response = await _httpClient.GetAsync($"v1.1/SearchTweets/?q={query}&count={_appSettings.MaxResults}");
+            var response = await _httpClient.GetAsync($"v1.1/SearchTweets/?q={query}&result_type=recent&count={_appSettings.MaxResults}");
 
             response.EnsureSuccessStatusCode();
 

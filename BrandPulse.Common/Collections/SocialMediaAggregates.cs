@@ -10,8 +10,9 @@ namespace BrandPulse.Domain.Collections
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
-        public string Id { get; set; }
-        public string SearchTerm { get; set; }
+        public string Id { get; set; } = string.Empty;
+        public string SearchTerm { get; set; } = string.Empty;
+        public DateTime SearchDateTime { get; set; } = DateTime.Now;
         public IEnumerable<Tweet>? Tweets { get; set; }
         public IEnumerable<YouTubeVideo>? YouTubeVideos { get; set; }
         public IEnumerable<RedditPost>? RedditPosts { get; set; }

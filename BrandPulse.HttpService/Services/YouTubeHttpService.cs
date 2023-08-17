@@ -68,6 +68,7 @@ namespace BrandPulse.HttpServices.Services
             var searchListRequest = _youtubeService.Search.List("id");
             searchListRequest.Q = searchTerm;
             searchListRequest.Order = SearchResource.ListRequest.OrderEnum.Relevance;
+            searchListRequest.PublishedAfter = DateTime.UtcNow.AddDays(-30);
             searchListRequest.MaxResults = maxResults;
             searchListRequest.Type = "video";
             var searchListResponse = await searchListRequest.ExecuteAsync();
