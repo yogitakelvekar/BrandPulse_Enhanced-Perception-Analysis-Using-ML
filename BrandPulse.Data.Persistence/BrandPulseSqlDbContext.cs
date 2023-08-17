@@ -39,5 +39,7 @@ namespace BrandPulse.SocialMediaData.TransformWorker.Data
             }
             return base.SaveChangesAsync(cancellationToken);
         }
+
+        
     }
 }

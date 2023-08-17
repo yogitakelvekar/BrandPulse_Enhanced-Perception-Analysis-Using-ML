@@ -3,6 +3,7 @@ using BrandPulse.HttpServices;
 using BrandPulse.MessagingBus;
 using BrandPulse.ML;
 using BrandPulse.Persistence;
+using Serilog;
 
 namespace BrandPulse.API
 {
@@ -11,6 +12,8 @@ namespace BrandPulse.API
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+            builder.Host.UseSerilog((context, configuration) => configuration.ReadFrom.Configuration(context.Configuration));
 
             builder.Services.AddHttpServices(builder.Configuration);
             builder.Services.AddPersistenceServices(builder.Configuration);
@@ -31,10 +34,11 @@ namespace BrandPulse.API
                 app.UseSwaggerUI();
             }
 
+            app.UseSerilogRequestLogging();
+
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
-
 
             app.MapControllers();
 

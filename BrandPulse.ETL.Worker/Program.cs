@@ -2,6 +2,7 @@ using BrandPulse.Application;
 using BrandPulse.HttpServices;
 using BrandPulse.Persistence;
 using BrandPulse.MessagingBus;
+using Serilog;
 
 namespace BrandPulse.Transform.Worker
 {
@@ -10,6 +11,10 @@ namespace BrandPulse.Transform.Worker
         public static void Main(string[] args)
         {
             IHost host = Host.CreateDefaultBuilder(args)
+                 .UseSerilog((hostingContext, loggerConfiguration) =>
+                 {
+                     loggerConfiguration.ReadFrom.Configuration(hostingContext.Configuration);
+                 })
                 .ConfigureServices((hostContext, services) =>
                 {
                     services.AddApplicationServices(hostContext.Configuration);

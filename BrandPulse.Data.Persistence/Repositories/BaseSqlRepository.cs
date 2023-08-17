@@ -1,4 +1,5 @@
 ﻿using BrandPulse.Application.Contracts.Infrastructure.Persistence;
+using BrandPulse.Domain.Entities.Common;
 using BrandPulse.SocialMediaData.TransformWorker.Data;
 using EFCore.BulkExtensions;
 using Microsoft.EntityFrameworkCore;
@@ -48,6 +49,19 @@ namespace BrandPulse.Persistence.Repositories
 
         public async Task BulkInsertAsync(IEnumerable<T> entities)
         {
+            if (entities == null || !entities.Any()) return;
+
+            // Set CreatedDate and LastModifiedDate for AuditableEntity before bulk insert
+            foreach (var entity in entities.OfType<AuditableEntity>())
+            {
+                if (entity.CreatedDate == default)
+                {
+                    entity.CreatedDate = DateTime.Now;
+                }
+
+                entity.LastModifiedDate = DateTime.Now;
+            }
+
             await _dbContext.BulkInsertAsync(entities);
         }
 

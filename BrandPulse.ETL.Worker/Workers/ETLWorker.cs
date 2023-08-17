@@ -6,7 +6,7 @@ namespace BrandPulse.Transform.Worker
 {
     public class ETLWorker : BackgroundService
     {
-        private readonly ILogger<ETLWorker> _logger;
+        private readonly ILogger<ETLWorker> logger;
         private readonly IServiceScopeFactory scopeFactory;
         private readonly IQueueMessagingBus<ETLMessage> etlMessageBus;
         private readonly IQueueMessagingBus<MLMessage> mlMessageBus;
@@ -14,7 +14,7 @@ namespace BrandPulse.Transform.Worker
         public ETLWorker(ILogger<ETLWorker> logger, IServiceScopeFactory scopeFactory, 
             IQueueMessagingBus<ETLMessage> etlMessageBus, IQueueMessagingBus<MLMessage> mlMessageBus)
         {
-            _logger = logger;
+            this.logger = logger;
             this.scopeFactory = scopeFactory;
             this.etlMessageBus = etlMessageBus;
             this.mlMessageBus = mlMessageBus;
@@ -22,11 +22,13 @@ namespace BrandPulse.Transform.Worker
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
+            logger.LogInformation("BrandPulse.ETL.Worker service listening to Azure Service Bus........");
+
             stoppingToken.Register(async () => await etlMessageBus.StopProcessingAsync());
 
             etlMessageBus.ReceivedMessage(RunETLOperation);
 
-            await RunETLOperation(new ETLMessage { SearchTermId = "64dc2bdf7c6eb949ee69d1ac" });
+            //await RunETLOperation(new ETLMessage { SearchTermId = "64dc2ec481338107f1f69dda" });
 
             // Keeps the service running
             while (!stoppingToken.IsCancellationRequested)
@@ -40,13 +42,13 @@ namespace BrandPulse.Transform.Worker
             using (var scope = scopeFactory.CreateScope())
             {
                 var localETLWorkflowManager = scope.ServiceProvider.GetRequiredService<IETLWorkflowManager>();
-                _logger.LogInformation("Received message at: {time}", DateTimeOffset.Now);
+                logger.LogInformation("Received message at: {time}", DateTimeOffset.Now);
                 var result = await localETLWorkflowManager.Run(etlMessage.SearchTermId);
-                Console.WriteLine($"ETL Operation result - {result}");
+                logger.LogInformation($"ETL Operation result - {result}");
                 if (result)
                 {
                     await mlMessageBus.SendMessageAsync(new MLMessage { SearchTermId = etlMessage.SearchTermId });
-                    Console.WriteLine($"Message sent to ML Worker");
+                    logger.LogInformation($"Message sent to ML Worker with search Id - {etlMessage.SearchTermId}");
                 }
                
             }

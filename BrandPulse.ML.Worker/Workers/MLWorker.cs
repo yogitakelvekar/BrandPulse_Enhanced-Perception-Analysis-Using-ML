@@ -1,5 +1,4 @@
 using BrandPulse.Application.Contracts.Features.DataScience;
-using BrandPulse.Application.Contracts.Features.ETL;
 using BrandPulse.Application.Contracts.Infrastructure.MessagingBus;
 using BrandPulse.Application.Models.Infrastructure.MessagingBus;
 
@@ -20,6 +19,8 @@ namespace BrandPulse.ML.Worker
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
+            logger.LogInformation("BrandPulse.ML.Worker service listening to Azure Service Bus........");
+
             stoppingToken.Register(async () => await messageBus.StopProcessingAsync());
 
             messageBus.ReceivedMessage(RunMLOperation);

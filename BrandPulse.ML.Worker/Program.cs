@@ -2,6 +2,7 @@ using BrandPulse.Application;
 using BrandPulse.Persistence;
 using BrandPulse.MessagingBus;
 using BrandPulse.HttpServices;
+using Serilog;
 
 namespace BrandPulse.ML.Worker
 {
@@ -10,6 +11,10 @@ namespace BrandPulse.ML.Worker
         public static void Main(string[] args)
         {
             IHost host = Host.CreateDefaultBuilder(args)
+                .UseSerilog((hostingContext, loggerConfiguration) =>
+                {
+                    loggerConfiguration.ReadFrom.Configuration(hostingContext.Configuration);
+                })
                 .ConfigureServices((hostContext, services) =>
                 {
                     services.AddMLServices(hostContext.Configuration);
@@ -18,7 +23,7 @@ namespace BrandPulse.ML.Worker
                     services.AddPersistenceServices(hostContext.Configuration);
                     services.AddAzureServiceBus(hostContext.Configuration);               
                     services.AddHostedService<MLWorker>();
-                })
+                })               
                 .Build();
 
             host.Run();
