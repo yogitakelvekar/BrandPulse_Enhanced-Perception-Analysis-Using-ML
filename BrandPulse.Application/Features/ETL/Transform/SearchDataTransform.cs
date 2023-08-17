@@ -21,7 +21,7 @@ namespace BrandPulse.Application.Features.ETL.Transform
 
         public async Task<FinalTransformResult> TransformAsync(SocialMediaAggregates data)
         {
-            FinalTransformResult transformResult = new FinalTransformResult();
+            FinalTransformResult transformResult = MapPostSearchTermDetails(data);     
             var transformStrategies = transformStrategyFactory.GetStrategies(data);
             foreach (var strategy in transformStrategies)
             {
@@ -31,6 +31,15 @@ namespace BrandPulse.Application.Features.ETL.Transform
                 transformResult.AddInfluencerTransformResult(result.InfluencerTransformResult);
             }
             transformResult.AddSearchTerm(data.Id);
+            return transformResult;
+        }
+
+        private static FinalTransformResult MapPostSearchTermDetails(SocialMediaAggregates data)
+        {
+            FinalTransformResult transformResult = new FinalTransformResult();
+            transformResult.SearchTermId = data.Id;
+            transformResult.SearchTerm = data.SearchTerm;
+            transformResult.SearchDateTime = data.SearchDateTime;
             return transformResult;
         }
     }

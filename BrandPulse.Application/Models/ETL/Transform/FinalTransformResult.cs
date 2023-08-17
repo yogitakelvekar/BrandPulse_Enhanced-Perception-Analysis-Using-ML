@@ -8,6 +8,9 @@ namespace BrandPulse.Application.Models.ETL.Transform
 {
     public class FinalTransformResult
     {
+        public string SearchTermId { get; set; } = string.Empty;
+        public string SearchTerm { get; set; } = string.Empty;
+        public DateTime SearchDateTime { get; set; }
         public List<SentimentTransformResult> SentimentTransformResult { get; private set; } = new List<SentimentTransformResult>();
 
         public List<WordCloudTransformResult> WordCloudTransformResult { get; private set; } = new List<WordCloudTransformResult>();

@@ -16,14 +16,17 @@ namespace BrandPulse.Application.Features.ETL.Load
         private readonly ILoadStrategy<WordCloudTransformResult, PostWordCloudData> wordCloud;
         private readonly ILoadStrategy<SentimentTransformResult, PostSentimentData> sentiment;
         private readonly ILoadStrategy<InfluencerTransformResult, PostInfluencerData> influencer;
+        private readonly IPostSearchDetailLoadStrategy searchDetail;
 
         public SearchDataLoad(ILoadStrategy<WordCloudTransformResult, PostWordCloudData> wordCloud,
             ILoadStrategy<SentimentTransformResult, PostSentimentData> sentiment,
-            ILoadStrategy<InfluencerTransformResult, PostInfluencerData> influencer)
+            ILoadStrategy<InfluencerTransformResult, PostInfluencerData> influencer,
+            IPostSearchDetailLoadStrategy searchDetail)
         {
             this.wordCloud = wordCloud;
             this.sentiment = sentiment;
             this.influencer = influencer;
+            this.searchDetail = searchDetail;
         }
 
         public async Task<bool> LoadAsync(FinalTransformResult transformResult)
@@ -31,12 +34,11 @@ namespace BrandPulse.Application.Features.ETL.Load
             bool result;
             try
             {
+                var searchDetailTask = searchDetail.LoadAsync(transformResult);
                 var wordCloudTask = wordCloud.LoadAsync(transformResult.WordCloudTransformResult);
                 var sentimentTask = sentiment.LoadAsync(transformResult.SentimentTransformResult);
                 var influencerTask = influencer.LoadAsync(transformResult.InfluencerTransformResult);
-
-                Task.WaitAll(wordCloudTask, sentimentTask, influencerTask);
-
+                Task.WaitAll(searchDetailTask,wordCloudTask, sentimentTask, influencerTask);
                 result = true;
             }
             catch (Exception ex)

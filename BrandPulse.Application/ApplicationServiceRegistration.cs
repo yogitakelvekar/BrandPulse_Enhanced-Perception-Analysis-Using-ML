@@ -82,7 +82,8 @@ namespace BrandPulse.Application
 
         private static IServiceCollection AddLoadServices(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddScoped<ISearchDataLoad, SearchDataLoad>();
+            services.AddScoped<ISearchDataLoad, SearchDataLoad>();     
+            services.AddScoped<IPostSearchDetailLoadStrategy, PostSearchDetailLoadStrategy>();
             services.AddScoped<ILoadStrategy<SentimentTransformResult, PostSentimentData>, PostSentimentDataLoadStrategy>();
             services.AddScoped<ILoadStrategy<WordCloudTransformResult, PostWordCloudData>, PostWordCloudDataLoadStrategy>();
             services.AddScoped<ILoadStrategy<InfluencerTransformResult, PostInfluencerData>, PostInfluencerDataLoadStrategy>();

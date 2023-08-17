@@ -17,6 +17,7 @@ namespace BrandPulse.SocialMediaData.TransformWorker.Data
         {
         }
 
+        public DbSet<PostSearchDetail> PostSearchDetails { get; set; }
         public DbSet<PostSentimentData> PostSentimentData { get; set; }
         public DbSet<PostWordCloudData> PostWordCloudData { get; set; }
         public DbSet<PostInfluencerData> PostInfluencerData { get; set; }
