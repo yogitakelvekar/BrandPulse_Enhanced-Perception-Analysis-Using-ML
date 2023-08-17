@@ -2,7 +2,9 @@ using BrandPulse.Application;
 using BrandPulse.HttpServices;
 using BrandPulse.MessagingBus;
 using BrandPulse.ML;
+using BrandPulse.ML.Worker;
 using BrandPulse.Persistence;
+using BrandPulse.Transform.Worker;
 using Serilog;
 
 namespace BrandPulse.API
@@ -19,7 +21,10 @@ namespace BrandPulse.API
             builder.Services.AddPersistenceServices(builder.Configuration);
             builder.Services.AddAzureServiceBus(builder.Configuration);
             builder.Services.AddApplicationServices(builder.Configuration);
-           
+            builder.Services.AddMLServices(builder.Configuration);
+            builder.Services.AddHostedService<ETLWorker>();
+            builder.Services.AddHostedService<MLWorker>();
+
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();

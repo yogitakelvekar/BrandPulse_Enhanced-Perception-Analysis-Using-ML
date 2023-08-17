@@ -32,6 +32,8 @@ namespace BrandPulse.Application.Features.DataScience
                 var sentimentTask = sentimentAnalysisWorkflow.Run(searchTermId);
                 var wordcloudTask = wordcloudAnalysisWorkflow.Run(searchTermId);
                 await Task.WhenAll(sentimentTask, wordcloudTask);
+                //await sentimentAnalysisWorkflow.Run(searchTermId);
+                //await wordcloudAnalysisWorkflow.Run(searchTermId);
                 result = true;
             }
             catch (Exception ex)
