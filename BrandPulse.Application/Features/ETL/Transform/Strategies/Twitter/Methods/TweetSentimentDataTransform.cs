@@ -1,5 +1,6 @@
 ﻿using BrandPulse.Application.Contracts.Features.ETL.Transform.Strategies.Methods;
 using BrandPulse.Application.Models.ETL.Transform;
+using BrandPulse.Domain.SocialMedia;
 using BrandPulse.Domain.SocialMedia.Tweeter;
 using System;
 using System.Collections.Generic;
@@ -18,7 +19,7 @@ namespace BrandPulse.Application.Features.ETL.Transform.Strategies.Twitter.Metho
                 .Select(tweet => new SentimentTransformResult
                 {
                     PostId = tweet.id_str,
-                    PlatformId = 2, // Change to your specific platform Id
+                    PlatformId = (int)Platform.Twitter, // Change to your specific platform Id
                     PostContent = tweet.full_text,
                     PostDate = string.IsNullOrEmpty(tweet.created_at) ? DateTime.Now : ConvertTweetDateTime(tweet.created_at)
                 });

@@ -1,5 +1,6 @@
 ﻿using BrandPulse.Application.Contracts.Features.ETL.Transform.Strategies.Methods;
 using BrandPulse.Application.Models.ETL.Transform;
+using BrandPulse.Domain.SocialMedia;
 using BrandPulse.Domain.SocialMedia.Reddit;
 
 namespace BrandPulse.Application.Features.ETL.Transform.Strategies.Reddit.Methods
@@ -24,7 +25,7 @@ namespace BrandPulse.Application.Features.ETL.Transform.Strategies.Reddit.Method
                 .Select(post => new SentimentTransformResult
                 {
                     PostId = post.Id,
-                    PlatformId = 1, // Change to your specific platform Id
+                    PlatformId = (int)Platform.Reddit, // Change to your specific platform Id
                     PostContent = post.Title,
                     PostDate = post.Created
                 });

@@ -1,5 +1,6 @@
 ﻿using BrandPulse.Application.Contracts.Features.ETL.Transform.Strategies.Methods;
 using BrandPulse.Application.Models.ETL.Transform;
+using BrandPulse.Domain.SocialMedia;
 using BrandPulse.Domain.SocialMedia.Tweeter;
 using System;
 using System.Collections.Generic;
@@ -21,10 +22,10 @@ namespace BrandPulse.Application.Features.ETL.Transform.Strategies.Twitter.Metho
                    Avatar = tweet.user.profile_image_url_https,
                    PotentialReach = tweet.user.followers_count,
                    Engagement = tweet.retweet_count + tweet.favorite_count,
-                   Profile = tweet.user.url,
+                   Profile = $"https://twitter.com/{tweet.user.screen_name}",
                    Country = tweet.user.location,
                    PostId = tweet.id_str,
-                   PlatformId = 2, // Change to your specific platform Id
+                   PlatformId = (int)Platform.Twitter,
                    PostDate = string.IsNullOrEmpty(tweet.created_at) ? DateTime.Now : ConvertTweetDateTime(tweet.created_at)
                });
             return Task.FromResult(tweetResults.AsEnumerable());

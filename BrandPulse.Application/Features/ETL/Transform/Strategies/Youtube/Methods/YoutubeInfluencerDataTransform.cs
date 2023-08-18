@@ -1,5 +1,6 @@
 ﻿using BrandPulse.Application.Contracts.Features.ETL.Transform.Strategies.Methods;
 using BrandPulse.Application.Models.ETL.Transform;
+using BrandPulse.Domain.SocialMedia;
 using BrandPulse.Domain.SocialMedia.Youtube;
 using Reddit.Things;
 using System;
@@ -24,7 +25,7 @@ namespace BrandPulse.Application.Features.ETL.Transform.Strategies.Youtube.Metho
                 Country = video?.Channel?.Snippet?.Country,
                 PostId = video?.VideoId,
                 PostDate = DateTime.Parse(video.Video.Snippet.PublishedAtRaw),
-                PlatformId = 3
+                PlatformId = (int)Platform.Youtube
             });
             return Task.FromResult(result.AsEnumerable());
         }
