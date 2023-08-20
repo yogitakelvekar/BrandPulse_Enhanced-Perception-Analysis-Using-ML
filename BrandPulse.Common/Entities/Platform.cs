@@ -11,5 +11,7 @@ namespace BrandPulse.Domain.Entities
     {
         public int Id { get; set; } 
         public string Name { get; set; } = string.Empty;
+        public string PlatformDefaultUrl { get; set; } = string.Empty;
+        public string PlatformIcon { get; set; } = string.Empty;
     }
 }
