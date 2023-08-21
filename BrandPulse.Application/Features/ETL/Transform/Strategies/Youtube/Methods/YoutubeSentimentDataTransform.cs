@@ -2,73 +2,66 @@
 using BrandPulse.Application.Models.ETL.Transform;
 using BrandPulse.Domain.SocialMedia.Youtube;
 using Google.Apis.YouTube.v3.Data;
-using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BrandPulse.Application.Features.ETL.Transform.Strategies.Youtube.Methods
 {
     public class YoutubeSentimentDataTransform : ISentimentDataTransform<YouTubeVideo>
     {
-        public async Task<IEnumerable<SentimentTransformResult>> TransformAsync(IEnumerable<YouTubeVideo> data)
+        public async Task<IEnumerable<SentimentTransformResult>> TransformAsync(IEnumerable<YouTubeVideo> data, IEnumerable<PostDetailTransformResult> postDetails)
         {
             
-            IEnumerable<SentimentTransformResult> postResults = TransformVideoDetails(data);
-            IEnumerable<SentimentTransformResult> commentResults = TransformVideoComments(data);
-            IEnumerable<SentimentTransformResult> commentRepliesResults = TransformVideoCommentsReplies(data);
+            IEnumerable<SentimentTransformResult> postResults = TransformVideoDetails(data, postDetails);
+            IEnumerable<SentimentTransformResult> commentResults = TransformVideoComments(data, postDetails);
+            IEnumerable<SentimentTransformResult> commentRepliesResults = TransformVideoCommentsReplies(data, postDetails);
             var result = postResults.Concat(commentResults).Concat(commentRepliesResults);
             return result;
         }
 
-        private static IEnumerable<SentimentTransformResult> TransformVideoDetails(IEnumerable<YouTubeVideo> data)
+        private static IEnumerable<SentimentTransformResult> TransformVideoDetails(IEnumerable<YouTubeVideo> data, IEnumerable<PostDetailTransformResult> postDetails)
         {
             var postResults = data
-                .Where(video => video.Video != null) // Ensure that the Video property is not null
-                .Select(video => video.Video) // Select the Video property
+                .Where(video => video.Video != null)
+                .Select(video => video.Video)
                 .Select(post => new SentimentTransformResult
-                {
-                    PostId = post.Id,
-                    PlatformId = 3, // Change to your specific platform Id
+                {                
+                    PostDetailId = postDetails.First(pd => pd.PostId == post.Id).Id,
                     PostContent = post.Snippet.Title,
                     PostLikes = (int)(post.Statistics?.LikeCount ?? 0),
-                    PostDislikes = (int)(post.Statistics?.DislikeCount ?? 0),
-                    PostDate = DateTime.Parse(post.Snippet.PublishedAtRaw)
+                    PostDislikes = (int)(post.Statistics?.DislikeCount ?? 0),                  
                 });
             return postResults;
         }
 
-        private static IEnumerable<SentimentTransformResult> TransformVideoComments(IEnumerable<YouTubeVideo> data)
+        private static IEnumerable<SentimentTransformResult> TransformVideoComments(IEnumerable<YouTubeVideo> data, IEnumerable<PostDetailTransformResult> postDetails)
         {
             var commentResults = data
                .SelectMany(video => video.Comments ?? Enumerable.Empty<CommentThread>())
-               .Where(thread => thread.Snippet?.TopLevelComment?.Snippet != null) // Make sure the TopLevelComment exists
-               .Select(thread => thread.Snippet.TopLevelComment.Snippet)
+               .Where(thread => thread.Snippet?.TopLevelComment?.Snippet != null) 
+               .Select(thread => new { TopLevelComment = thread.Snippet.TopLevelComment.Snippet, Id = thread.Snippet.TopLevelComment.Id })
                .Select(snippet => new SentimentTransformResult
                {
-                   PostId = snippet.VideoId,
-                   PlatformId = 3, // Change to your specific platform Id
-                   PostContent = snippet.TextDisplay,
-                   PostLikes = (int)(snippet.LikeCount ?? 0),
-                   PostDate = DateTime.Parse(snippet.PublishedAtRaw, null, DateTimeStyles.AdjustToUniversal)
+                   PostDetailId = postDetails.First(pd => pd.PostId == snippet.TopLevelComment.VideoId).Id,
+                   SubPostId = snippet.Id,
+                   PostContent = snippet.TopLevelComment.TextDisplay,
+                   PostLikes = (int)(snippet.TopLevelComment.LikeCount ?? 0),
+                   SubPostDate = DateTime.Parse(snippet.TopLevelComment.PublishedAtRaw, null, DateTimeStyles.AdjustToUniversal)
                });
             return commentResults;
         }
 
-        private static IEnumerable<SentimentTransformResult> TransformVideoCommentsReplies(IEnumerable<YouTubeVideo> data)
+        private static IEnumerable<SentimentTransformResult> TransformVideoCommentsReplies(IEnumerable<YouTubeVideo> data, IEnumerable<PostDetailTransformResult> postDetails)
         {
             var commentResults = data
-                .SelectMany(video => video.Comments ?? Enumerable.Empty<CommentThread>()) // Handles null Comments
-                .SelectMany(thread => thread.Replies?.Comments ?? Enumerable.Empty<Comment>()) // Handles null Replies
+                .SelectMany(video => video.Comments ?? Enumerable.Empty<CommentThread>())
+                .SelectMany(thread => thread.Replies?.Comments ?? Enumerable.Empty<Comment>()) 
                 .Select(comment => new SentimentTransformResult
                 {
-                    PostId = comment.Id,
-                    PlatformId = 3, // Change to your specific platform Id
+                    PostDetailId = postDetails.First(pd => pd.PostId == comment.Snippet.VideoId).Id,
+                    SubPostId = comment.Id,
                     PostContent = comment.Snippet.TextDisplay,
                     PostLikes = (int)(comment.Snippet?.LikeCount ?? 0),
-                    PostDate = DateTime.Parse(comment.Snippet.PublishedAtRaw, null, DateTimeStyles.AdjustToUniversal)
+                    SubPostDate = DateTime.Parse(comment.Snippet.PublishedAtRaw, null, DateTimeStyles.AdjustToUniversal)
                 });
             return commentResults;
         }

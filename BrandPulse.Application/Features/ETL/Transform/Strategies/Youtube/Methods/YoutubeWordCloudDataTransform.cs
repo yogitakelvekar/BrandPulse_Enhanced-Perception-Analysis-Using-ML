@@ -13,17 +13,15 @@ namespace BrandPulse.Application.Features.ETL.Transform.Strategies.Youtube.Metho
 {
     public class YoutubeWordCloudDataTransform : IWordCloudDataTransform<YouTubeVideo>
     {
-        public Task<IEnumerable<WordCloudTransformResult>> TransformAsync(IEnumerable<YouTubeVideo> data)
+        public Task<IEnumerable<WordCloudTransformResult>> TransformAsync(IEnumerable<YouTubeVideo> data, IEnumerable<PostDetailTransformResult> postDetails)
         {
             var postResults = data
              .Select(v => v.Video)
              .Where(video => video.Snippet.Tags != null && video.Snippet.Tags.Any())
              .Select(post => new WordCloudTransformResult
              {
-                 PostId = post.Id,
-                 PlatformId = 3, // Change to your specific platform Id
+                 PostDetailId = postDetails.First(pd => pd.PostId == post.Id).Id,
                  Hashtags = post.Snippet.Tags.ToList(),
-                 PostDate = DateTime.Parse(post.Snippet.PublishedAtRaw, null, DateTimeStyles.RoundtripKind)
              });
             return Task.FromResult(postResults.AsEnumerable());
         }

@@ -9,7 +9,9 @@ namespace BrandPulse.Application.Models.ETL.Transform
     public class SentimentTransformResult : TransformResult
     {
         public string PostContent { get; set; } = string.Empty;
+        public string SubPostId { get; set; } = string.Empty;
         public int PostLikes { get; set; }
         public int PostDislikes { get; set; }
+        public DateTime SubPostDate { get; set; }
     }
 }

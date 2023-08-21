@@ -12,13 +12,17 @@ namespace BrandPulse.Application.Features.DataScience.WordcloudAnalysis
 {
     public class WordcloudAnalysisWorkflow : IWordcloudAnalysisWorkflow
     {
+        private readonly IPostDetailRepository postDetailRepository;
         private readonly IPostWordCloudDataRepository wordCloudDataRepository;
         private readonly IWordCloudDataProcessor wordCloudDataProcessor;
         private readonly IPostWordCloudAnalysisRepository postWordCloudAnalysisRepository;
 
-        public WordcloudAnalysisWorkflow(IPostWordCloudDataRepository wordCloudDataRepository, IWordCloudDataProcessor wordCloudDataProcessor,
+        public WordcloudAnalysisWorkflow(IPostDetailRepository postDetailRepository,
+            IPostWordCloudDataRepository wordCloudDataRepository, 
+            IWordCloudDataProcessor wordCloudDataProcessor,
             IPostWordCloudAnalysisRepository postWordCloudAnalysisRepository)
         {
+            this.postDetailRepository = postDetailRepository;
             this.wordCloudDataRepository = wordCloudDataRepository;
             this.wordCloudDataProcessor = wordCloudDataProcessor;
             this.postWordCloudAnalysisRepository = postWordCloudAnalysisRepository;
@@ -26,7 +30,8 @@ namespace BrandPulse.Application.Features.DataScience.WordcloudAnalysis
 
         public async Task Run(string searchTermId)
         {
-            var wordCloudData = await wordCloudDataRepository.GetBySearchId(searchTermId);
+            var postDetails = await postDetailRepository.GetPostDetailBySearchId(searchTermId);
+            var wordCloudData = await wordCloudDataRepository.GetPostContentByPostDetail(postDetails);
             var hashtagDirectory = wordCloudDataProcessor.ExtractAndCountHashtags(wordCloudData);
             var wordCloudAnalysisData = MapToWordCloudAnalysis(hashtagDirectory, searchTermId);
             await postWordCloudAnalysisRepository.BulkInsertAsync(wordCloudAnalysisData);

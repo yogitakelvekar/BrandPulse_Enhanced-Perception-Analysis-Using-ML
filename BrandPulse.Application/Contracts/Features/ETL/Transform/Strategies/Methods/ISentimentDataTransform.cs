@@ -10,6 +10,6 @@ namespace BrandPulse.Application.Contracts.Features.ETL.Transform.Strategies.Met
 {
     public interface ISentimentDataTransform<TData> where TData : class
     {
-        Task<IEnumerable<SentimentTransformResult>> TransformAsync(IEnumerable<TData> data);
+        Task<IEnumerable<SentimentTransformResult>> TransformAsync(IEnumerable<TData> data, IEnumerable<PostDetailTransformResult> postDetails);
     }
 }

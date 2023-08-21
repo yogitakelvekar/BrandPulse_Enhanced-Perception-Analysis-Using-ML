@@ -10,6 +10,6 @@ namespace BrandPulse.Application.Contracts.Features.ETL.Transform.Strategies.Met
 {
     public interface IWordCloudDataTransform<TData> where TData : class
     {
-        Task<IEnumerable<WordCloudTransformResult>> TransformAsync(IEnumerable<TData> data);
+        Task<IEnumerable<WordCloudTransformResult>> TransformAsync(IEnumerable<TData> data, IEnumerable<PostDetailTransformResult> postDetails);
     }
 }

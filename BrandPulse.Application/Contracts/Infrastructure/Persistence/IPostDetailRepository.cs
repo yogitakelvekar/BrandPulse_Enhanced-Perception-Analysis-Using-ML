@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace BrandPulse.Application.Contracts.Infrastructure.Persistence
 {
-    public interface IPostWordCloudDataRepository : IAsyncRepository<PostWordCloudData>
+    public interface IPostDetailRepository : IAsyncRepository<PostDetail>
     {
-        Task<List<PostWordCloudData>> GetPostContentByPostDetail(List<PostDetail> postDetails);
+        Task<List<PostDetail>> GetPostDetailBySearchId(string searchId);
     }
 }

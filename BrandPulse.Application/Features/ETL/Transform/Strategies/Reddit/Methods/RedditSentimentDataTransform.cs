@@ -1,47 +1,43 @@
 ﻿using BrandPulse.Application.Contracts.Features.ETL.Transform.Strategies.Methods;
 using BrandPulse.Application.Models.ETL.Transform;
-using BrandPulse.Domain.SocialMedia;
 using BrandPulse.Domain.SocialMedia.Reddit;
 
 namespace BrandPulse.Application.Features.ETL.Transform.Strategies.Reddit.Methods
 {
     public class RedditSentimentDataTransform : ISentimentDataTransform<RedditPost>
     {
-        public async Task<IEnumerable<SentimentTransformResult>> TransformAsync(IEnumerable<RedditPost> data)
+        public async Task<IEnumerable<SentimentTransformResult>> TransformAsync(IEnumerable<RedditPost> data, IEnumerable<PostDetailTransformResult> postDetails)
         {
             // Map RedditPost data
-            IEnumerable<SentimentTransformResult> postResults = TransformPost(data);
+            IEnumerable<SentimentTransformResult> postResults = TransformPost(data, postDetails);
 
             // Map RedditComment data
-            IEnumerable<SentimentTransformResult> commentResults = TransformComments(data);
+            IEnumerable<SentimentTransformResult> commentResults = TransformComments(data, postDetails);
 
             return postResults.Concat(commentResults);
         }
 
-        private static IEnumerable<SentimentTransformResult> TransformPost(IEnumerable<RedditPost> data)
+        private static IEnumerable<SentimentTransformResult> TransformPost(IEnumerable<RedditPost> data, IEnumerable<PostDetailTransformResult> postDetails)
         {
             var postResults = data
                 .Where(post => post.GetType() == typeof(RedditPost))
                 .Select(post => new SentimentTransformResult
-                {
-                    PostId = post.Id,
-                    PlatformId = (int)Platform.Reddit, // Change to your specific platform Id
+                {                 
                     PostContent = post.Title,
-                    PostDate = post.Created
+                    PostDetailId = postDetails.First(pd => pd.PostId == post.Id).Id
                 });
             return postResults;
         }
 
-        private static IEnumerable<SentimentTransformResult> TransformComments(IEnumerable<RedditPost> data)
+        private static IEnumerable<SentimentTransformResult> TransformComments(IEnumerable<RedditPost> data, IEnumerable<PostDetailTransformResult> postDetails)
         {
             var commentResults = data
-                .SelectMany(post => post.Comments ?? Enumerable.Empty<RedditComment>()) // Flatten the Comments collection
-                .Select(comment => new SentimentTransformResult
+                .SelectMany(post => post.Comments?.Select(comment => new { PostId = post.Id, Comment = comment }) ?? Enumerable.Empty<dynamic>()) 
+                .Select(item => new SentimentTransformResult
                 {
-                    PostId = comment.Id,
-                    PlatformId = 1, // Change to your specific platform Id
-                    PostContent = comment.Body,
-                    PostDate = comment.Created
+                    PostContent = item.Comment.Body,
+                    SubPostDate = item.Comment.Created,
+                    PostDetailId = postDetails.First(pd => pd.PostId == item.PostId).Id 
                 });
             return commentResults;
         }

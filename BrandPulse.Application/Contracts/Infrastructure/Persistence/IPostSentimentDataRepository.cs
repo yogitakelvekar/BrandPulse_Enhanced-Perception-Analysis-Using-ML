@@ -9,6 +9,6 @@ namespace BrandPulse.Application.Contracts.Infrastructure.Persistence
 {
     public interface IPostSentimentDataRepository : IAsyncRepository<PostSentimentData>
     {
-        Task<List<PostSentimentData>> GetPostContentBySearchId(string searchId);
+        Task<List<PostSentimentData>> GetPostContentByPostDetail(List<PostDetail> postDetails);
     }
 }

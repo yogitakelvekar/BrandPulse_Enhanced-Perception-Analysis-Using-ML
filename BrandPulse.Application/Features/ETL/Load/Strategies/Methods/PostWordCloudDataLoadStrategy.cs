@@ -27,10 +27,7 @@ namespace BrandPulse.Application.Features.ETL.Load.Strategies.Methods
                 var entity = new PostWordCloudData()
                 {
                     Id = Guid.NewGuid(),
-                    PlatformId = transformResult.PlatformId,
-                    SearchTermId = transformResult.SearchTermId,
-                    PostDate = transformResult.PostDate,
-                    PostId = transformResult.PostId,
+                    PostDetailId = transformResult.PostDetailId,
                     Hashtags = string.Join(",", transformResult.Hashtags),                  
                 };
                 insertedData.Add(entity);

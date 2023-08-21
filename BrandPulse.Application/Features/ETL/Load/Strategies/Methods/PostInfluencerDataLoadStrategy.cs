@@ -26,17 +26,9 @@ namespace BrandPulse.Application.Features.ETL.Load.Strategies.Methods
                 var entity = new PostInfluencerData()
                 {
                     Id = Guid.NewGuid(),
-                    PlatformId = transformResult.PlatformId,
-                    SearchTermId = transformResult.SearchTermId,
-                    PostDate = transformResult.PostDate,
-                    PostId = transformResult.PostId,
-                    AuthorName = transformResult.AuthorName,
-                    Avatar = transformResult.Avatar,
-                    Country = transformResult.Country,
+                    PostDetailId = transformResult.PostDetailId,
                     Engagement = transformResult.Engagement,
                     PotentialReach = transformResult.PotentialReach,
-                    Profile = transformResult.Profile
-                   
                 };
                 insertedData.Add(entity);
             }

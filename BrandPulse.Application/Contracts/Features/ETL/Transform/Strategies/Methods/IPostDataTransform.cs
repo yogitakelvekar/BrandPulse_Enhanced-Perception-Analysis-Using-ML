@@ -1,5 +1,4 @@
 ﻿using BrandPulse.Application.Models.ETL.Transform;
-using BrandPulse.Domain.SocialMedia.Reddit;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace BrandPulse.Application.Contracts.Features.ETL.Transform.Strategies.Methods
 {
-    public interface IInfluencerDataTransform<TData> where TData : class
+    public interface IPostDataTransform<TData> where TData : class
     {
-        Task<IEnumerable<InfluencerTransformResult>> TransformAsync(IEnumerable<TData> data, IEnumerable<PostDetailTransformResult> postDetails);
+        Task<IEnumerable<PostDetailTransformResult>> TransformAsync(IEnumerable<TData> data);
     }
 }

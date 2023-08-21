@@ -13,15 +13,19 @@ namespace BrandPulse.Application.Features.DataScience.SentimentAnalysis
 {
     public class SentimentAnalysisWorkflow : ISentimentAnalysisWorkflow
     {
+        private readonly IPostDetailRepository postDetailRepository;
         private readonly IPostSentimentDataRepository postSentimentDataRepository;
         private readonly ISentimentDataProcessor sentimentDataProcessor;
         private readonly IPostSentimentAnalysisRepository sentimentAnalysisRepository;
         private readonly ISentimentAnalysisMLAdapter sentimentAnalysisML;
 
-        public SentimentAnalysisWorkflow(IPostSentimentDataRepository postSentimentDataRepository,
-            ISentimentDataProcessor sentimentDataProcessor, IPostSentimentAnalysisRepository sentimentAnalysisRepository,
+        public SentimentAnalysisWorkflow(IPostDetailRepository postDetailRepository,
+            IPostSentimentDataRepository postSentimentDataRepository,
+            ISentimentDataProcessor sentimentDataProcessor, 
+            IPostSentimentAnalysisRepository sentimentAnalysisRepository,
             ISentimentAnalysisMLAdapter sentimentAnalysisML)
         {
+            this.postDetailRepository = postDetailRepository;
             this.postSentimentDataRepository = postSentimentDataRepository;
             this.sentimentDataProcessor = sentimentDataProcessor;
             this.sentimentAnalysisRepository = sentimentAnalysisRepository;
@@ -31,7 +35,8 @@ namespace BrandPulse.Application.Features.DataScience.SentimentAnalysis
         public async Task Run(string searchTermId)
         {
             List<PostSentimentAnalysis> sentimentAnalysisList = new List<PostSentimentAnalysis>();
-            var sentimentData = await postSentimentDataRepository.GetPostContentBySearchId(searchTermId);
+            var postDetails = await postDetailRepository.GetPostDetailBySearchId(searchTermId);
+            var sentimentData = await postSentimentDataRepository.GetPostContentByPostDetail(postDetails);
             foreach (var sentiment in sentimentData)
             {
                 var sentimentAnalysis = new PostSentimentAnalysis();

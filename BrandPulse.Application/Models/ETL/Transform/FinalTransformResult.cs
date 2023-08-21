@@ -11,11 +11,19 @@ namespace BrandPulse.Application.Models.ETL.Transform
         public string SearchTermId { get; set; } = string.Empty;
         public string SearchTerm { get; set; } = string.Empty;
         public DateTime SearchDateTime { get; set; }
+
+        public List<PostDetailTransformResult> PostDataTransformResult { get; private set; } = new List<PostDetailTransformResult>();
+
         public List<SentimentTransformResult> SentimentTransformResult { get; private set; } = new List<SentimentTransformResult>();
 
         public List<WordCloudTransformResult> WordCloudTransformResult { get; private set; } = new List<WordCloudTransformResult>();
 
         public List<InfluencerTransformResult> InfluencerTransformResult { get; private set; } = new List<InfluencerTransformResult>();
+
+        public void AddPostDataTransformResult(IEnumerable<PostDetailTransformResult> results)
+        {
+            PostDataTransformResult.AddRange(results);
+        }
 
         public void AddSentimentTransformResult(IEnumerable<SentimentTransformResult> results)
         {

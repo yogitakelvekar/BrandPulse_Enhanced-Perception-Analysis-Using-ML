@@ -1,14 +1,10 @@
-﻿using BrandPulse.Application.Contracts.Features.DataScience;
-using BrandPulse.Application.Contracts.Features.DataScience.MLWorkflows;
-using BrandPulse.Application.Contracts.Features.DataSearch;
+﻿using BrandPulse.Application.Contracts.Features.DataSearch;
 using BrandPulse.Application.Contracts.Features.ETL;
 using BrandPulse.Application.Contracts.Features.ETL.Extract;
 using BrandPulse.Application.Contracts.Features.ETL.Load;
 using BrandPulse.Application.Contracts.Features.ETL.Transform;
 using BrandPulse.Application.Contracts.Features.ETL.Transform.Strategies;
 using BrandPulse.Application.Contracts.Features.ETL.Transform.Strategies.Methods;
-using BrandPulse.Application.Features.DataScience;
-using BrandPulse.Application.Features.DataScience.SentimentAnalysis;
 using BrandPulse.Application.Features.DataSearch;
 using BrandPulse.Application.Features.ETL;
 using BrandPulse.Application.Features.ETL.Extract;
@@ -63,16 +59,19 @@ namespace BrandPulse.Application
         {
             // Add Transform services.
             services.AddScoped<ITransformStrategyFactory, TransformStrategyFactory>();
-            services.AddScoped<ISearchDataTransform, SearchDataTransform>();        
+            services.AddScoped<ISearchDataTransform, SearchDataTransform>();
 
             // Register SentimentDataTransform and WordCloudDataTransform for each relevant type.
+            services.AddScoped<IPostDataTransform<Tweet>, TweetPostDataTransform>();
             services.AddScoped<ISentimentDataTransform<Tweet>, TweetSentimentDataTransform>();
             services.AddScoped<IWordCloudDataTransform<Tweet>, TweetWordCloudDataTransform>();
             services.AddScoped<IInfluencerDataTransform<Tweet>, TweetInfluencerDataTransform>();
 
+            services.AddScoped<IPostDataTransform<RedditPost>, RedditPostDataTransform>();
             services.AddScoped<ISentimentDataTransform<RedditPost>, RedditSentimentDataTransform>();
             services.AddScoped<IInfluencerDataTransform<RedditPost>, RedditInfluencerDataTransform>();
 
+            services.AddScoped<IPostDataTransform<YouTubeVideo>, YoutubePostDataTransform>();
             services.AddScoped<ISentimentDataTransform<YouTubeVideo>, YoutubeSentimentDataTransform>();
             services.AddScoped<IWordCloudDataTransform<YouTubeVideo>, YoutubeWordCloudDataTransform>();
             services.AddScoped<IInfluencerDataTransform<YouTubeVideo>, YoutubeInfluencerDataTransform>();
@@ -84,6 +83,7 @@ namespace BrandPulse.Application
         {
             services.AddScoped<ISearchDataLoad, SearchDataLoad>();     
             services.AddScoped<IPostSearchDetailLoadStrategy, PostSearchDetailLoadStrategy>();
+            services.AddScoped<ILoadStrategy<PostDetailTransformResult, PostDetail>, PostDetailLoadStrategy>();
             services.AddScoped<ILoadStrategy<SentimentTransformResult, PostSentimentData>, PostSentimentDataLoadStrategy>();
             services.AddScoped<ILoadStrategy<WordCloudTransformResult, PostWordCloudData>, PostWordCloudDataLoadStrategy>();
             services.AddScoped<ILoadStrategy<InfluencerTransformResult, PostInfluencerData>, PostInfluencerDataLoadStrategy>();

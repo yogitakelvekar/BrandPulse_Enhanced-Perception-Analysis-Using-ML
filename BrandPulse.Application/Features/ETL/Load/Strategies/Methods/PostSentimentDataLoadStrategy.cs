@@ -27,11 +27,10 @@ namespace BrandPulse.Application.Features.ETL.Load.Strategies.Methods
                 var entity = new PostSentimentData()
                 {
                     Id = Guid.NewGuid(),
-                    PlatformId = transformResult.PlatformId,
+                    PostDetailId = transformResult.PostDetailId,              
                     PostContent = transformResult.PostContent,
-                    PostDate = transformResult.PostDate,
-                    PostId = transformResult.PostId,
-                    SearchTermId = transformResult.SearchTermId,
+                    SubPostDate = transformResult.SubPostDate,
+                    SubPostId = transformResult.SubPostId,                
                     PostLikes = transformResult.PostLikes,
                     PostDislikes = transformResult.PostDislikes,
                 };

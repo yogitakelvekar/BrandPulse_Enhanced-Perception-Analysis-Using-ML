@@ -16,9 +16,14 @@ namespace BrandPulse.Persistence.Repositories
         {
         }
 
-        public async Task<List<PostSentimentData>> GetPostContentBySearchId(string searchId)
+        public async Task<List<PostSentimentData>> GetPostContentByPostDetail(List<PostDetail> postDetails)
         {
-            var data = await _dbContext.PostSentimentData.Where(psd => psd.SearchTermId == searchId && psd.PostContent != null).ToListAsync();
+            var postDetailIds = postDetails.Select(pd => pd.Id).ToList();
+
+            var data = await _dbContext.PostSentimentData
+                                       .Where(psd => postDetailIds.Contains(psd.PostDetailId) && psd.PostContent != null)
+                                       .ToListAsync();
+
             return data;
         }
     }

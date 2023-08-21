@@ -19,9 +19,6 @@ namespace BrandPulse.Persistence
             services.AddDbContext<BrandPulseSqlDbContext>(options =>
                 options.UseSqlServer(configuration.GetConnectionString("BrandPulseSQL")), ServiceLifetime.Transient);
 
-            //services.AddDbContextPool<BrandPulseSqlDbContext>(options =>
-            //    options.UseSqlServer(configuration.GetConnectionString("BrandPulseSQL")));
-
             services.AddScoped(typeof(IAsyncRepository<>), typeof(BaseSqlRepository<>));
             services.AddScoped<ISocialMediaAggregateRepository, SocialMediaAggregateRepository>();
             services.AddScoped<IPostInfluencerDataRepository, PostInfluencerDataRepository>();
@@ -30,7 +27,8 @@ namespace BrandPulse.Persistence
             services.AddScoped<IPostSentimentAnalysisRepository, PostSentimentAnalysisRepository>();
             services.AddScoped<IPostWordCloudAnalysisRepository, PostWordCloudAnalysisRepository>();
             services.AddScoped<IPostSearchDetailRepository, PostSearchDetailRepository>();
-            
+            services.AddScoped<IPostDetailRepository, PostDetailRepository>();
+
             return services;
         }
     }

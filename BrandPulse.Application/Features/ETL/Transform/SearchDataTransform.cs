@@ -26,6 +26,7 @@ namespace BrandPulse.Application.Features.ETL.Transform
             foreach (var strategy in transformStrategies)
             {
                 var result = await strategy.TransformAsync();
+                transformResult.AddPostDataTransformResult(result.PostDataTransformResult);
                 transformResult.AddSentimentTransformResult(result.SentimentTransformResult);
                 transformResult.AddWordCloudTransformResult(result.WordCloudTransformResult);
                 transformResult.AddInfluencerTransformResult(result.InfluencerTransformResult);

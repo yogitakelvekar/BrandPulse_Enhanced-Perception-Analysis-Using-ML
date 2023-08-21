@@ -2,24 +2,22 @@
 using BrandPulse.Application.Contracts.Features.ETL.Transform.Strategies.Methods;
 using BrandPulse.Application.Models.ETL.Transform;
 using BrandPulse.Domain.SocialMedia.Youtube;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BrandPulse.Application.Features.ETL.Transform.Strategies.Reddit
 {
     public class YoutubeTransformStrategy : ITransformStrategy
     {
         public IEnumerable<YouTubeVideo> Data { get; set; }
+
+        private readonly IPostDataTransform<YouTubeVideo> postData;
         private readonly ISentimentDataTransform<YouTubeVideo> sentimentData;
         private readonly IWordCloudDataTransform<YouTubeVideo> wordCloudData;
         private readonly IInfluencerDataTransform<YouTubeVideo> influencerData;
 
-        public YoutubeTransformStrategy(ISentimentDataTransform<YouTubeVideo> sentimentData, 
+        public YoutubeTransformStrategy(IPostDataTransform<YouTubeVideo> postData, ISentimentDataTransform<YouTubeVideo> sentimentData, 
             IWordCloudDataTransform<YouTubeVideo> wordCloudData, IInfluencerDataTransform<YouTubeVideo> influencerData)
         {
+            this.postData = postData;
             this.sentimentData = sentimentData;
             this.wordCloudData = wordCloudData;
             this.influencerData = influencerData;
@@ -27,13 +25,15 @@ namespace BrandPulse.Application.Features.ETL.Transform.Strategies.Reddit
 
         public async Task<FinalTransformResult> TransformAsync()
         {
-            var sentimentDataTask = sentimentData.TransformAsync(Data); 
-            var wordCloudDataTask = wordCloudData.TransformAsync(Data);
-            var influencerDataTask = influencerData.TransformAsync(Data);
+            var postDataResult = await postData.TransformAsync(Data);
+            var sentimentDataTask = sentimentData.TransformAsync(Data, postDataResult); 
+            var wordCloudDataTask = wordCloudData.TransformAsync(Data, postDataResult);
+            var influencerDataTask = influencerData.TransformAsync(Data, postDataResult);
 
             await Task.WhenAll(sentimentDataTask, wordCloudDataTask, influencerDataTask);
 
             var results = new FinalTransformResult();
+            results.AddPostDataTransformResult(postDataResult);
             results.AddSentimentTransformResult(sentimentDataTask.Result);
             results.AddWordCloudTransformResult(wordCloudDataTask.Result);
             results.AddInfluencerTransformResult(influencerDataTask.Result);
