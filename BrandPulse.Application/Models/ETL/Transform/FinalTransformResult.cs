@@ -22,6 +22,7 @@ namespace BrandPulse.Application.Models.ETL.Transform
 
         public void AddPostDataTransformResult(IEnumerable<PostDetailTransformResult> results)
         {
+            results.ToList().ForEach(r => r.SearchTermId = SearchTermId);
             PostDataTransformResult.AddRange(results);
         }
 
@@ -40,11 +41,5 @@ namespace BrandPulse.Application.Models.ETL.Transform
             InfluencerTransformResult.AddRange(results);
         }
 
-        public void AddSearchTerm(string searchTermId)
-        {
-            WordCloudTransformResult.ForEach(result => result.SearchTermId = searchTermId);
-            SentimentTransformResult.ForEach(result => result.SearchTermId = searchTermId);
-            InfluencerTransformResult.ForEach(result => result.SearchTermId = searchTermId);
-        }
     }
 }

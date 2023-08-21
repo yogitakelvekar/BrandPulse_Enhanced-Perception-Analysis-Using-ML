@@ -22,13 +22,14 @@ namespace BrandPulse.ML.Source.DataProcessors
 
                     foreach (var hashtag in hashtags)
                     {
-                        if (hashtagCounts.ContainsKey(hashtag))
+                        var lowerCaseHashtag = hashtag.ToLower();
+                        if (hashtagCounts.ContainsKey(lowerCaseHashtag))
                         {
-                            hashtagCounts[hashtag]++;
+                            hashtagCounts[lowerCaseHashtag]++;
                         }
                         else
                         {
-                            hashtagCounts[hashtag] = 1;
+                            hashtagCounts[lowerCaseHashtag] = 1;
                         }
                     }
                 }

@@ -24,7 +24,7 @@ namespace BrandPulse.ML.Worker
             stoppingToken.Register(async () => await messageBus.StopProcessingAsync());
 
             messageBus.ReceivedMessage(RunMLOperation);
-            //await RunMLOperation(new MLMessage { SearchTermId = "64dc21d48b42d7784745e6fb" });
+            //await RunMLOperation(new MLMessage { SearchTermId = "64e36c5a232fd123f56c4710" });
             // Keeps the service running
             while (!stoppingToken.IsCancellationRequested)
             {

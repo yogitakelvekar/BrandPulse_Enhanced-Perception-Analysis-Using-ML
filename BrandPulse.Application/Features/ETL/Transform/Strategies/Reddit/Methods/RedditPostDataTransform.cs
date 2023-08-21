@@ -2,11 +2,6 @@
 using BrandPulse.Application.Models.ETL.Transform;
 using BrandPulse.Domain.SocialMedia;
 using BrandPulse.Domain.SocialMedia.Reddit;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BrandPulse.Application.Features.ETL.Transform.Strategies.Reddit.Methods
 {
@@ -14,22 +9,60 @@ namespace BrandPulse.Application.Features.ETL.Transform.Strategies.Reddit.Method
     {
         public Task<IEnumerable<PostDetailTransformResult>> TransformAsync(IEnumerable<RedditPost> data)
         {
-            var postResults = data
-                .Where(post => post.GetType() == typeof(RedditPost))
-                .Select(post => new PostDetailTransformResult
+            List<PostDetailTransformResult> postResults = new List<PostDetailTransformResult>();
+
+            foreach (var post in data)
+            {
+                if (post is RedditPost)
                 {
-                    PlatformId = (int)Platform.Reddit,
-                    PostId = post.Id,
-                    PostTitle = post.Title.Substring(0, Math.Min(post.Title.Length, 100)),
-                    PostDescription = post.Title,
-                    PostUrl = $"https://www.reddit.com/r/{post.Subreddit}/comments/{post.Id}",
-                    PostThumbnail = "https://www.redditstatic.com/icon.png",
-                    PublishDate = post.Created,
-                    PostAuthor = post.Author,
-                    PostAuthorAvatar = post?.User?.Avatar ?? "https://www.redditstatic.com/avatars/avatar_default_02_FF4500.png",
-                    PostAuthorProfile = post?.User?.ProfileUrl ?? $"https://www.reddit.com/user/{post.Author}",
-                });
+                    var result = TransformRedditPost(post);
+                    postResults.Add(result);
+                }
+            }
+
             return Task.FromResult(postResults.AsEnumerable());
+        }
+
+        private PostDetailTransformResult TransformRedditPost(RedditPost post)
+        {
+            if (post == null)
+            {
+                return new PostDetailTransformResult();
+            }
+
+            var postId = post.Id ?? string.Empty;
+
+            var postTitle = string.Empty;
+            if (!string.IsNullOrEmpty(post.Title))
+            {
+                postTitle = post.Title.Substring(0, Math.Min(post.Title.Length, 100));
+            }
+
+            var postDescription = post.Title ?? string.Empty;
+
+            var postSubreddit = post.Subreddit ?? string.Empty;
+            var postUrl = $"https://www.reddit.com/r/{postSubreddit}/comments/{postId}";
+
+            var publishDate = post.Created;
+
+            var postAuthor = post.Author ?? string.Empty;
+            var defaultAvatar = "https://www.redditstatic.com/avatars/avatar_default_02_FF4500.png";
+            var postAuthorAvatar = post?.User?.Avatar ?? defaultAvatar;
+            var postAuthorProfile = post?.User?.ProfileUrl ?? $"https://www.reddit.com/user/{postAuthor}";
+
+            return new PostDetailTransformResult
+            {
+                PlatformId = (int)Platform.Reddit,
+                PostId = postId,
+                PostTitle = postTitle,
+                PostDescription = postDescription,
+                PostUrl = postUrl,
+                PostThumbnail = "https://www.redditstatic.com/icon.png",
+                PublishDate = publishDate,
+                PostAuthor = postAuthor,
+                PostAuthorAvatar = postAuthorAvatar,
+                PostAuthorProfile = postAuthorProfile,
+            };
         }
     }
 }

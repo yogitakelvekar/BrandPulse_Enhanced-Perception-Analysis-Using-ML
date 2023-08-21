@@ -30,8 +30,7 @@ namespace BrandPulse.Application.Features.ETL.Transform
                 transformResult.AddSentimentTransformResult(result.SentimentTransformResult);
                 transformResult.AddWordCloudTransformResult(result.WordCloudTransformResult);
                 transformResult.AddInfluencerTransformResult(result.InfluencerTransformResult);
-            }
-            transformResult.AddSearchTerm(data.Id);
+            }         
             return transformResult;
         }
 

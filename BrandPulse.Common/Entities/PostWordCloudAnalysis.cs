@@ -10,8 +10,8 @@ namespace BrandPulse.Domain.Entities
     public class PostWordCloudAnalysis : AuditableEntity
     {
         public Guid Id { get; set; }
-        public Guid WordCloudDataId { get; set; }
-        public string Hashtag { get; set; }
+        public string SearchTermId { get; set; } = string.Empty;
+        public string Hashtag { get; set; } = string.Empty;
         public int Count { get; set; }
     }
 }

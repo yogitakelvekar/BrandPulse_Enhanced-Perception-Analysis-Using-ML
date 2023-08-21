@@ -1,13 +1,6 @@
 ﻿using BrandPulse.Application.Contracts.Features.ETL.Transform.Strategies.Methods;
 using BrandPulse.Application.Models.ETL.Transform;
-using BrandPulse.Domain.SocialMedia;
 using BrandPulse.Domain.SocialMedia.Tweeter;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BrandPulse.Application.Features.ETL.Transform.Strategies.Twitter.Methods
 {
@@ -16,13 +9,34 @@ namespace BrandPulse.Application.Features.ETL.Transform.Strategies.Twitter.Metho
         public Task<IEnumerable<InfluencerTransformResult>> TransformAsync(IEnumerable<Tweet> data, IEnumerable<PostDetailTransformResult> postDetails)
         {
             var tweetResults = data
-              .Select(tweet => new InfluencerTransformResult
-              {
-                  PostDetailId = postDetails.First(pd => pd.PostId == tweet.id_str).Id,
-                  PotentialReach = tweet.user.followers_count,
-                  Engagement = tweet.retweet_count + tweet.favorite_count,                                         
-              });
+              .Select(tweet => TransformTweetToInfluencerResult(tweet, postDetails))
+              .Where(result => result != null);
             return Task.FromResult(tweetResults.AsEnumerable());
+        }
+
+        private InfluencerTransformResult? TransformTweetToInfluencerResult(Tweet tweet, IEnumerable<PostDetailTransformResult> postDetails)
+        {
+            if (tweet == null || tweet.user == null)
+            {
+                return null;
+            }
+
+            var matchingPostDetail = postDetails.FirstOrDefault(pd => pd.PostId == tweet.id_str);
+
+            if (matchingPostDetail == null)  // if no matching post detail is found, return null
+            {
+                return null;
+            }
+
+            var potentialReach = tweet?.user?.followers_count ?? 0;
+            var engagement = (tweet?.retweet_count ?? 0) + (tweet?.favorite_count ?? 0);
+
+            return new InfluencerTransformResult
+            {
+                PostDetailId = matchingPostDetail.Id,
+                PotentialReach = potentialReach,
+                Engagement = engagement,
+            };
         }
     }
 }

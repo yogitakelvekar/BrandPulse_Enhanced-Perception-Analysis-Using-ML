@@ -2,11 +2,6 @@
 using BrandPulse.Application.Models.ETL.Transform;
 using BrandPulse.Domain.SocialMedia;
 using BrandPulse.Domain.SocialMedia.Youtube;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BrandPulse.Application.Features.ETL.Transform.Strategies.Youtube.Methods
 {
@@ -14,21 +9,57 @@ namespace BrandPulse.Application.Features.ETL.Transform.Strategies.Youtube.Metho
     {
         public Task<IEnumerable<PostDetailTransformResult>> TransformAsync(IEnumerable<YouTubeVideo> data)
         {
-            var result = data.Select(video => new PostDetailTransformResult
+            List<PostDetailTransformResult> postResults = new List<PostDetailTransformResult>();
+
+            foreach (var video in data)
+            {
+                var result = TransformYouTubeVideo(video);
+                postResults.Add(result);
+            }
+
+            return Task.FromResult(postResults.AsEnumerable());
+        }
+
+        private PostDetailTransformResult TransformYouTubeVideo(YouTubeVideo video)
+        {
+            if (video == null)
+            {
+                return new PostDetailTransformResult();
+            }
+
+            var postId = video.VideoId ?? string.Empty;
+
+            var snippet = video.Video?.Snippet;
+            var postTitle = snippet?.Title ?? string.Empty;
+            var postDescription = snippet?.Description ?? string.Empty;
+            var postThumbnail = snippet?.Thumbnails?.Standard?.Url ?? string.Empty;
+            var publishDateRaw = snippet?.PublishedAtRaw;
+            var publishDate = !string.IsNullOrEmpty(publishDateRaw) ? DateTime.Parse(publishDateRaw) : DateTime.Now;
+            var postAuthor = snippet?.ChannelTitle ?? string.Empty;
+
+            var channelSnippet = video.Channel?.Snippet;
+            var postAuthorAvatar = channelSnippet?.Thumbnails?.Default__?.Url ?? string.Empty;
+            var channelId = video.Channel?.Id ?? string.Empty;
+            var location = channelSnippet?.Country ?? string.Empty;
+
+            var postUrl = $"https://www.youtube.com/watch?v={postId}";
+            var postAuthorProfile = $"https://www.youtube.com/channel/{channelId}";
+
+            return new PostDetailTransformResult
             {
                 PlatformId = (int)Platform.Youtube,
-                PostId = video?.VideoId ?? string.Empty,
-                PostTitle = video?.Video?.Snippet?.Title ?? string.Empty,
-                PostDescription = video?.Video?.Snippet?.Description ?? string.Empty,
-                PostUrl = $"https://www.youtube.com/watch?v={video?.VideoId}",
-                PostThumbnail = video?.Video?.Snippet?.Thumbnails.Standard.Url ?? string.Empty,
-                PublishDate = DateTime.Parse(video.Video.Snippet.PublishedAtRaw),
-                PostAuthor = video?.Video?.Snippet?.ChannelTitle ?? string.Empty,
-                PostAuthorAvatar = video?.Channel?.Snippet?.Thumbnails?.Default__?.Url ?? string.Empty,
-                PostAuthorProfile = $"https://www.youtube.com/channel/{video?.Channel?.Id ?? string.Empty}",
-                Location = video?.Channel?.Snippet?.Country ?? string.Empty      
-            });
-            return Task.FromResult(result.AsEnumerable());
+                PostId = postId,
+                PostTitle = postTitle,
+                PostDescription = postDescription,
+                PostUrl = postUrl,
+                PostThumbnail = postThumbnail,
+                PublishDate = publishDate,
+                PostAuthor = postAuthor,
+                PostAuthorAvatar = postAuthorAvatar,
+                PostAuthorProfile = postAuthorProfile,
+                Location = location
+            };
         }
+
     }
 }

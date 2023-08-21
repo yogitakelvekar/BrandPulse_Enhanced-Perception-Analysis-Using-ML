@@ -14,6 +14,14 @@ namespace BrandPulse.Application.Features.ETL.Transform.Strategies.Twitter.Metho
                     PostDetailId = postDetails.First(pd => pd.PostId == tweet.id_str).Id,
                     PostContent = tweet.full_text,
                 });
+            //var tweetResults = new List<SentimentTransformResult>();
+            //foreach (var tweet in data)
+            //{
+            //    var x = new SentimentTransformResult();
+            //    x.PostDetailId = postDetails.First(pd => pd.PostId == tweet.id_str).Id;
+            //    x.PostContent = tweet.full_text;
+            //    tweetResults.Add(x);
+            //}
             return tweetResults;
         }
     }

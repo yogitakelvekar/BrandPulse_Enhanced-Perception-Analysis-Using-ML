@@ -37,6 +37,7 @@ namespace BrandPulse.Application.Features.ETL.Load.Strategies.Methods
                     PublishDate = transformResult.PublishDate,
                     PostAuthor = transformResult.PostAuthor,
                     PostAuthorAvatar = transformResult.PostAuthorAvatar,
+                    PostAuthorProfile = transformResult.PostAuthorProfile,
                     Location = transformResult.Location,
                 };
                 insertedData.Add(entity);

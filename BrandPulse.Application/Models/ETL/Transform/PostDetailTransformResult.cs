@@ -11,7 +11,7 @@ namespace BrandPulse.Application.Models.ETL.Transform
         public Guid Id { get; set; } = Guid.NewGuid();
         public string SearchTermId { get; set; } = string.Empty;
         public int PlatformId { get; set; }
-        public string PostId { get; set; } = string.Empty;
+        public string? PostId { get; set; }
         public string PostTitle { get; set; } = string.Empty;
         public string PostDescription { get; set; } = string.Empty;
         public string PostUrl { get; set; } = string.Empty;

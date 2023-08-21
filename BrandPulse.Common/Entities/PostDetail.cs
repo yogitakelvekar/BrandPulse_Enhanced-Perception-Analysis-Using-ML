@@ -19,6 +19,7 @@ namespace BrandPulse.Domain.Entities
         public DateTime PublishDate { get; set; }
         public string PostAuthor { get; set; } = string.Empty;
         public string PostAuthorAvatar { get; set; } = string.Empty;
+        public string PostAuthorProfile { get; set; } = string.Empty; 
         public string Location { get; set; } = string.Empty;
     }
 }

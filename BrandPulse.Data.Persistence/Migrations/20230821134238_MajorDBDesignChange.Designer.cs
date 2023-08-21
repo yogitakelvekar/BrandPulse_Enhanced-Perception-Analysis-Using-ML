@@ -4,6 +4,7 @@ using BrandPulse.SocialMediaData.TransformWorker.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BrandPulse.Persistence.Migrations
 {
     [DbContext(typeof(BrandPulseSqlDbContext))]
-    partial class BrandPulseSqlDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230821134238_MajorDBDesignChange")]
+    partial class MajorDBDesignChange
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -71,10 +74,6 @@ namespace BrandPulse.Persistence.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PostAuthorAvatar")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PostAuthorProfile")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

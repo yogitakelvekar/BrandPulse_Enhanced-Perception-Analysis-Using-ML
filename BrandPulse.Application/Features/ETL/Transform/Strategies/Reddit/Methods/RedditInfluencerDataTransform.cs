@@ -1,12 +1,6 @@
 ﻿using BrandPulse.Application.Contracts.Features.ETL.Transform.Strategies.Methods;
 using BrandPulse.Application.Models.ETL.Transform;
-using BrandPulse.Domain.SocialMedia;
 using BrandPulse.Domain.SocialMedia.Reddit;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BrandPulse.Application.Features.ETL.Transform.Strategies.Reddit.Methods
 {
@@ -16,13 +10,23 @@ namespace BrandPulse.Application.Features.ETL.Transform.Strategies.Reddit.Method
         {
             var postResults = data
                 .Where(post => post.GetType() == typeof(RedditPost))
-                .Select(post => new InfluencerTransformResult
-                {                   
-                    PotentialReach = post?.User?.PostKarma ?? 0,
-                    Engagement = post.UpVotes + post.DownVotes + post.Comments.Count(),
-                    PostDetailId = postDetails.First(pd => pd.PostId == post.Id).Id,                 
-                });
+                .Select(post => TransformRedditPostToInfluencerResult(post, postDetails));
             return Task.FromResult(postResults.AsEnumerable());
+        }
+
+        private InfluencerTransformResult TransformRedditPostToInfluencerResult(RedditPost post, IEnumerable<PostDetailTransformResult> postDetails)
+        {
+            var potentialReach = post?.User?.PostKarma ?? 0;
+            var engagement = (post?.UpVotes ?? 0) + (post?.DownVotes ?? 0) + (post?.Comments?.Count() ?? 0);
+            var matchingPostDetail = postDetails.FirstOrDefault(pd => pd.PostId == post.Id);
+            var postDetailId = matchingPostDetail?.Id ?? default(Guid);  // Assuming Id is of type Guid. Adjust as necessary.
+
+            return new InfluencerTransformResult
+            {
+                PotentialReach = potentialReach,
+                Engagement = engagement,
+                PostDetailId = postDetailId,
+            };
         }
     }
 }
