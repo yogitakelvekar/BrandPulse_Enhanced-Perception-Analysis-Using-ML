@@ -1,6 +1,7 @@
 ﻿using BrandPulse.Application.Contracts.Infrastructure.HttpServices;
 using BrandPulse.Domain.SocialMedia.Reddit;
 using BrandPulse.HttpServices.Settings;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Reddit;
 using Reddit.Inputs.Search;
@@ -12,42 +13,32 @@ namespace BrandPulse.HttpServices.Services
     {
         private readonly RedditClient _redditClient;
         private readonly HttpServicesSettings _appSettings;
+        private readonly ILogger<RedditHttpService> logger;
 
-        public RedditHttpService(IOptions<HttpServicesSettings> appSettings)
+        public RedditHttpService(IOptions<HttpServicesSettings> appSettings, ILogger<RedditHttpService> logger)
         {
             _appSettings = appSettings.Value;
             _redditClient = new RedditClient(
                 appId: _appSettings.RedditSettings.AppId,
                 refreshToken: _appSettings.RedditSettings.RefreshToken,
                 accessToken: _appSettings.RedditSettings.AccessToken);
+            this.logger = logger;
         }
 
         public async Task<IEnumerable<RedditPost>?> SearchPosts(string searchTerm)
         {
             try
             {
-                // Get the search results
                 var posts = _redditClient.Subreddit("all").Search(
                     new SearchGetSearchInput(q: searchTerm, limit: _appSettings.MaxResults, sort: "relevance", t: "month"));
-
                 var redditPosts = posts.Select(ToRedditPost);
-
-                return await Task.WhenAll(redditPosts);
-            }
-            catch (AggregateException ex)
-            {
-                foreach (var innerEx in ex.InnerExceptions)
-                {
-                    // log innerEx.ToString() or handle accordingly
-                }
-
-                return null; // Or however you wish to handle this case
+                var result = await Task.WhenAll(redditPosts);
+                return result;
             }
             catch (Exception ex)
             {
-                // Log exception
-                // log ex.ToString() or handle accordingly
-                return null; // Or however you wish to handle this case
+                logger.LogError(ex.Message, ex.StackTrace);
+                return null;
             }
         }
 
@@ -116,9 +107,7 @@ namespace BrandPulse.HttpServices.Services
             }
             catch(Exception ex)
             {
-                // Log exception
-                // log ex.ToString() or handle accordingly
-                //return null; // Or however you wish to handle this case
+                logger.LogError(ex.Message, ex.StackTrace);
             }
             return user;
         }

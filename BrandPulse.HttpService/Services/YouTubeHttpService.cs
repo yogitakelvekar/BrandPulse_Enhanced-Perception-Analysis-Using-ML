@@ -3,6 +3,7 @@ using BrandPulse.Domain.SocialMedia.Youtube;
 using BrandPulse.HttpServices.Settings;
 using Google.Apis.YouTube.v3;
 using Google.Apis.YouTube.v3.Data;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System.Net;
 
@@ -12,12 +13,14 @@ namespace BrandPulse.HttpServices.Services
     public class YouTubeHttpService : IYouTubeHttpService
     {
         private readonly YouTubeService _youtubeService;
+        private readonly ILogger<YouTubeHttpService> _logger;
         private readonly HttpServicesSettings _appSettings;
 
-        public YouTubeHttpService(IOptions<HttpServicesSettings> appSettings, YouTubeService youtubeService)
+        public YouTubeHttpService(IOptions<HttpServicesSettings> appSettings, YouTubeService youtubeService, ILogger<YouTubeHttpService> logger)
         {
             _appSettings = appSettings.Value;
             _youtubeService = youtubeService;
+            _logger = logger;
         }
 
         public async Task<IEnumerable<YouTubeVideo>> SearchAndRetrieveVideoDataAsync(string searchTerm)
@@ -50,15 +53,16 @@ namespace BrandPulse.HttpServices.Services
                     }
                     catch (Exception ex)
                     {
-                        // Handle exceptions and log if necessary
+                        _logger.LogError(ex.Message, ex);
                         return null;
                     }
                 });
                 var videoDataList = await Task.WhenAll(videoDataTasks);
                 return videoDataList.Where(video => video != null);
             }
-            catch
+            catch (Exception ex)
             {
+                _logger.LogError(ex.Message, ex);
                 return null;
             }
         }
@@ -87,8 +91,9 @@ namespace BrandPulse.HttpServices.Services
                 var videoResponse = await videoRequest.ExecuteAsync();
                 return videoResponse.Items.FirstOrDefault();
             }
-            catch
+            catch (Exception ex)
             {
+                _logger.LogError(ex.Message, ex);
                 return null;
             }
         }
@@ -104,17 +109,14 @@ namespace BrandPulse.HttpServices.Services
                 var channel = channelResponse.Items.FirstOrDefault();
                 return channel;
             }
-            catch (FormatException e)
+            catch (FormatException ex)
             {
-                // You can log e.Message to get more details about the error
-                // and maybe even the entire exception e.ToString()
-                // You can use a logger such as ILogger<YourClassName> 
-                // which can be injected via the constructor in ASP.NET Core
+                _logger.LogError(ex.Message, ex);
                 return null;
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                // Catches any other exceptions
+                _logger.LogError(ex.Message, ex);
                 return null;
             }
         }

@@ -33,6 +33,7 @@ namespace BrandPulse.Application.Features.ETL
             bool result;
             try
             {
+                logger.LogInformation("ETL Workflow manager execution started.");
                 var data = await dataExtract.ExtractAsync(searchId);
                 var transformResult = await dataTransform.TransformAsync(data);
                 await dataLoad.LoadAsync(transformResult);

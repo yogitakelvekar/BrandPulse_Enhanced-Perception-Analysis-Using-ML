@@ -1,6 +1,8 @@
-﻿using BrandPulse.Application.Contracts.Features.ETL.Load;
+﻿using Amazon.Runtime.Internal.Util;
+using BrandPulse.Application.Contracts.Features.ETL.Load;
 using BrandPulse.Application.Models.ETL.Transform;
 using BrandPulse.Domain.Entities;
+using Microsoft.Extensions.Logging;
 
 namespace BrandPulse.Application.Features.ETL.Load
 {
@@ -11,18 +13,20 @@ namespace BrandPulse.Application.Features.ETL.Load
         private readonly ILoadStrategy<SentimentTransformResult, PostSentimentData> sentiment;
         private readonly ILoadStrategy<InfluencerTransformResult, PostInfluencerData> influencer;
         private readonly IPostSearchDetailLoadStrategy searchDetail;
+        private readonly ILogger<SearchDataLoad> logger;
 
         public SearchDataLoad(ILoadStrategy<PostDetailTransformResult, PostDetail> postDetail,
             ILoadStrategy<WordCloudTransformResult, PostWordCloudData> wordCloud,
             ILoadStrategy<SentimentTransformResult, PostSentimentData> sentiment,
             ILoadStrategy<InfluencerTransformResult, PostInfluencerData> influencer,
-            IPostSearchDetailLoadStrategy searchDetail)
+            IPostSearchDetailLoadStrategy searchDetail, ILogger<SearchDataLoad> logger)
         {
             this.postDetail = postDetail;
             this.wordCloud = wordCloud;
             this.sentiment = sentiment;
             this.influencer = influencer;
             this.searchDetail = searchDetail;
+            this.logger = logger;
         }
 
         public async Task<bool> LoadAsync(FinalTransformResult transformResult)
@@ -40,7 +44,7 @@ namespace BrandPulse.Application.Features.ETL.Load
             }
             catch (Exception ex)
             {
-                // You might want to log the exception here for debugging purposes.
+                logger.LogError(ex.Message, ex.StackTrace);
                 result = false;
             }
             return result;

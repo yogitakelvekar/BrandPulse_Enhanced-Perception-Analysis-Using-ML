@@ -25,7 +25,7 @@ namespace BrandPulse.API.Controllers
             var result = await socialMediaSearch.SearchAllAndStore(term);
             if (result.Id != null)
             {
-                messageBus.SendMessageAsync(new ETLMessage { SearchTermId = result.Id });
+                await messageBus.SendMessageAsync(new ETLMessage { SearchTermId = result.Id });
             }
             return Ok(result);
         }
