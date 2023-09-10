@@ -8,13 +8,13 @@ namespace TermPulse.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SocialMediaController : ControllerBase
+    public class TermPulseSocialMediaController : ControllerBase
     {
         private readonly IYouTubeHttpService youTubeHttpService;
         private readonly IRedditHttpService redditHttpService;
         private readonly ITwitterHttpService twitterHttpService;
 
-        public SocialMediaController(IYouTubeHttpService youTubeHttpService, IRedditHttpService redditHttpService, ITwitterHttpService twitterHttpService)
+        public TermPulseSocialMediaController(IYouTubeHttpService youTubeHttpService, IRedditHttpService redditHttpService, ITwitterHttpService twitterHttpService)
         {
             this.youTubeHttpService = youTubeHttpService;
             this.redditHttpService = redditHttpService;
