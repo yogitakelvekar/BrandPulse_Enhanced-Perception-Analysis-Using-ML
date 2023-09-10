@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk.Worker">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>dotnet-BrandPulse.ML.Worker-f741b107-2778-492b-8d6f-b58e99c31d59</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="logs\**" />
+    <Content Remove="logs\**" />
+    <EmbeddedResource Remove="logs\**" />
+    <None Remove="logs\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.1" />
+    <PackageReference Include="Serilog" Version="3.0.1" />
+    <PackageReference Include="Serilog.Extensions.Hosting" Version="7.0.0" />
+    <PackageReference Include="Serilog.Settings.Configuration" Version="7.0.0" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="4.1.0" />
+    <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Core\TermPulse.Application\TermPulse.Application.csproj" />
+    <ProjectReference Include="..\..\DataScience\TermPulse.ML\TermPulse.ML.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\TermPulse.HttpService\TermPulse.HttpServices.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\TermPulse.MessagingBus\TermPulse.MessagingBus.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\TermPulse.Persistence\TermPulse.Persistence.csproj" />
+  </ItemGroup>
+</Project>

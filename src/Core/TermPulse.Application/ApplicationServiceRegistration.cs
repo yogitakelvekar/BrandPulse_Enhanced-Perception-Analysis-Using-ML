@@ -1,0 +1,93 @@
+﻿using TermPulse.Application.Contracts.Features.DataSearch;
+using TermPulse.Application.Contracts.Features.ETL;
+using TermPulse.Application.Contracts.Features.ETL.Extract;
+using TermPulse.Application.Contracts.Features.ETL.Load;
+using TermPulse.Application.Contracts.Features.ETL.Transform;
+using TermPulse.Application.Contracts.Features.ETL.Transform.Strategies;
+using TermPulse.Application.Contracts.Features.ETL.Transform.Strategies.Methods;
+using TermPulse.Application.Features.DataSearch;
+using TermPulse.Application.Features.ETL;
+using TermPulse.Application.Features.ETL.Extract;
+using TermPulse.Application.Features.ETL.Load;
+using TermPulse.Application.Features.ETL.Load.Strategies.Methods;
+using TermPulse.Application.Features.ETL.Transform;
+using TermPulse.Application.Features.ETL.Transform.Strategies;
+using TermPulse.Application.Features.ETL.Transform.Strategies.Reddit.Methods;
+using TermPulse.Application.Features.ETL.Transform.Strategies.Twitter.Methods;
+using TermPulse.Application.Features.ETL.Transform.Strategies.Youtube.Methods;
+using TermPulse.Application.Models.ETL.Transform;
+using TermPulse.Domain.Entities;
+using TermPulse.Domain.SocialMedia.Reddit;
+using TermPulse.Domain.SocialMedia.Tweeter;
+using TermPulse.Domain.SocialMedia.Youtube;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace TermPulse.Application
+{
+    public static class ApplicationServiceRegistration
+    {
+        public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddDataSearchFeatureServices(configuration);
+            services.AddETLFeatureServices(configuration);
+            return services;
+        }
+
+        private static IServiceCollection AddDataSearchFeatureServices(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddScoped<ISocialMediaSearch, SocialMediaSearch>();
+            return services;
+        }
+
+        private static IServiceCollection AddETLFeatureServices(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddExtractServices(configuration);
+            services.AddTransformServices(configuration);
+            services.AddLoadServices(configuration);
+            services.AddScoped<IETLWorkflowManager, ETLWorkflowManager>();
+            return services;
+        }
+
+        private static IServiceCollection AddExtractServices(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddScoped<ISearchDataExtract, SocialMediaDataExtract>();
+            return services;
+        }
+
+        private static IServiceCollection AddTransformServices(this IServiceCollection services, IConfiguration configuration)
+        {
+            // Add Transform services.
+            services.AddScoped<ITransformStrategyFactory, TransformStrategyFactory>();
+            services.AddScoped<ISearchDataTransform, SearchDataTransform>();
+
+            // Register SentimentDataTransform and WordCloudDataTransform for each relevant type.
+            services.AddScoped<IPostDataTransform<Tweet>, TweetPostDataTransform>();
+            services.AddScoped<ISentimentDataTransform<Tweet>, TweetSentimentDataTransform>();
+            services.AddScoped<IWordCloudDataTransform<Tweet>, TweetWordCloudDataTransform>();
+            services.AddScoped<IInfluencerDataTransform<Tweet>, TweetInfluencerDataTransform>();
+
+            services.AddScoped<IPostDataTransform<RedditPost>, RedditPostDataTransform>();
+            services.AddScoped<ISentimentDataTransform<RedditPost>, RedditSentimentDataTransform>();
+            services.AddScoped<IInfluencerDataTransform<RedditPost>, RedditInfluencerDataTransform>();
+
+            services.AddScoped<IPostDataTransform<YouTubeVideo>, YoutubePostDataTransform>();
+            services.AddScoped<ISentimentDataTransform<YouTubeVideo>, YoutubeSentimentDataTransform>();
+            services.AddScoped<IWordCloudDataTransform<YouTubeVideo>, YoutubeWordCloudDataTransform>();
+            services.AddScoped<IInfluencerDataTransform<YouTubeVideo>, YoutubeInfluencerDataTransform>();
+
+            return services;
+        }
+
+        private static IServiceCollection AddLoadServices(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddScoped<ISearchDataLoad, SearchDataLoad>();     
+            services.AddScoped<IPostSearchDetailLoadStrategy, PostSearchDetailLoadStrategy>();
+            services.AddScoped<ILoadStrategy<PostDetailTransformResult, PostDetail>, PostDetailLoadStrategy>();
+            services.AddScoped<ILoadStrategy<SentimentTransformResult, PostSentimentData>, PostSentimentDataLoadStrategy>();
+            services.AddScoped<ILoadStrategy<WordCloudTransformResult, PostWordCloudData>, PostWordCloudDataLoadStrategy>();
+            services.AddScoped<ILoadStrategy<InfluencerTransformResult, PostInfluencerData>, PostInfluencerDataLoadStrategy>();
+            return services;
+        }
+    }
+}

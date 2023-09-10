@@ -1,0 +1,29 @@
+﻿using TermPulse.Application.Contracts.Features.ETL.Transform.Strategies.Methods;
+using TermPulse.Application.Models.ETL.Transform;
+using TermPulse.Domain.SocialMedia.Youtube;
+using Google.Apis.YouTube.v3.Data;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace TermPulse.Application.Features.ETL.Transform.Strategies.Youtube.Methods
+{
+    public class YoutubeWordCloudDataTransform : IWordCloudDataTransform<YouTubeVideo>
+    {
+        public Task<IEnumerable<WordCloudTransformResult>> TransformAsync(IEnumerable<YouTubeVideo> data, IEnumerable<PostDetailTransformResult> postDetails)
+        {
+            var postResults = data
+             .Select(v => v.Video)
+             .Where(video => video.Snippet.Tags != null && video.Snippet.Tags.Any())
+             .Select(post => new WordCloudTransformResult
+             {
+                 PostDetailId = postDetails.First(pd => pd.PostId == post.Id).Id,
+                 Hashtags = post.Snippet.Tags.ToList(),
+             });
+            return Task.FromResult(postResults.AsEnumerable());
+        }
+    }
+}
