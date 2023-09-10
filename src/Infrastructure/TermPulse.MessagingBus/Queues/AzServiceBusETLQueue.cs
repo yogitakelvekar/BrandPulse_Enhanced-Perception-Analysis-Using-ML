@@ -18,8 +18,8 @@ namespace TermPulse.MessagingBus.Queues
 
         public AzServiceBusETLQueue(ServiceBusClient serviceBusClient)
         {
-            serviceBusSender = serviceBusClient.CreateSender("brandpulse-etl-queue");
-            serviceBusProcessor = serviceBusClient.CreateProcessor("brandpulse-etl-queue", new ServiceBusProcessorOptions());
+            serviceBusSender = serviceBusClient.CreateSender("etl-queue");
+            serviceBusProcessor = serviceBusClient.CreateProcessor("etl-queue", new ServiceBusProcessorOptions());
         }
 
         public async Task SendMessageAsync(ETLMessage messageReceived)

@@ -17,8 +17,8 @@ namespace TermPulse.MessagingBus.Queues
 
         public AzServiceBusMLQueue(ServiceBusClient serviceBusClient)
         {
-            serviceBusSender = serviceBusClient.CreateSender("brandpulse-ml-queue");
-            serviceBusProcessor = serviceBusClient.CreateProcessor("brandpulse-ml-queue", new ServiceBusProcessorOptions());
+            serviceBusSender = serviceBusClient.CreateSender("ml-queue");
+            serviceBusProcessor = serviceBusClient.CreateProcessor("ml-queue", new ServiceBusProcessorOptions());
         }
 
         public async Task SendMessageAsync(MLMessage messageReceived)
