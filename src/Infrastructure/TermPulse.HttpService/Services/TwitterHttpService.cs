@@ -24,7 +24,7 @@ namespace TermPulse.HttpServices.Services
         {
             try
             {
-                var response = await _httpClient.GetAsync($"v1.1/SearchTweets/?q={query}&result_type=recent&count={_appSettings.MaxResults}");
+                var response = await _httpClient.GetAsync($"Search/?q={query}&result_type=recent&count={_appSettings.MaxResults}");
 
                 response.EnsureSuccessStatusCode();
 
@@ -38,8 +38,23 @@ namespace TermPulse.HttpServices.Services
                 };
 
                 var result = JsonSerializer.Deserialize<TweetResponse>(content, options);
-                var finalResponse = result?.statuses.ToList() ?? new List<Tweet>();
-                return finalResponse;
+                var legacyEntries = result?.data?.search_by_raw_query?.search_timeline?.timeline?.instructions
+                                    .SelectMany(instruction => instruction.entries)
+                                    .Where(entry => entry?.content?.itemContent?.tweet_results?.result != null)
+                                    .Select(entry =>
+                                    {
+                                        var tweet = new Tweet();
+                                        tweet = entry.content.itemContent.tweet_results.result.legacy;
+                                        if (entry?.content?.itemContent?.tweet_results?.result?.core?.user_results?.result?.legacy != null)
+                                        {
+                                            tweet.user = entry.content.itemContent.tweet_results.result.core.user_results.result.legacy;
+                                        }                              
+                                        return tweet;
+
+                                     })
+                                    .Where(legacy => legacy != null)
+                                    .ToList();
+                return legacyEntries;
             }
             catch(Exception ex)
             {

@@ -2,8 +2,76 @@
 {
     public class TweetResponse
     {
-        public List<Tweet> statuses { get; set; }
-        public Metadata metadata { get; set; }
+        //public List<Tweet> statuses { get; set; }
+        //public Metadata metadata { get; set; }
+
+        public Data data { get; set; }
+    }
+
+    public class Data
+    {
+        public SearchByRawQuery search_by_raw_query { get; set; }
+    }
+
+    public class SearchByRawQuery
+    {
+        public SearchTimeline search_timeline { get; set; }
+    }
+
+    public class SearchTimeline
+    {
+        public Timeline timeline { get; set; }
+    }
+
+    public class Timeline
+    {
+        public List<Instruction> instructions { get; set; }
+    }
+
+    public class Instruction
+    {
+        public List<Entry> entries { get; set; }
+    }
+
+    public class Entry
+    {
+        public Content content { get; set; }
+    }
+
+    public class Content
+    {
+        public ItemContent itemContent { get; set; }
+    }
+
+    public class ItemContent
+    {
+        public TweetResults tweet_results { get; set; }
+    }
+
+    public class TweetResults
+    {
+        public Result result { get; set; }
+    }
+
+    public class Result
+    {
+        public Tweet legacy { get; set; }
+        public Core core { get; set; }
+    }
+
+    public class Core
+    {
+        public UserResults user_results { get; set; }
+    }
+
+    public class UserResults
+    {
+        public UserResult result { get; set; }
+    }
+
+    public class UserResult
+    {
+        public TwitterUser legacy { get; set; }  // This maps to the user's legacy object.
     }
 
     public class Tweet
@@ -69,18 +137,6 @@
         public string text { get; set; }
         public List<int> indices { get; set; }
     }
-
-    //public class TwitterUser
-    //{
-    //    public string id_str { get; set; }
-    //    public string name { get; set; }
-    //    public string screen_name { get; set; }
-    //    public int followers_count { get; set; }
-    //    public int friends_count { get; set; }
-    //    public int listed_count { get; set; }
-    //    public int favourites_count { get; set; }
-    //    public int statuses_count { get; set; }
-    //}
 
     public class Metadata
     {
